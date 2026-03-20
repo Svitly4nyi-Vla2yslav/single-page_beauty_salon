@@ -1,0 +1,535 @@
+{
+  "seo": {
+    "title": "Lumina Atelier | Premium Beauty Studio in Germany",
+    "description": "Modern beauty studio in Germany offering lashes, brows, skincare, PMU, head spa and elegant online booking."
+  },
+  "common": {
+    "studioName": "Lumina Atelier",
+    "tagline": "Editorial luxury meets precise beauty care",
+    "bookNow": "Book now",
+    "viewResults": "View results",
+    "discoverMore": "Discover more",
+    "from": "from",
+    "minutes": "min",
+    "loadingSection": "Loading premium content",
+    "close": "Close"
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "results": "Results",
+    "experience": "Experience",
+    "booking": "Booking",
+    "prices": "Prices",
+    "reviews": "Reviews",
+    "about": "Studio",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "hero": {
+    "eyebrow": "Modern beauty studio in Germany",
+    "slides": {
+      "luxury": {
+        "title": "Treatments shaped by calm execution, precision and a visibly refined finish.",
+        "description": "Lashes, brows, skin and PMU in an atmosphere that feels clean, feminine and quietly confident.",
+        "primary": "Treatment menu",
+        "secondary": "Explore the studio"
+      },
+      "transformation": {
+        "title": "Before and after should never feel loud. It should feel balanced.",
+        "description": "We focus on natural harmony, clear lines and results that stay strong both in daily life and on camera.",
+        "primary": "Before / after",
+        "secondary": "Popular looks"
+      },
+      "booking": {
+        "title": "Booking designed like a mini atelier: clear, fast and elegant to navigate.",
+        "description": "Choose service, specialist, date and time with transparent availability directly inside the page.",
+        "primary": "Choose a time",
+        "secondary": "View pricing"
+      },
+      "trust": {
+        "title": "Quality becomes visible through hygiene, guidance and composed technique.",
+        "description": "Personal care, modern products and a process built for comfort, trust and consistency.",
+        "primary": "Client reviews",
+        "secondary": "Read FAQ"
+      }
+    },
+    "labels": {
+      "luxury": "Luxury Treatments",
+      "results": "Refined Transformation",
+      "booking": "Smooth Scheduling",
+      "trust": "Trusted Quality"
+    },
+    "stats": {
+      "clients": "1,200+ appointments cared for",
+      "rating": "4.9 average rating",
+      "quality": "Certified quality standards"
+    }
+  },
+  "services": {
+    "eyebrow": "Signature Services",
+    "title": "Treatments with a clear artistic point of view instead of generic packages.",
+    "description": "Every service is framed to look elevated, feel calm and remain easy to understand and book.",
+    "miniCta": "Choose service",
+    "items": {
+      "lashes": {
+        "title": "Lash Extensions",
+        "description": "Soft to fuller sets with attention to retention, eye-opening balance and clean symmetry.",
+        "duration": "120 min",
+        "price": "from €89"
+      },
+      "brows": {
+        "title": "Brow Styling",
+        "description": "Shape, tint and finish adapted to facial structure, skin tone and desired intensity.",
+        "duration": "60 min",
+        "price": "from €39"
+      },
+      "facial": {
+        "title": "Facial Treatment",
+        "description": "Deep cleansing, hydration and glow protocols for sensitive, tired or demanding skin.",
+        "duration": "75 min",
+        "price": "from €79"
+      },
+      "pmu": {
+        "title": "Permanent Make-up",
+        "description": "Precisely pigmented soft looks for brows or lips with an individual pre-draw.",
+        "duration": "150 min",
+        "price": "from €249"
+      },
+      "headSpa": {
+        "title": "Head Spa",
+        "description": "Scalp ritual with massage, steam and care for deep relaxation and polished lengths.",
+        "duration": "90 min",
+        "price": "from €99"
+      },
+      "antiAging": {
+        "title": "Anti-Aging Treatment",
+        "description": "Gentle active treatment for firmness, freshness and a calmer skin surface.",
+        "duration": "80 min",
+        "price": "from €109"
+      },
+      "makeup": {
+        "title": "Make-up",
+        "description": "Soft glam, bridal or event looks with modern skin texture and precise color work.",
+        "duration": "70 min",
+        "price": "from €69"
+      },
+      "consulting": {
+        "title": "Skincare Consultation",
+        "description": "Personal analysis with product guidance, routine planning and realistic care goals.",
+        "duration": "45 min",
+        "price": "from €35"
+      }
+    }
+  },
+  "gallery": {
+    "eyebrow": "Before / After",
+    "title": "Editorially curated results with a natural visual finish.",
+    "description": "Not an overloaded portfolio, but a selected edit of work that highlights technique, shape and finish.",
+    "openProject": "Open project",
+    "comparisonTitle": "Selected comparison",
+    "comparisonDescription": "Move the slider to explore the change from starting point to final finish.",
+    "dragLabel": "Move before / after",
+    "filters": {
+      "all": "All",
+      "lashes": "Lashes",
+      "brows": "Brows",
+      "skin": "Skin",
+      "pmu": "PMU",
+      "makeup": "Make-up"
+    },
+    "items": {
+      "airLashes": {
+        "title": "Airy Volume Set",
+        "treatment": "Lash Extensions",
+        "duration": "2 h",
+        "price": "€89–129",
+        "tag": "Natural Look",
+        "note": "Light density with a more open eye and a soft transition."
+      },
+      "softBrows": {
+        "title": "Soft Definition Brows",
+        "treatment": "Brow Styling",
+        "duration": "60 min",
+        "price": "€39–59",
+        "tag": "Soft Glam",
+        "note": "Cleanly shaped brows with natural depth and refined definition."
+      },
+      "glassSkin": {
+        "title": "Hydra Glow Ritual",
+        "treatment": "Facial Treatment",
+        "duration": "75 min",
+        "price": "€79–119",
+        "tag": "Skin Finish",
+        "note": "Balancing protocol for calmer, more hydrated-looking skin."
+      },
+      "lipBlush": {
+        "title": "Velvet Lip Blush",
+        "treatment": "Permanent Make-up",
+        "duration": "150 min",
+        "price": "€249–320",
+        "tag": "PMU",
+        "note": "Subtle pigment with a clearer lip contour."
+      },
+      "bridalGlow": {
+        "title": "Editorial Bridal Glow",
+        "treatment": "Make-up",
+        "duration": "70 min",
+        "price": "€69–140",
+        "tag": "Soft Glam",
+        "note": "Skin-led make-up with reflective light and defined eyes."
+      },
+      "browLift": {
+        "title": "Brow Lift Balance",
+        "treatment": "Brows",
+        "duration": "55 min",
+        "price": "€45–65",
+        "tag": "Clean Shape",
+        "note": "More structure, even direction and a refined finishing line."
+      }
+    }
+  },
+  "experience": {
+    "eyebrow": "Studio Experience",
+    "title": "A visit should feel guided, calm and precise from start to finish.",
+    "description": "Instead of a basic timeline, each step has a role: understand, assess, treat, protect and follow through.",
+    "visitTime": "Most visits take between 60 and 150 minutes depending on the service",
+    "steps": {
+      "consultation": {
+        "title": "Step 1: Consultation",
+        "body": "We discuss the desired result, daily routine, skin or hair condition and define the right finish together.",
+        "detail": "about 10–15 minutes"
+      },
+      "analysis": {
+        "title": "Step 2: Analysis",
+        "body": "Shape, proportion, skin response and product selection are mapped out carefully before treatment starts.",
+        "detail": "about 10 minutes"
+      },
+      "treatment": {
+        "title": "Step 3: Treatment",
+        "body": "The application itself is carried out with focused technique and as little visual noise as possible.",
+        "detail": "about 35–100 minutes"
+      },
+      "aftercare": {
+        "title": "Step 4: Aftercare Guidance",
+        "body": "You receive practical advice for longevity, recovery and the right home-care routine.",
+        "detail": "about 5 minutes"
+      },
+      "followUp": {
+        "title": "Step 5: Follow-up",
+        "body": "When needed, we plan a refill, review appointment or care adjustment straight away.",
+        "detail": "about 5–10 minutes"
+      }
+    }
+  },
+  "booking": {
+    "eyebrow": "Booking Atelier",
+    "title": "A booking module that feels closer to a premium tool than a plain form.",
+    "description": "Choose your service, specialist and time slot in a calm, elegant flow. Already booked times cannot be selected.",
+    "occupiedNote": "Already booked times cannot be selected.",
+    "calendar": "Calendar",
+    "month": "Month",
+    "week": "Week",
+    "day": "Day",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "selectService": "Choose service",
+    "selectTime": "Choose a time slot",
+    "service": "Service",
+    "specialist": "Specialist",
+    "specialists": {
+      "any": "Auto-match best fit",
+      "lara": "Lara Muller",
+      "amina": "Amina Kaya",
+      "sofia": "Sofia Hnatiuk"
+    },
+    "specialistFocus": {
+      "lara": "Lashes & Brows",
+      "amina": "Skin & PMU",
+      "sofia": "Head Spa & Make-up"
+    },
+    "summary": "Your selection",
+    "summaryEmpty": "Please choose a service and a time slot first.",
+    "selectedDate": "Date",
+    "selectedTime": "Time",
+    "selectedSpecialist": "Specialist",
+    "selectedPrice": "Price range",
+    "calendarStates": {
+      "selected": "Selected",
+      "occupied": "Occupied",
+      "available": "Available",
+      "closed": "Closed"
+    },
+    "fields": {
+      "fullName": "Full name",
+      "phone": "Phone",
+      "email": "Email",
+      "note": "Note",
+      "consent": "I agree to the processing of my data for appointment scheduling.",
+      "placeholderName": "Your full name",
+      "placeholderPhone": "+49 170 0000000",
+      "placeholderEmail": "name@example.com",
+      "placeholderNote": "Optional: wishes, allergies, preparation or occasion"
+    },
+    "buttons": {
+      "submit": "Send booking request",
+      "reset": "Reset selection"
+    },
+    "success": {
+      "title": "Your request has been received",
+      "description": "We confirm the appointment after a short availability check by phone or email."
+    },
+    "validation": {
+      "fullName": "Please enter your name.",
+      "phone": "Please enter a phone number.",
+      "email": "Please enter a valid email address.",
+      "service": "Please choose a service.",
+      "date": "Please choose a date.",
+      "time": "Please choose a time.",
+      "consent": "Please confirm data processing."
+    }
+  },
+  "prices": {
+    "eyebrow": "Pricing",
+    "title": "Clear pricing architecture with room for personal consultation where individuality matters.",
+    "description": "Final pricing may vary slightly depending on consultation, technique and additional effort.",
+    "note": "Final prices may vary slightly after personal consultation.",
+    "filters": {
+      "signature": "Signature",
+      "eyes": "Eyes",
+      "skin": "Skin",
+      "pmu": "PMU"
+    },
+    "items": {
+      "signatureHeadSpa": {
+        "title": "Head Spa Ritual",
+        "duration": "90 min",
+        "price": "€99",
+        "badge": "Bestseller"
+      },
+      "signatureAntiAging": {
+        "title": "Anti-Aging Treatment",
+        "duration": "80 min",
+        "price": "€109",
+        "badge": "Premium Care"
+      },
+      "eyesClassic": {
+        "title": "Classic Lashes",
+        "duration": "120 min",
+        "price": "€89"
+      },
+      "eyesVolume": {
+        "title": "Soft Volume Lashes",
+        "duration": "135 min",
+        "price": "€109"
+      },
+      "eyesBrows": {
+        "title": "Brow Styling & Tint",
+        "duration": "60 min",
+        "price": "€39"
+      },
+      "skinHydra": {
+        "title": "Hydra Glow Facial",
+        "duration": "75 min",
+        "price": "€79"
+      },
+      "skinConsulting": {
+        "title": "Skincare Consultation",
+        "duration": "45 min",
+        "price": "€35"
+      },
+      "skinLift": {
+        "title": "Firming Skin Reset",
+        "duration": "90 min",
+        "price": "€119"
+      },
+      "pmuBrows": {
+        "title": "PMU Brows",
+        "duration": "150 min",
+        "price": "€249"
+      },
+      "pmuLips": {
+        "title": "Lip Blush",
+        "duration": "150 min",
+        "price": "€289"
+      },
+      "pmuRefresh": {
+        "title": "PMU Refresh",
+        "duration": "120 min",
+        "price": "from €149"
+      }
+    }
+  },
+  "reviews": {
+    "eyebrow": "Trust & Reviews",
+    "title": "The quietest compliments are often the most valuable.",
+    "description": "Clients describe not only the result, but also how clear and pleasant the whole appointment felt.",
+    "badges": {
+      "hygiene": "Hygiene standards",
+      "certified": "Certified treatments",
+      "consulting": "Personal consultation",
+      "products": "Modern products"
+    },
+    "items": {
+      "one": {
+        "quote": "The studio feels beautifully calm, the consultation is honest and the result looks elegant instead of overdone.",
+        "author": "Miriam S.",
+        "service": "Soft Volume Lashes"
+      },
+      "two": {
+        "quote": "What I loved most was the lack of pressure. My brows finally match my face instead of dominating it.",
+        "author": "Aylin K.",
+        "service": "Brows"
+      },
+      "three": {
+        "quote": "My facial appointment felt technically strong and deeply relaxing at the same time.",
+        "author": "Julia R.",
+        "service": "Hydra Glow Facial"
+      },
+      "four": {
+        "quote": "Booking was very clear and the specialist understood exactly how natural I wanted the PMU to be.",
+        "author": "Sofia M.",
+        "service": "PMU Brows"
+      },
+      "five": {
+        "quote": "Very clean studio, high quality products and a finish that still looks polished days later.",
+        "author": "Deniz T.",
+        "service": "Head Spa Ritual"
+      }
+    }
+  },
+  "about": {
+    "eyebrow": "About the Studio",
+    "title": "A modern beauty studio in Germany focused on quality, aesthetics and personal care.",
+    "description": "Lumina Atelier combines a calm studio experience with contemporary technique, clear visual language and individually adapted treatments.",
+    "storyTitle": "Our philosophy",
+    "storyBody": "We believe luxury beauty work does not need to feel loud. For us, premium means sharp analysis, precise execution and an atmosphere where clients feel safe and understood.",
+    "points": {
+      "quality": {
+        "title": "Quality before speed",
+        "body": "Every appointment leaves room for consultation, execution and finishing."
+      },
+      "aesthetics": {
+        "title": "Balanced aesthetics",
+        "body": "We prefer results that support facial features instead of covering them."
+      },
+      "care": {
+        "title": "Personal guidance",
+        "body": "Routine, aftercare and next steps are tailored to each client."
+      }
+    },
+    "team": {
+      "title": "The team",
+      "description": "Three specialties, one shared standard of care.",
+      "lara": {
+        "name": "Lara Muller",
+        "role": "Lashes & Brows",
+        "bio": "Calm, symmetrical looks focused on retention and natural line work."
+      },
+      "amina": {
+        "name": "Amina Kaya",
+        "role": "Skin & PMU",
+        "bio": "Skin analysis, glow protocols and softly pigmented finishes with precision."
+      },
+      "sofia": {
+        "name": "Sofia Hnatiuk",
+        "role": "Head Spa & Make-up",
+        "bio": "Relaxing rituals and modern event looks with polished skin texture."
+      }
+    },
+    "studioNotes": {
+      "ambience": "Quiet cabins, soft light direction and clear material choices.",
+      "technology": "Modern tools, hygienic processes and thoughtful aftercare.",
+      "care": "Treatments are planned around daily life, skin needs and desired intensity."
+    }
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Important questions before your appointment, answered clearly.",
+    "description": "If anything is still open, we are happy to advise you personally before booking.",
+    "items": {
+      "bookingChanges": {
+        "question": "Can I move my appointment?",
+        "answer": "Yes. Please let us know as early as possible so we can offer the best alternatives."
+      },
+      "cancellation": {
+        "question": "How does cancellation work?",
+        "answer": "You can cancel easily up to 24 hours before the appointment. Late cancellations may be charged proportionally."
+      },
+      "duration": {
+        "question": "How long do the treatments take?",
+        "answer": "Usually between 45 and 150 minutes depending on the service. Exact durations are visible in the service cards and booking module."
+      },
+      "preparation": {
+        "question": "How should I prepare for the appointment?",
+        "answer": "Please arrive without heavy eye or skin products if possible, and let us know about allergies or special wishes in advance."
+      },
+      "aftercare": {
+        "question": "Do I get aftercare instructions?",
+        "answer": "Yes. After every treatment we provide practical guidance for longevity, recovery and suitable home-care products."
+      },
+      "payment": {
+        "question": "Which payment methods are accepted?",
+        "answer": "In the studio we accept card payments, cash and often contactless payment."
+      }
+    }
+  },
+  "contact": {
+    "eyebrow": "Location & Contact",
+    "title": "Central, calm to reach and designed for personal care.",
+    "description": "Visit us in the studio or message us directly on WhatsApp or Instagram for a quick question.",
+    "addressTitle": "Address",
+    "addressLineOne": "Lumina Atelier",
+    "addressLineTwo": "Knesebeckstrasse 18, 10623 Berlin, Germany",
+    "hoursTitle": "Opening hours",
+    "hours": {
+      "monFri": "Mon–Fri: 09:00–19:00",
+      "sat": "Sat: 10:00–17:00",
+      "sun": "Sun: closed"
+    },
+    "contactTitle": "Direct contact",
+    "phone": "+49 30 555 82 10",
+    "email": "hello@lumina-atelier.de",
+    "whatsapp": "WhatsApp",
+    "instagram": "Instagram",
+    "mapTitle": "Studio location",
+    "mapNote": "Only a few minutes from Savignyplatz station. Parking garages and public transport are close by.",
+    "parking": "Step-reduced access and nearby parking options are available.",
+    "cta": "Open WhatsApp"
+  },
+  "footer": {
+    "quickLinks": "Quick links",
+    "socials": "Socials",
+    "legal": "Legal",
+    "copyright": "© 2026 Lumina Atelier. All rights reserved.",
+    "legalTexts": {
+      "imprint": {
+        "title": "Imprint",
+        "body": "Demo website for a beauty studio in Germany. The live version would include full provider details, responsible party information and registry data."
+      },
+      "privacy": {
+        "title": "Privacy",
+        "body": "In this demo, form and cookie data are simulated locally only. A live project would present full GDPR privacy details here."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "body": "You can manage necessary, analytics and marketing cookies directly in the banner. Your selection is stored locally."
+      }
+    }
+  },
+  "cookies": {
+    "title": "Cookie settings",
+    "description": "We use necessary cookies for the demo to function. Analytics and marketing categories can be enabled optionally.",
+    "acceptAll": "Accept all",
+    "reject": "Reject non-essential",
+    "customize": "Customize",
+    "save": "Save selection",
+    "manage": "Cookie settings",
+    "necessary": "Necessary",
+    "necessaryDesc": "Enables language, consent status and essential page navigation.",
+    "analytics": "Analytics",
+    "analyticsDesc": "Would measure anonymous usage data in a live version.",
+    "marketing": "Marketing",
+    "marketingDesc": "Would personalize content and campaigns in a live version."
+  }
+}

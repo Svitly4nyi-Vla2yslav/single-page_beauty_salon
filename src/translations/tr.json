@@ -1,0 +1,535 @@
+{
+  "seo": {
+    "title": "Lumina Atelier | Almanya'da premium beauty studio",
+    "description": "Almanya'da modern beauty studio: kirpik, kas, cilt bakimi, PMU, head spa ve zarif online randevu deneyimi."
+  },
+  "common": {
+    "studioName": "Lumina Atelier",
+    "tagline": "Editorial luxury meets precise beauty care",
+    "bookNow": "Randevu al",
+    "viewResults": "Sonuclari gor",
+    "discoverMore": "Daha fazlasini kesfet",
+    "from": "baslangic",
+    "minutes": "dk",
+    "loadingSection": "Premium icerik yukleniyor",
+    "close": "Kapat"
+  },
+  "nav": {
+    "home": "Ana sayfa",
+    "services": "Hizmetler",
+    "results": "Sonuclar",
+    "experience": "Deneyim",
+    "booking": "Randevu",
+    "prices": "Fiyatlar",
+    "reviews": "Yorumlar",
+    "about": "Studyo",
+    "faq": "SSS",
+    "contact": "Iletisim"
+  },
+  "hero": {
+    "eyebrow": "Almanya'da modern beauty studio",
+    "slides": {
+      "luxury": {
+        "title": "Sakin uygulama, hassas detay ve rafine bir son dokunus icin tasarlanan bakimlar.",
+        "description": "Kirpik, kas, cilt ve PMU; temiz, feminen ve modern hissettiren bir atmosferde.",
+        "primary": "Bakim menusu",
+        "secondary": "Stüdyoyu kesfet"
+      },
+      "transformation": {
+        "title": "Once ve sonra etkisi gosterisli degil, dengeli olmali.",
+        "description": "Dogal dengeye, net cizgilere ve hem gunluk hayatta hem de fotografta guclu kalan sonuclara odaklaniyoruz.",
+        "primary": "Once / sonra",
+        "secondary": "Populer gorunumler"
+      },
+      "booking": {
+        "title": "Randevu akisi mini bir atelier gibi: net, hizli ve zarif.",
+        "description": "Hizmet, uzman, tarih ve saat secimini sayfa icinde seffaf uygunlukla yapin.",
+        "primary": "Saat sec",
+        "secondary": "Fiyatlari gor"
+      },
+      "trust": {
+        "title": "Kalite; hijyen, dogru yonlendirme ve sakin teknikle fark edilir.",
+        "description": "Kisisel ilgi, modern urunler ve konfor ile guven icin tasarlanmis bir surec.",
+        "primary": "Musteri yorumlari",
+        "secondary": "SSS oku"
+      }
+    },
+    "labels": {
+      "luxury": "Luxury Treatments",
+      "results": "Refined Transformation",
+      "booking": "Smooth Scheduling",
+      "trust": "Trusted Quality"
+    },
+    "stats": {
+      "clients": "1.200+ randevu deneyimi",
+      "rating": "Ortalama puan 4,9",
+      "quality": "Sertifikali kalite standartlari"
+    }
+  },
+  "services": {
+    "eyebrow": "Signature Services",
+    "title": "Siradan paketler yerine belirgin bir estetik bakis tasiyan bakimlar.",
+    "description": "Her hizmet premium gorunsun, sakin hissettirsin ve kolayca anlasilip secilebilsin diye tasarlandi.",
+    "miniCta": "Hizmeti sec",
+    "items": {
+      "lashes": {
+        "title": "Kirpik Uzatma",
+        "description": "Kalicilik, bakisi acma ve temiz simetri odakli hafiften yogun setlere kadar secenekler.",
+        "duration": "120 dk",
+        "price": "89 EUR baslangic"
+      },
+      "brows": {
+        "title": "Kas Styling",
+        "description": "Yuz yapisi, cilt tonu ve istenen yogunluga gore sekillendirme, renk ve bitis.",
+        "duration": "60 dk",
+        "price": "39 EUR baslangic"
+      },
+      "facial": {
+        "title": "Yuz Bakimi",
+        "description": "Hassas, yorgun veya daha talepkar ciltler icin derin temizlik, nem ve glow protokolleri.",
+        "duration": "75 dk",
+        "price": "79 EUR baslangic"
+      },
+      "pmu": {
+        "title": "Permanent Make-up",
+        "description": "Kas veya dudak icin on cizimle birlikte hassas uygulanmis soft gorunumler.",
+        "duration": "150 dk",
+        "price": "249 EUR baslangic"
+      },
+      "headSpa": {
+        "title": "Head Spa",
+        "description": "Derin rahatlama ve bakimli gorunum icin masaj, buhar ve bakim iceren scalp ritueli.",
+        "duration": "90 dk",
+        "price": "99 EUR baslangic"
+      },
+      "antiAging": {
+        "title": "Anti-Aging Treatment",
+        "description": "Daha siki, daha taze ve daha sakin gorunen bir cilt yuzeyi icin nazik aktif bakim.",
+        "duration": "80 dk",
+        "price": "109 EUR baslangic"
+      },
+      "makeup": {
+        "title": "Make-up",
+        "description": "Modern cilt dokusu ve hassas renk secimiyle soft glam, bridal ve event gorunumleri.",
+        "duration": "70 dk",
+        "price": "69 EUR baslangic"
+      },
+      "consulting": {
+        "title": "Cilt Bakim Danismanligi",
+        "description": "Urun onerileri, rutin planlamasi ve gercekci hedeflerle kisisel analiz.",
+        "duration": "45 dk",
+        "price": "35 EUR baslangic"
+      }
+    }
+  },
+  "gallery": {
+    "eyebrow": "Before / After",
+    "title": "Dogal fakat etkileyici sonuc odakli, editoral secilmis calismalar.",
+    "description": "Kalabalik bir portfolyo degil; teknik, form ve bitisi gosteren secili bir koleksiyon.",
+    "openProject": "Projeyi ac",
+    "comparisonTitle": "Secili karsilastirma",
+    "comparisonDescription": "Baslangic ve final gorunumu karsilastirmak icin kaydiriciyi hareket ettirin.",
+    "dragLabel": "Once / sonra kaydir",
+    "filters": {
+      "all": "Tum",
+      "lashes": "Kirpik",
+      "brows": "Brows",
+      "skin": "Cilt",
+      "pmu": "PMU",
+      "makeup": "Make-up"
+    },
+    "items": {
+      "airLashes": {
+        "title": "Airy Volume Set",
+        "treatment": "Kirpik Uzatma",
+        "duration": "2 saat",
+        "price": "89-129 EUR",
+        "tag": "Natural Look",
+        "note": "Hafif yogunluk, daha acik bakis ve yumusak gecis."
+      },
+      "softBrows": {
+        "title": "Soft Definition Brows",
+        "treatment": "Kas Styling",
+        "duration": "60 dk",
+        "price": "39-59 EUR",
+        "tag": "Soft Glam",
+        "note": "Dogal derinlik ve temiz sekil veren kas tasarimi."
+      },
+      "glassSkin": {
+        "title": "Hydra Glow Ritual",
+        "treatment": "Yuz Bakimi",
+        "duration": "75 dk",
+        "price": "79-119 EUR",
+        "tag": "Skin Finish",
+        "note": "Daha sakin ve nemli gorunen bir cilt icin dengeleyici protokol."
+      },
+      "lipBlush": {
+        "title": "Velvet Lip Blush",
+        "treatment": "Permanent Make-up",
+        "duration": "150 dk",
+        "price": "249-320 EUR",
+        "tag": "PMU",
+        "note": "Daha net dudak konturuyla yumusak pigment etkisi."
+      },
+      "bridalGlow": {
+        "title": "Editorial Bridal Glow",
+        "treatment": "Make-up",
+        "duration": "70 dk",
+        "price": "69-140 EUR",
+        "tag": "Soft Glam",
+        "note": "Isik yansimalari ve tanimli bakisla cilt odakli make-up."
+      },
+      "browLift": {
+        "title": "Brow Lift Balance",
+        "treatment": "Brows",
+        "duration": "55 dk",
+        "price": "45-65 EUR",
+        "tag": "Clean Shape",
+        "note": "Daha fazla yapi, duzgun yon ve rafine bitis cizgisi."
+      }
+    }
+  },
+  "experience": {
+    "eyebrow": "Studio Experience",
+    "title": "Bir ziyaret bastan sona yonlendirilmis, sakin ve hassas hissettirmeli.",
+    "description": "Basit bir timeline yerine her adimin bir gorevi var: anlamak, analiz etmek, uygulamak, korumak ve takip etmek.",
+    "visitTime": "Cogu ziyaret hizmete bagli olarak 60 ile 150 dakika surer",
+    "steps": {
+      "consultation": {
+        "title": "Adim 1: Danisma",
+        "body": "Istenen gorunumu, gunluk rutini, cilt veya sac durumunu konusur ve uygun bitisi birlikte belirleriz.",
+        "detail": "yaklasik 10-15 dk"
+      },
+      "analysis": {
+        "title": "Adim 2: Analiz",
+        "body": "Sekil, oran, cilt tepkisi ve urun secimi uygulama oncesinde dikkatle degerlendirilir.",
+        "detail": "yaklasik 10 dk"
+      },
+      "treatment": {
+        "title": "Adim 3: Uygulama",
+        "body": "Asil islem odakli teknikle ve minimum gorsel karmasayla gerceklestirilir.",
+        "detail": "yaklasik 35-100 dk"
+      },
+      "aftercare": {
+        "title": "Adim 4: Bakim Yonlendirmesi",
+        "body": "Kalicilik, iyilesme ve evde uygulanacak dogru rutin icin net oneriler paylasilir.",
+        "detail": "yaklasik 5 dk"
+      },
+      "followUp": {
+        "title": "Adim 5: Takip",
+        "body": "Gerektiginde refill, kontrol randevusu veya bakim plani ayarlamasi hemen planlanir.",
+        "detail": "yaklasik 5-10 dk"
+      }
+    }
+  },
+  "booking": {
+    "eyebrow": "Booking Atelier",
+    "title": "Sade bir formdan cok premium bir araca benzeyen randevu modulu.",
+    "description": "Hizmetinizi, uzmani ve zaman araligini sakin ve zarif bir akis icinde secin. Dolu saatler secilemez.",
+    "occupiedNote": "Dolu saatler secilemez.",
+    "calendar": "Takvim",
+    "month": "Ay",
+    "week": "Hafta",
+    "day": "Gun",
+    "prevMonth": "Onceki ay",
+    "nextMonth": "Sonraki ay",
+    "selectService": "Hizmet secin",
+    "selectTime": "Zaman araligi secin",
+    "service": "Hizmet",
+    "specialist": "Uzman",
+    "specialists": {
+      "any": "En uygun eslesmeyi otomatik sec",
+      "lara": "Lara Muller",
+      "amina": "Amina Kaya",
+      "sofia": "Sofia Hnatiuk"
+    },
+    "specialistFocus": {
+      "lara": "Lashes & Brows",
+      "amina": "Skin & PMU",
+      "sofia": "Head Spa & Make-up"
+    },
+    "summary": "Seciminiz",
+    "summaryEmpty": "Once bir hizmet ve zaman araligi secin.",
+    "selectedDate": "Tarih",
+    "selectedTime": "Saat",
+    "selectedSpecialist": "Uzman",
+    "selectedPrice": "Fiyat araligi",
+    "calendarStates": {
+      "selected": "Secili",
+      "occupied": "Dolu",
+      "available": "Musait",
+      "closed": "Kapali"
+    },
+    "fields": {
+      "fullName": "Ad soyad",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "note": "Not",
+      "consent": "Randevu planlamasi icin verilerimin islenmesini kabul ediyorum.",
+      "placeholderName": "Adiniz ve soyadiniz",
+      "placeholderPhone": "+49 170 0000000",
+      "placeholderEmail": "name@example.com",
+      "placeholderNote": "Opsiyonel: istekler, alerjiler, hazirlik veya etkinlik"
+    },
+    "buttons": {
+      "submit": "Randevu talebi gonder",
+      "reset": "Secimi sifirla"
+    },
+    "success": {
+      "title": "Talebiniz alindi",
+      "description": "Kisa bir uygunluk kontrolunden sonra randevunuzu telefon veya e-posta ile onayliyoruz."
+    },
+    "validation": {
+      "fullName": "Lutfen adinizi girin.",
+      "phone": "Lutfen bir telefon numarasi girin.",
+      "email": "Lutfen gecerli bir e-posta girin.",
+      "service": "Lutfen bir hizmet secin.",
+      "date": "Lutfen bir tarih secin.",
+      "time": "Lutfen bir saat secin.",
+      "consent": "Lutfen veri isleme onayini verin."
+    }
+  },
+  "prices": {
+    "eyebrow": "Fiyatlar",
+    "title": "Bireysel ihtiyaclar icin danisma payi birakan net bir fiyat mimarisi.",
+    "description": "Nihai fiyat; danisma, teknik ve ek uygulamaya gore hafif farklilik gosterebilir.",
+    "note": "Nihai fiyat, kisisel danisma sonrasinda az miktarda degisebilir.",
+    "filters": {
+      "signature": "Signature",
+      "eyes": "Goz",
+      "skin": "Cilt",
+      "pmu": "PMU"
+    },
+    "items": {
+      "signatureHeadSpa": {
+        "title": "Head Spa Ritual",
+        "duration": "90 dk",
+        "price": "99 EUR",
+        "badge": "Bestseller"
+      },
+      "signatureAntiAging": {
+        "title": "Anti-Aging Treatment",
+        "duration": "80 dk",
+        "price": "109 EUR",
+        "badge": "Premium Care"
+      },
+      "eyesClassic": {
+        "title": "Classic Lashes",
+        "duration": "120 dk",
+        "price": "89 EUR"
+      },
+      "eyesVolume": {
+        "title": "Soft Volume Lashes",
+        "duration": "135 dk",
+        "price": "109 EUR"
+      },
+      "eyesBrows": {
+        "title": "Brow Styling & Tint",
+        "duration": "60 dk",
+        "price": "39 EUR"
+      },
+      "skinHydra": {
+        "title": "Hydra Glow Facial",
+        "duration": "75 dk",
+        "price": "79 EUR"
+      },
+      "skinConsulting": {
+        "title": "Cilt Bakim Danismanligi",
+        "duration": "45 dk",
+        "price": "35 EUR"
+      },
+      "skinLift": {
+        "title": "Firming Skin Reset",
+        "duration": "90 dk",
+        "price": "119 EUR"
+      },
+      "pmuBrows": {
+        "title": "PMU Brows",
+        "duration": "150 dk",
+        "price": "249 EUR"
+      },
+      "pmuLips": {
+        "title": "Lip Blush",
+        "duration": "150 dk",
+        "price": "289 EUR"
+      },
+      "pmuRefresh": {
+        "title": "PMU Refresh",
+        "duration": "120 dk",
+        "price": "149 EUR baslangic"
+      }
+    }
+  },
+  "reviews": {
+    "eyebrow": "Guven & Yorumlar",
+    "title": "En degerli iltifatlar cogu zaman en sakin olanlardir.",
+    "description": "Musteriler yalnizca sonucu degil, tum randevu surecinin ne kadar acik ve rahat oldugunu da anlatir.",
+    "badges": {
+      "hygiene": "Hijyen standartlari",
+      "certified": "Sertifikali uygulamalar",
+      "consulting": "Kisisel danisma",
+      "products": "Modern urunler"
+    },
+    "items": {
+      "one": {
+        "quote": "Studyo cok sakin hissettiriyor, danisma sureci cok durust ve sonuc asiri degil zarif gorunuyor.",
+        "author": "Miriam S.",
+        "service": "Soft Volume Lashes"
+      },
+      "two": {
+        "quote": "En sevdigim sey hicbir seyin zorla satilmamasi oldu. Kaslarim ilk kez yuzumle dengeli gorunuyor.",
+        "author": "Aylin K.",
+        "service": "Brows"
+      },
+      "three": {
+        "quote": "Cilt bakimi teknik olarak cok gucluydu ama ayni zamanda inanilmaz rahatlaticiydi.",
+        "author": "Julia R.",
+        "service": "Hydra Glow Facial"
+      },
+      "four": {
+        "quote": "Randevu modulu cok netti ve uzman PMU'da ne kadar dogal bir gorunum istedigimi hemen anladi.",
+        "author": "Sofia M.",
+        "service": "PMU Brows"
+      },
+      "five": {
+        "quote": "Cok temiz bir studyo, kaliteli urunler ve gunler sonra bile bakimli gorunen bir bitis.",
+        "author": "Deniz T.",
+        "service": "Head Spa Ritual"
+      }
+    }
+  },
+  "about": {
+    "eyebrow": "Studyo Hakkinda",
+    "title": "Almanya'da kaliteye, estetik dengeye ve kisisel bakima odaklanan modern bir beauty studio.",
+    "description": "Lumina Atelier; sakin bir studyo deneyimini cagdas teknik, net gorsel dil ve kisisel olarak uyarlanmis bakimlarla birlestiriyor.",
+    "storyTitle": "Felsefemiz",
+    "storyBody": "Luks beauty isinin yuksek sesli olmasi gerekmedigine inaniyoruz. Bizim icin premium; dogru analiz, hassas uygulama ve musterinin kendini guvende hissettigi bir atmosfer demektir.",
+    "points": {
+      "quality": {
+        "title": "Hizdan once kalite",
+        "body": "Her randevu; danisma, uygulama ve bitis icin yeterli zamani alir."
+      },
+      "aesthetics": {
+        "title": "Dengeli estetik",
+        "body": "Yuz hatlarini kapatan degil, destekleyen sonuclari tercih ediyoruz."
+      },
+      "care": {
+        "title": "Kisisel yonlendirme",
+        "body": "Rutin, aftercare ve sonraki adimlar her kisiye gore sekillenir."
+      }
+    },
+    "team": {
+      "title": "Ekip",
+      "description": "Uc uzmanlik alani, tek bir kalite standardi.",
+      "lara": {
+        "name": "Lara Muller",
+        "role": "Lashes & Brows",
+        "bio": "Kalicilik ve dogal cizgi odakli sakin, simetrik gorunumler."
+      },
+      "amina": {
+        "name": "Amina Kaya",
+        "role": "Skin & PMU",
+        "bio": "Cilt analizi, glow protokolleri ve yumusak pigmentli finisher ile hassas calisma."
+      },
+      "sofia": {
+        "name": "Sofia Hnatiuk",
+        "role": "Head Spa & Make-up",
+        "bio": "Rahatlatici ritueller ve bakimli cilt dokusuna sahip modern event look'lar."
+      }
+    },
+    "studioNotes": {
+      "ambience": "Sakin kabinler, yumusak isik yonu ve temiz malzeme secimi.",
+      "technology": "Modern araclar, hijyenik surecler ve dusunulmus aftercare.",
+      "care": "Bakimlar gunluk hayat, cilt ihtiyaci ve istenen yogunluga gore planlanir."
+    }
+  },
+  "faq": {
+    "eyebrow": "SSS",
+    "title": "Randevu oncesi onemli sorular, kisa ve net cevaplarla.",
+    "description": "Hala acik kalan bir nokta varsa randevu oncesinde size memnuniyetle kisisel destek veriyoruz.",
+    "items": {
+      "bookingChanges": {
+        "question": "Randevumu degistirebilir miyim?",
+        "answer": "Evet. Size uygun en iyi alternatifi sunabilmemiz icin lutfen mumkun oldugunca erken haber verin."
+      },
+      "cancellation": {
+        "question": "Iptal nasil isliyor?",
+        "answer": "Randevudan 24 saat oncesine kadar kolayca iptal edebilirsiniz. Daha gec iptaller icin kismi ucret uygulanabilir."
+      },
+      "duration": {
+        "question": "Bakimlar ne kadar surer?",
+        "answer": "Hizmete gore genelde 45 ile 150 dakika arasindadir. Net sureyi hizmet kartlarinda ve randevu modulunde gorebilirsiniz."
+      },
+      "preparation": {
+        "question": "Randevuya nasil hazirlanmaliyim?",
+        "answer": "Mumkunse agir goz veya cilt urunleri olmadan gelin ve alerji ya da ozel taleplerinizi onceden belirtin."
+      },
+      "aftercare": {
+        "question": "Ev icin bakim onerileri veriliyor mu?",
+        "answer": "Evet. Her uygulama sonrasinda kalicilik, iyilesme ve uygun urunler icin net yonlendirmeler veriyoruz."
+      },
+      "payment": {
+        "question": "Hangi odeme yontemleri kabul ediliyor?",
+        "answer": "Stüdyoda kart, nakit ve cogu durumda temassiz odeme kabul edilmektedir."
+      }
+    }
+  },
+  "contact": {
+    "eyebrow": "Lokasyon & Iletisim",
+    "title": "Merkezi konumda, ulasimi rahat ve kisisel bakim icin tasarlandi.",
+    "description": "Stüdyomuzu ziyaret edin veya hizli bir soru icin bize WhatsApp ya da Instagram uzerinden yazin.",
+    "addressTitle": "Adres",
+    "addressLineOne": "Lumina Atelier",
+    "addressLineTwo": "Knesebeckstrasse 18, 10623 Berlin, Germany",
+    "hoursTitle": "Calisma saatleri",
+    "hours": {
+      "monFri": "Pzt-Cuma: 09:00-19:00",
+      "sat": "Cts: 10:00-17:00",
+      "sun": "Paz: kapali"
+    },
+    "contactTitle": "Dogrudan iletisim",
+    "phone": "+49 30 555 82 10",
+    "email": "hello@lumina-atelier.de",
+    "whatsapp": "WhatsApp",
+    "instagram": "Instagram",
+    "mapTitle": "Studyo konumu",
+    "mapNote": "Savignyplatz istasyonuna sadece birkac dakika uzaklikta. Otopark ve toplu tasima oldukca yakin.",
+    "parking": "Basamak azaltimli giris ve yakin park secenekleri bulunur.",
+    "cta": "WhatsApp ac"
+  },
+  "footer": {
+    "quickLinks": "Hizli baglantilar",
+    "socials": "Sosyal",
+    "legal": "Yasal",
+    "copyright": "© 2026 Lumina Atelier. Tum haklari saklidir.",
+    "legalTexts": {
+      "imprint": {
+        "title": "Impressum",
+        "body": "Almanya'daki bir beauty studio icin demo web sitesi. Canli versiyonda tam saglayici bilgileri, sorumlu kisi ve kayit detaylari yer alir."
+      },
+      "privacy": {
+        "title": "Datenschutz",
+        "body": "Bu demoda form ve cookie verileri yalnizca yerel olarak simule edilir. Canli projede burada tam GDPR gizlilik metni bulunur."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "body": "Gerekli, analytics ve marketing cerezlerini banner icinden yonetebilirsiniz. Seciminiz yerel olarak saklanir."
+      }
+    }
+  },
+  "cookies": {
+    "title": "Cookie ayarlari",
+    "description": "Demonun calismasi icin gerekli cerezleri kullaniyoruz. Analytics ve marketing kategorileri istege bagli olarak acilabilir.",
+    "acceptAll": "Tumunu kabul et",
+    "reject": "Gerekli olmayanlari reddet",
+    "customize": "Ozellestir",
+    "save": "Secimi kaydet",
+    "manage": "Cookie ayarlari",
+    "necessary": "Gerekli",
+    "necessaryDesc": "Dil, onay durumu ve temel sayfa gezinmesini saglar.",
+    "analytics": "Analytics",
+    "analyticsDesc": "Canli surumde anonim kullanim verilerini olcerdi.",
+    "marketing": "Marketing",
+    "marketingDesc": "Canli surumde icerik ve kampanyalari kişisellestirirdi."
+  }
+}
