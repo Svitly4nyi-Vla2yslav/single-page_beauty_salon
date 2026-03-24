@@ -61,11 +61,11 @@ const BrandMark = styled.div`
   border-radius: 1rem;
   border: 1px solid rgba(189, 155, 101, 0.3);
   background:
-    radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.92), rgba(255, 248, 239, 0.4) 34%, rgba(82, 62, 48, 0.9) 100%),
+    radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.0), rgba(255, 248, 239, 0.0) 34%, rgba(82, 62, 48, 0.9) 100%),
     linear-gradient(135deg, rgba(212, 175, 55, 0.16), rgba(160, 195, 240, 0.1));
   box-shadow:
     0 12px 28px rgba(126, 106, 89, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 `;
 
 const BrandInnerRing = styled.div`
@@ -85,7 +85,7 @@ const BrandLetters = styled.span`
   font-size: 1.08rem;
   font-weight: 700;
   line-height: 1;
-  color: #fff7ee;
+  color: #000000;
 `;
 
 const BrandText = styled.div`
@@ -265,7 +265,7 @@ export const Header = () => {
           </BrandMark>
           <BrandText>
             <BrandTitle>Lumina Atelier</BrandTitle>
-            <BrandSubtitle>Berlin Beauty House</BrandSubtitle>
+            <BrandSubtitle>Hildesheim Beauty House</BrandSubtitle>
           </BrandText>
         </Brand>
 
