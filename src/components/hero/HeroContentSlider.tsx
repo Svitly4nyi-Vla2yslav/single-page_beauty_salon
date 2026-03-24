@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import styled from 'styled-components';
-import { HeroControls } from './HeroControls';
 import { HeroStats } from './HeroStats';
 import type { HeroSlide } from './types';
 
@@ -8,27 +7,22 @@ type HeroContentSliderProps = {
   slides: HeroSlide[];
   activeSlide: number;
   direction: 1 | -1;
-  progress: number;
   reducedMotion: boolean;
-  isPaused: boolean;
-  onPrev: () => void;
-  onNext: () => void;
-  onSelect: (index: number) => void;
 };
 
 const Panel = styled.div`
-  pointer-events: auto;
+  display: contents;
+`;
+
+const PanelInner = styled.div`
+  display: grid;
+  gap: 0.95rem;
+  padding: 0;
   width: min(100%, 34rem);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 1.7rem;
-  background:
-    linear-gradient(160deg, rgba(255, 250, 244, 0.76), rgba(252, 247, 241, 0.68)),
-    radial-gradient(circle at top right, rgba(182, 216, 255, 0.1), transparent 24%);
-  box-shadow:
-    0 18px 48px rgba(146, 121, 98, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.76);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+
+  @media (min-width: 640px) {
+    padding: 0;
+  }
 
   @media (max-width: 1023px) {
     width: min(100%, 36rem);
@@ -36,22 +30,11 @@ const Panel = styled.div`
 
   @media (max-width: 767px) {
     width: 100%;
-    border-radius: 1.3rem;
-  }
-`;
-
-const PanelInner = styled.div`
-  display: grid;
-  gap: 0.95rem;
-  padding: 0.98rem;
-
-  @media (min-width: 640px) {
-    padding: 1.16rem;
   }
 
   @media (min-width: 1024px) {
     gap: 0.92rem;
-    padding: 1.18rem 1.24rem 1.14rem;
+    padding: 0;
   }
 `;
 
@@ -210,12 +193,7 @@ export const HeroContentSlider = ({
   slides,
   activeSlide,
   direction,
-  progress,
   reducedMotion,
-  isPaused,
-  onPrev,
-  onNext,
-  onSelect,
 }: HeroContentSliderProps) => {
   const slide = slides[activeSlide];
   const lines = splitHeadline(slide.title);
@@ -290,16 +268,6 @@ export const HeroContentSlider = ({
             </motion.div>
           </MotionBlock>
         </AnimatePresence>
-
-        <HeroControls
-          slides={slides}
-          activeSlide={activeSlide}
-          progress={progress}
-          isPaused={isPaused}
-          onPrev={onPrev}
-          onNext={onNext}
-          onSelect={onSelect}
-        />
       </PanelInner>
     </Panel>
   );

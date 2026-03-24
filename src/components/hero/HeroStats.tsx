@@ -20,13 +20,13 @@ const StatCard = styled.article`
   gap: 0.28rem;
   min-width: 0;
   min-height: 5rem;
-  padding: 0.76rem 0.8rem 0.82rem;
-  border: 1px solid rgba(255, 255, 255, 0.34);
-  border-radius: 0.96rem;
-  background: rgba(255, 252, 248, 0.44);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  padding: 0.28rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
 
   @media (max-width: 767px) {
     min-height: 4.85rem;

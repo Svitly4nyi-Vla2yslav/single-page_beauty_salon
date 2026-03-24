@@ -15,7 +15,7 @@ const ControlsShell = styled.div`
   display: grid;
   gap: 0.72rem;
   padding-top: 0.82rem;
-  border-top: 1px solid rgba(171, 142, 115, 0.14);
+  border-top: 0;
 `;
 
 const TopRow = styled.div`
@@ -37,12 +37,12 @@ const ArrowButton = styled.button`
   justify-content: center;
   width: 2.2rem;
   height: 2.2rem;
-  border: 1px solid rgba(151, 124, 98, 0.16);
+  border: 1px solid rgba(255, 248, 242, 0.32);
   border-radius: 999px;
-  background: rgba(255, 252, 248, 0.54);
-  color: #563f31;
+  background: rgba(255, 248, 242, 0.12);
+  color: rgba(79, 57, 43, 0.92);
   font-size: 0.95rem;
-  box-shadow: 0 8px 18px rgba(133, 111, 93, 0.07);
+  box-shadow: none;
   transition:
     transform 0.2s ease,
     border-color 0.2s ease,
@@ -51,8 +51,8 @@ const ArrowButton = styled.button`
   &:hover,
   &:focus-visible {
     transform: translateY(-1px);
-    border-color: rgba(151, 124, 98, 0.28);
-    background: rgba(255, 255, 255, 0.72);
+    border-color: rgba(255, 248, 242, 0.46);
+    background: rgba(255, 248, 242, 0.22);
     outline: none;
   }
 `;
@@ -127,9 +127,9 @@ const PagerButton = styled.button<{ $active: boolean }>`
   gap: 0.14rem;
   min-width: 0;
   padding: 0.56rem 0.64rem;
-  border: 1px solid ${({ $active }) => ($active ? 'rgba(191, 155, 105, 0.28)' : 'rgba(151, 124, 98, 0.1)')};
+  border: 1px solid ${({ $active }) => ($active ? 'rgba(255, 248, 242, 0.28)' : 'rgba(255, 248, 242, 0.14)')};
   border-radius: 0.88rem;
-  background: ${({ $active }) => ($active ? 'rgba(255, 252, 247, 0.72)' : 'rgba(255, 252, 247, 0.42)')};
+  background: transparent;
   text-align: left;
   transition:
     transform 0.2s ease,
@@ -139,8 +139,8 @@ const PagerButton = styled.button<{ $active: boolean }>`
   &:hover,
   &:focus-visible {
     transform: translateY(-1px);
-    border-color: rgba(191, 155, 105, 0.24);
-    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(255, 248, 242, 0.32);
+    background: rgba(255, 248, 242, 0.08);
     outline: none;
   }
 `;

@@ -15,7 +15,7 @@ const HeaderShell = styled.header`
   }
 `;
 
-const HeaderBar = styled.div<{ $scrolled: boolean }>`
+const HeaderBar = styled.div<{ $solid: boolean }>`
   width: min(100%, 84rem);
   margin: 0 auto;
   display: flex;
@@ -23,21 +23,21 @@ const HeaderBar = styled.div<{ $scrolled: boolean }>`
   justify-content: space-between;
   gap: 1rem;
   padding: 0.82rem 0.95rem;
-  border: 1px solid ${({ $scrolled }) => ($scrolled ? 'rgba(175, 145, 117, 0.2)' : 'rgba(255, 255, 255, 0.5)')};
+  border: 1px solid ${({ $solid }) => ($solid ? 'rgba(175, 145, 117, 0.2)' : 'transparent')};
   border-radius: 1.45rem;
-  background: ${({ $scrolled }) =>
-    $scrolled
+  background: ${({ $solid }) =>
+    $solid
       ? 'rgba(255, 252, 248, 0.9)'
-      : 'linear-gradient(180deg, rgba(255, 252, 248, 0.84), rgba(255, 249, 244, 0.7))'};
-  box-shadow:
-    0 16px 40px rgba(126, 106, 89, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+      : 'transparent'};
+  box-shadow: ${({ $solid }) =>
+    $solid ? '0 16px 40px rgba(126, 106, 89, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)' : 'none'};
+  backdrop-filter: ${({ $solid }) => ($solid ? 'blur(18px)' : 'none')};
+  -webkit-backdrop-filter: ${({ $solid }) => ($solid ? 'blur(18px)' : 'none')};
   transition:
     background-color 0.35s ease,
     border-color 0.35s ease,
-    box-shadow 0.35s ease;
+    box-shadow 0.35s ease,
+    backdrop-filter 0.35s ease;
 
   @media (min-width: 768px) {
     padding: 0.85rem 1.2rem;
@@ -94,20 +94,22 @@ const BrandText = styled.div`
   min-width: 0;
 `;
 
-const BrandTitle = styled.p`
+const BrandTitle = styled.p<{ $solid: boolean }>`
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(1.6rem, 2.35vw, 1.98rem);
   line-height: 0.92;
-  color: #372821;
+  color: ${({ $solid }) => ($solid ? '#372821' : '#fff9f4')};
+  text-shadow: ${({ $solid }) => ($solid ? 'none' : '0 10px 28px rgba(0, 0, 0, 0.28)')};
 `;
 
-const BrandSubtitle = styled.p`
+const BrandSubtitle = styled.p<{ $solid: boolean }>`
   padding-left: 0.08rem;
   font-size: 0.55rem;
   font-weight: 700;
   letter-spacing: 0.33em;
   text-transform: uppercase;
-  color: rgba(99, 75, 57, 0.58);
+  color: ${({ $solid }) => ($solid ? 'rgba(99, 75, 57, 0.58)' : 'rgba(255, 244, 234, 0.76)')};
+  text-shadow: ${({ $solid }) => ($solid ? 'none' : '0 8px 22px rgba(0, 0, 0, 0.28)')};
 `;
 
 const DesktopShell = styled.div`
@@ -127,61 +129,67 @@ const DesktopNav = styled.nav`
   padding-right: 1.8rem;
 `;
 
-const NavLink = styled.a`
+const NavLink = styled.a<{ $solid: boolean }>`
   font-size: 0.9rem;
   font-weight: 600;
-  color: rgba(77, 57, 43, 0.8);
+  color: ${({ $solid }) => ($solid ? 'rgba(77, 57, 43, 0.8)' : 'rgba(255, 248, 241, 0.88)')};
+  text-shadow: ${({ $solid }) => ($solid ? 'none' : '0 8px 24px rgba(0, 0, 0, 0.28)')};
   transition: color 0.2s ease;
 
   &:hover,
   &:focus-visible {
-    color: #2f221b;
+    color: ${({ $solid }) => ($solid ? '#2f221b' : '#ffffff')};
     outline: none;
   }
 `;
 
-const DesktopActions = styled.div`
+const DesktopActions = styled.div<{ $solid: boolean }>`
   margin-left: 1.85rem;
   padding-left: 1.85rem;
   display: flex;
   align-items: center;
   gap: 0.95rem;
-  border-left: 1px solid rgba(171, 142, 115, 0.16);
+  border-left: 1px solid ${({ $solid }) => ($solid ? 'rgba(171, 142, 115, 0.16)' : 'rgba(255, 244, 233, 0.2)')};
 `;
 
-const BookingLink = styled.a`
+const BookingLink = styled.a<{ $solid: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 2.95rem;
   padding: 0.8rem 1.22rem;
   border-radius: 999px;
-  background: #3a2c23;
-  color: #fff8f1;
+  background: ${({ $solid }) => ($solid ? '#3a2c23' : 'rgba(255, 250, 244, 0.14)')};
+  color: ${({ $solid }) => ($solid ? '#fff8f1' : '#fff9f3')};
+  border: 1px solid ${({ $solid }) => ($solid ? 'transparent' : 'rgba(255, 243, 231, 0.3)')};
   font-size: 0.9rem;
   font-weight: 700;
-  box-shadow: 0 12px 24px rgba(83, 62, 46, 0.14);
+  box-shadow: ${({ $solid }) => ($solid ? '0 12px 24px rgba(83, 62, 46, 0.14)' : '0 12px 30px rgba(0, 0, 0, 0.18)')};
+  text-shadow: ${({ $solid }) => ($solid ? 'none' : '0 8px 22px rgba(0, 0, 0, 0.28)')};
   transition:
     transform 0.2s ease,
-    background-color 0.2s ease;
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 
   &:hover,
   &:focus-visible {
     transform: translateY(-1px);
-    background: #2f231c;
+    background: ${({ $solid }) => ($solid ? '#2f231c' : 'rgba(255, 250, 244, 0.22)')};
     outline: none;
   }
 `;
 
-const MobileToggle = styled.button`
+const MobileToggle = styled.button<{ $solid: boolean }>`
   display: inline-flex;
   width: 2.8rem;
   height: 2.8rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(171, 142, 115, 0.18);
+  border: 1px solid ${({ $solid }) => ($solid ? 'rgba(171, 142, 115, 0.18)' : 'rgba(255, 245, 235, 0.24)')};
   border-radius: 999px;
-  background: rgba(255, 252, 248, 0.76);
+  background: ${({ $solid }) => ($solid ? 'rgba(255, 252, 248, 0.76)' : 'rgba(255, 250, 244, 0.08)')};
+  backdrop-filter: ${({ $solid }) => ($solid ? 'blur(10px)' : 'none')};
+  -webkit-backdrop-filter: ${({ $solid }) => ($solid ? 'blur(10px)' : 'none')};
 
   @media (min-width: 1024px) {
     display: none;
@@ -193,12 +201,12 @@ const ToggleLines = styled.span`
   gap: 0.26rem;
 `;
 
-const ToggleLine = styled.span`
+const ToggleLine = styled.span<{ $solid: boolean }>`
   display: block;
   width: 1.1rem;
   height: 0.12rem;
   border-radius: 999px;
-  background: #4a382c;
+  background: ${({ $solid }) => ($solid ? '#4a382c' : '#fff7f0')};
 `;
 
 const MobileMenu = styled.div`
@@ -242,6 +250,7 @@ export const Header = () => {
   const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const solidHeader = scrolled || menuOpen;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -257,41 +266,44 @@ export const Header = () => {
 
   return (
     <HeaderShell>
-      <HeaderBar $scrolled={scrolled}>
+      <HeaderBar $solid={solidHeader}>
         <Brand href="#hero" data-cursor="hover">
           <BrandMark>
             <BrandInnerRing />
             <BrandLetters>LA</BrandLetters>
           </BrandMark>
           <BrandText>
-            <BrandTitle>Lumina Atelier</BrandTitle>
-            <BrandSubtitle>Hildesheim Beauty House</BrandSubtitle>
+            <BrandTitle $solid={solidHeader}>Lumina Atelier</BrandTitle>
+            <BrandSubtitle $solid={solidHeader}>Hildesheim Beauty House</BrandSubtitle>
           </BrandText>
         </Brand>
 
         <DesktopShell>
           <DesktopNav>
             {navigationItems.map((item) => (
-              <NavLink key={item.key} href={item.href}>
+              <NavLink key={item.key} href={item.href} $solid={solidHeader}>
                 {t(`nav.${item.key}`)}
               </NavLink>
             ))}
           </DesktopNav>
 
-          <DesktopActions>
-            <LanguageSwitcher compact tone="dark" />
-            <BookingLink href="#booking">{t('common.bookNow') || 'Termin buchen'}</BookingLink>
+          <DesktopActions $solid={solidHeader}>
+            <LanguageSwitcher compact tone={solidHeader ? 'dark' : 'light'} />
+            <BookingLink href="#booking" $solid={solidHeader}>
+              {t('common.bookNow') || 'Termin buchen'}
+            </BookingLink>
           </DesktopActions>
         </DesktopShell>
 
         <MobileToggle
+          $solid={solidHeader}
           type="button"
           onClick={() => setMenuOpen((current) => !current)}
           aria-label="Toggle navigation"
         >
           <ToggleLines>
-            <ToggleLine />
-            <ToggleLine />
+            <ToggleLine $solid={solidHeader} />
+            <ToggleLine $solid={solidHeader} />
           </ToggleLines>
         </MobileToggle>
       </HeaderBar>

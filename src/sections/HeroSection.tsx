@@ -1,22 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Swiper as SwiperType } from 'swiper';
 import styled from 'styled-components';
 import { HeroContentSlider } from '../components/hero/HeroContentSlider';
 import { HeroMediaSlider } from '../components/hero/HeroMediaSlider';
 import type { HeroSlide, HeroStat } from '../components/hero/types';
 import { heroSlides } from '../data/site';
 import { useReducedMotionPreference } from '../hooks/useReducedMotionPreference';
-
-type HeroAutoplayController = SwiperType & {
-  autoplay?: {
-    start?: () => void;
-    stop?: () => void;
-    pause?: () => void;
-    resume?: () => void;
-    running?: boolean;
-  };
-};
 
 const Section = styled.section`
   position: relative;
@@ -28,53 +17,28 @@ const Section = styled.section`
   color: #2f251e;
 `;
 
-const TopVeil = styled.div`
-  pointer-events: none;
+const ContentLayer = styled.div`
   position: absolute;
-  inset: 0 0 auto;
-  z-index: 2;
-  height: clamp(6.6rem, 14vw, 9rem);
-  background: linear-gradient(180deg, rgba(255, 250, 245, 0.76), rgba(255, 250, 245, 0.14), transparent);
-`;
-
-const Overlay = styled.div`
-  position: relative;
+  inset: 0;
   z-index: 3;
-  display: grid;
-  height: 100%;
   width: min(100%, 84rem);
-  margin: 0 auto;
-  padding:
-    clamp(5.3rem, 7.8vw, 6.9rem)
-    clamp(1rem, 3.5vw, 2.7rem)
-    clamp(0.9rem, 2.4vw, 1.8rem);
-  align-items: end;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3.5vw, 2.7rem);
+  padding-top: calc(env(safe-area-inset-top, 0px) + clamp(7.6rem, 10vw, 9.1rem));
+  padding-bottom: clamp(7.8rem, 12vw, 9.4rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  pointer-events: none;
 
   @media (min-width: 1024px) {
-    grid-template-columns: minmax(0, 1.2fr) minmax(21rem, 34rem);
-    align-items: center;
-  }
-`;
-
-const Spacer = styled.div`
-  display: none;
-
-  @media (min-width: 1024px) {
-    display: block;
-    min-height: 0;
+    justify-content: flex-end;
   }
 `;
 
 const ContentColumn = styled.div`
-  display: flex;
-  align-items: end;
-  min-height: 0;
-
-  @media (min-width: 1024px) {
-    justify-content: end;
-    align-items: center;
-    grid-column: 2;
-  }
+  display: contents;
+  pointer-events: auto;
 `;
 
 const getDirection = (previous: number, next: number, total: number): 1 | -1 => {
@@ -105,11 +69,8 @@ const buildStat = (id: string, statText: string): HeroStat => {
 export const HeroSection = () => {
   const { t } = useTranslation();
   const reducedMotion = useReducedMotionPreference();
-  const mediaSwiperRef = useRef<HeroAutoplayController | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
-  const [progress, setProgress] = useState(0);
-  const [isPaused, setIsPaused] = useState(reducedMotion);
 
   const slides = useMemo<HeroSlide[]>(
     () =>
@@ -141,81 +102,9 @@ export const HeroSection = () => {
     [t],
   );
 
-  useEffect(() => {
-    if (reducedMotion) {
-      setIsPaused(true);
-      setProgress(0);
-      mediaSwiperRef.current?.autoplay?.stop?.();
-      return;
-    }
-
-    setIsPaused(false);
-  }, [reducedMotion]);
-
-  useEffect(() => {
-    if (slides.length <= 1 || reducedMotion) {
-      return;
-    }
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        mediaSwiperRef.current?.autoplay?.resume?.();
-        mediaSwiperRef.current?.autoplay?.start?.();
-        setIsPaused(false);
-      } else {
-        mediaSwiperRef.current?.autoplay?.pause?.();
-        setIsPaused(true);
-      }
-    };
-
-    const handleResize = () => {
-      mediaSwiperRef.current?.update?.();
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [reducedMotion, slides.length]);
-
-  const handleProgressChange = (nextProgress: number) => {
-    setProgress((current) => {
-      const rounded = Math.round(nextProgress * 100) / 100;
-      return Math.abs(current - rounded) >= 0.02 ? rounded : current;
-    });
-  };
-
-  const restartAutoplay = () => {
-    if (reducedMotion || slides.length <= 1) {
-      return;
-    }
-
-    mediaSwiperRef.current?.autoplay?.resume?.();
-    mediaSwiperRef.current?.autoplay?.start?.();
-    setIsPaused(false);
-  };
-
   const handleActiveSlideChange = (nextIndex: number) => {
     setDirection((current) => getDirection(activeSlide, nextIndex, slides.length) || current);
     setActiveSlide(nextIndex);
-  };
-
-  const handlePrev = () => {
-    mediaSwiperRef.current?.slidePrev();
-    restartAutoplay();
-  };
-
-  const handleNext = () => {
-    mediaSwiperRef.current?.slideNext();
-    restartAutoplay();
-  };
-
-  const handleSelect = (index: number) => {
-    mediaSwiperRef.current?.slideToLoop(index);
-    restartAutoplay();
   };
 
   return (
@@ -225,28 +114,18 @@ export const HeroSection = () => {
         activeSlide={activeSlide}
         reducedMotion={reducedMotion}
         onActiveSlideChange={handleActiveSlideChange}
-        onSwiperReady={(swiper) => {
-          mediaSwiperRef.current = swiper as HeroAutoplayController;
-        }}
       />
-      <TopVeil />
 
-      <Overlay>
-        <Spacer />
+      {/* <ContentLayer>
         <ContentColumn>
-          <HeroContentSlider
-            slides={slides}
-            activeSlide={activeSlide}
-            direction={direction}
-            progress={progress}
-            reducedMotion={reducedMotion}
-            isPaused={isPaused}
-            onPrev={handlePrev}
-            onNext={handleNext}
-            onSelect={handleSelect}
-          />
-        </ContentColumn>
-      </Overlay>
+        <HeroContentSlider
+          slides={slides}
+          activeSlide={activeSlide}
+          direction={direction}
+          reducedMotion={reducedMotion}
+        />
+      </ContentColumn>
+      </ContentLayer> */}
     </Section>
   );
 };
