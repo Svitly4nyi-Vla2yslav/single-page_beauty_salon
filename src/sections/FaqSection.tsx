@@ -1,8 +1,43 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import { SectionHeading } from '../components/SectionHeading';
 import { faqIds } from '../data/site';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+
+const Section = styled.section.attrs({
+  className: 'section-shell px-4 py-24 md:px-8 md:py-32',
+})``;
+
+const Container = styled.div.attrs({
+  className: 'mx-auto max-w-5xl',
+})``;
+
+const FaqGrid = styled.div.attrs({
+  className: 'mt-12 grid gap-4',
+})``;
+
+const FaqCard = styled.article.attrs<{ $reveal: string }>(({ $reveal }) => ({
+  className:
+    'rounded-[2rem] border border-black/8 bg-white/80 p-5 shadow-[0_18px_45px_rgba(17,17,17,0.04)] backdrop-blur',
+  'data-reveal': $reveal,
+}))``;
+
+const Trigger = styled.button.attrs({
+  className: 'flex w-full items-center justify-between gap-6 text-left',
+})``;
+
+const Question = styled.span.attrs({
+  className: 'font-display text-3xl text-ink',
+})``;
+
+const Status = styled.span.attrs({
+  className: 'rounded-full border border-black/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black/45',
+})``;
+
+const Answer = styled.p.attrs({
+  className: 'mt-5 max-w-3xl text-sm leading-8 text-black/65',
+})``;
 
 export const FaqSection = () => {
   const { t } = useTranslation();
@@ -11,8 +46,8 @@ export const FaqSection = () => {
   useScrollReveal(sectionRef);
 
   return (
-    <section id="faq" ref={sectionRef} className="section-shell px-4 py-24 md:px-8 md:py-32">
-      <div className="mx-auto max-w-5xl">
+    <Section id="faq" ref={sectionRef}>
+      <Container>
         <SectionHeading
           eyebrow={t('faq.eyebrow')}
           title={t('faq.title')}
@@ -20,33 +55,28 @@ export const FaqSection = () => {
           align="center"
         />
 
-        <div className="mt-12 grid gap-4">
+        <FaqGrid>
           {faqIds.map((faqId, index) => {
             const isOpen = openItem === faqId;
+
             return (
-              <article
+              <FaqCard
                 key={faqId}
-                data-reveal={index % 2 === 0 ? 'fade-up' : 'fade-right'}
-                className="rounded-[2rem] border border-black/8 bg-white/80 p-5 shadow-[0_18px_45px_rgba(17,17,17,0.04)] backdrop-blur"
+                $reveal={index % 2 === 0 ? 'fade-up' : 'fade-right'}
               >
-                <button
+                <Trigger
                   type="button"
                   onClick={() => setOpenItem(isOpen ? 'bookingChanges' : faqId)}
-                  className="flex w-full items-center justify-between gap-6 text-left"
                 >
-                  <span className="font-display text-3xl text-ink">{t(`faq.items.${faqId}.question`)}</span>
-                  <span className="rounded-full border border-black/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
-                    {isOpen ? '−' : '+'}
-                  </span>
-                </button>
-                {isOpen ? (
-                  <p className="mt-5 max-w-3xl text-sm leading-8 text-black/65">{t(`faq.items.${faqId}.answer`)}</p>
-                ) : null}
-              </article>
+                  <Question>{t(`faq.items.${faqId}.question`)}</Question>
+                  <Status>{isOpen ? '-' : '+'}</Status>
+                </Trigger>
+                {isOpen ? <Answer>{t(`faq.items.${faqId}.answer`)}</Answer> : null}
+              </FaqCard>
             );
           })}
-        </div>
-      </div>
-    </section>
+        </FaqGrid>
+      </Container>
+    </Section>
   );
 };

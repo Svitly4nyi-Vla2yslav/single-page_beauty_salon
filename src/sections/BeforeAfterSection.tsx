@@ -1,9 +1,180 @@
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import { Lightbox } from '../components/Lightbox';
 import { SectionHeading } from '../components/SectionHeading';
 import { galleryFilters, galleryItems } from '../data/site';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+
+const ArtShell = styled.div.attrs<{ $accent: string }>(({ $accent }) => ({
+  className: `absolute inset-0 rounded-[1.6rem] bg-gradient-to-br ${$accent} p-5`,
+  'aria-hidden': 'true',
+}))``;
+
+const ArtInner = styled.div.attrs({
+  className:
+    'flex h-full flex-col justify-between rounded-[1.3rem] border border-white/20 bg-[linear-gradient(140deg,rgba(255,255,255,0.2),rgba(255,255,255,0.03))] p-4 text-white',
+})``;
+
+const ArtMode = styled.span.attrs({
+  className: 'text-xs font-semibold uppercase tracking-[0.24em] text-white/75',
+})``;
+
+const ArtLabel = styled.span.attrs({
+  className: 'max-w-[10ch] font-display text-3xl leading-none',
+})``;
+
+const Section = styled.section.attrs({
+  className: 'section-shell px-4 py-24 md:px-8 md:py-32',
+})``;
+
+const Container = styled.div.attrs({
+  className: 'mx-auto max-w-7xl',
+})``;
+
+const FilterRow = styled.div.attrs({
+  className: 'mt-10 flex flex-wrap gap-3',
+})``;
+
+const FilterButton = styled.button.attrs<{ $active: boolean }>(({ $active }) => ({
+  className: `rounded-full px-5 py-3 text-sm font-semibold transition ${
+    $active ? 'bg-ink text-white' : 'border border-black/10 bg-white/75 text-black/65'
+  }`,
+}))``;
+
+const MainGrid = styled.div.attrs({
+  className: 'mt-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]',
+})``;
+
+const FeaturedCard = styled.div.attrs({
+  className:
+    'luxury-border relative overflow-hidden rounded-[2.6rem] bg-[#111111] p-5 text-white shadow-[0_35px_90px_rgba(17,17,17,0.18)] md:p-8',
+  'data-reveal': 'blur',
+})``;
+
+const FeaturedHeader = styled.div.attrs({
+  className: 'flex flex-wrap items-center justify-between gap-4',
+})``;
+
+const FeaturedEyebrow = styled.p.attrs({
+  className: 'text-xs uppercase tracking-[0.24em] text-white/55',
+})``;
+
+const FeaturedTitle = styled.h3.attrs({
+  className: 'mt-2 font-display text-4xl',
+})``;
+
+const FeaturedTag = styled.span.attrs({
+  className: 'rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white/70',
+})``;
+
+const FeaturedDescription = styled.p.attrs({
+  className: 'mt-5 max-w-2xl text-sm leading-7 text-white/70',
+})``;
+
+const CompareWrap = styled.div.attrs({
+  className: 'mt-8',
+})``;
+
+const CompareStage = styled.div.attrs({
+  className: 'relative h-[24rem] overflow-hidden rounded-[2rem] border border-white/10 bg-black/20',
+})``;
+
+const CompareAfterWrap = styled.div.attrs<{ $width: number }>(({ $width }) => ({
+  className: 'absolute inset-y-0 left-0 overflow-hidden',
+  style: { width: `${$width}%` },
+}))``;
+
+const CompareHandle = styled.div.attrs<{ $left: number }>(({ $left }) => ({
+  className: 'absolute inset-y-0',
+  style: { left: `calc(${$left}% - 1px)` },
+}))``;
+
+const CompareLine = styled.div.attrs({
+  className: 'h-full w-0.5 bg-white',
+})``;
+
+const CompareKnob = styled.div.attrs({
+  className:
+    'absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/15 text-xs font-semibold backdrop-blur',
+})``;
+
+const CompareRange = styled.input.attrs({
+  className: 'mt-6 w-full accent-gold',
+})``;
+
+const ThumbsGrid = styled.div.attrs({
+  className: 'grid gap-5 md:grid-cols-6',
+})``;
+
+const ThumbButton = styled.button.attrs<{ $grid: string; $reveal: string }>(({ $grid, $reveal }) => ({
+  className: `${$grid} group overflow-hidden rounded-[2rem] border border-black/8 bg-white/75 p-4 text-left shadow-[0_18px_45px_rgba(17,17,17,0.05)] backdrop-blur`,
+  'data-reveal': $reveal,
+}))``;
+
+const ThumbVisual = styled.div.attrs({
+  className: 'relative h-56 overflow-hidden rounded-[1.6rem]',
+})``;
+
+const ThumbAfterWrap = styled.div.attrs({
+  className: 'absolute inset-y-0 right-0 w-1/2 overflow-hidden',
+})``;
+
+const ThumbHeader = styled.div.attrs({
+  className: 'mt-5 flex items-center justify-between gap-4',
+})``;
+
+const ThumbEyebrow = styled.p.attrs({
+  className: 'text-xs uppercase tracking-[0.22em] text-black/45',
+})``;
+
+const ThumbTitle = styled.h3.attrs({
+  className: 'mt-2 font-display text-3xl text-ink',
+})``;
+
+const ThumbTag = styled.span.attrs({
+  className: 'rounded-full bg-black/[0.04] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-black/55',
+})``;
+
+const ThumbMeta = styled.div.attrs({
+  className: 'mt-4 flex items-center justify-between text-sm text-black/55',
+})``;
+
+const LightboxGrid = styled.div.attrs({
+  className: 'grid gap-8 lg:grid-cols-[1.1fr_0.9fr]',
+})``;
+
+const LightboxVisual = styled.div.attrs({
+  className: 'relative h-[28rem] overflow-hidden rounded-[2rem] bg-[#111111]',
+})``;
+
+const LightboxAfterWrap = styled.div.attrs({
+  className: 'absolute inset-y-0 right-0 w-1/2 overflow-hidden',
+})``;
+
+const LightboxTag = styled.span.attrs({
+  className: 'rounded-full border border-black/10 bg-black/[0.03] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black/55',
+})``;
+
+const LightboxNote = styled.p.attrs({
+  className: 'mt-6 text-lg leading-8 text-black/65',
+})``;
+
+const LightboxMetaGrid = styled.div.attrs({
+  className: 'mt-8 grid gap-4 md:grid-cols-2',
+})``;
+
+const LightboxMetaCard = styled.div.attrs({
+  className: 'rounded-[1.4rem] border border-black/8 bg-black/[0.02] p-5',
+})``;
+
+const LightboxMetaLabel = styled.p.attrs({
+  className: 'text-xs uppercase tracking-[0.22em] text-black/45',
+})``;
+
+const LightboxMetaValue = styled.p.attrs({
+  className: 'mt-3 text-xl font-semibold text-black',
+})``;
 
 const GalleryArt = ({
   accent,
@@ -14,15 +185,12 @@ const GalleryArt = ({
   label: string;
   mode: 'before' | 'after';
 }) => (
-  <div
-    className={`absolute inset-0 rounded-[1.6rem] bg-gradient-to-br ${accent} p-5`}
-    aria-hidden="true"
-  >
-    <div className="flex h-full flex-col justify-between rounded-[1.3rem] border border-white/20 bg-[linear-gradient(140deg,rgba(255,255,255,0.2),rgba(255,255,255,0.03))] p-4 text-white">
-      <span className="text-xs font-semibold uppercase tracking-[0.24em] text-white/75">{mode}</span>
-      <span className="max-w-[10ch] font-display text-3xl leading-none">{label}</span>
-    </div>
-  </div>
+  <ArtShell $accent={accent}>
+    <ArtInner>
+      <ArtMode>{mode}</ArtMode>
+      <ArtLabel>{label}</ArtLabel>
+    </ArtInner>
+  </ArtShell>
 );
 
 const BeforeAfterSection = () => {
@@ -35,8 +203,7 @@ const BeforeAfterSection = () => {
   useScrollReveal(sectionRef);
 
   const filteredItems = useMemo(
-    () =>
-      galleryItems.filter((item) => activeFilter === 'all' || item.category === activeFilter),
+    () => galleryItems.filter((item) => activeFilter === 'all' || item.category === activeFilter),
     [activeFilter],
   );
 
@@ -44,128 +211,110 @@ const BeforeAfterSection = () => {
   const activeLightbox = galleryItems.find((item) => item.id === lightboxId) ?? null;
 
   return (
-    <section id="results" ref={sectionRef} className="section-shell px-4 py-24 md:px-8 md:py-32">
-      <div className="mx-auto max-w-7xl">
+    <Section id="results" ref={sectionRef}>
+      <Container>
         <SectionHeading
           eyebrow={t('gallery.eyebrow')}
           title={t('gallery.title')}
           description={t('gallery.description')}
         />
 
-        <div className="mt-10 flex flex-wrap gap-3">
+        <FilterRow>
           {galleryFilters.map((filter) => (
-            <button
+            <FilterButton
               key={filter}
               type="button"
               onClick={() => setActiveFilter(filter)}
-              className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
-                activeFilter === filter
-                  ? 'bg-ink text-white'
-                  : 'border border-black/10 bg-white/75 text-black/65'
-              }`}
+              $active={activeFilter === filter}
             >
               {t(`gallery.filters.${filter}`)}
-            </button>
+            </FilterButton>
           ))}
-        </div>
+        </FilterRow>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div
-            data-reveal="blur"
-            className="luxury-border relative overflow-hidden rounded-[2.6rem] bg-[#111111] p-5 text-white shadow-[0_35px_90px_rgba(17,17,17,0.18)] md:p-8"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-4">
+        <MainGrid>
+          <FeaturedCard>
+            <FeaturedHeader>
               <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-white/55">
-                  {t('gallery.comparisonTitle')}
-                </p>
-                <h3 className="mt-2 font-display text-4xl">{t(`gallery.items.${featuredItem.id}.title`)}</h3>
+                <FeaturedEyebrow>{t('gallery.comparisonTitle')}</FeaturedEyebrow>
+                <FeaturedTitle>{t(`gallery.items.${featuredItem.id}.title`)}</FeaturedTitle>
               </div>
-              <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white/70">
-                {t(`gallery.items.${featuredItem.id}.tag`)}
-              </span>
-            </div>
+              <FeaturedTag>{t(`gallery.items.${featuredItem.id}.tag`)}</FeaturedTag>
+            </FeaturedHeader>
 
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-white/70">
-              {t('gallery.comparisonDescription')}
-            </p>
+            <FeaturedDescription>{t('gallery.comparisonDescription')}</FeaturedDescription>
 
-            <div className="mt-8">
-              <div className="relative h-[24rem] overflow-hidden rounded-[2rem] border border-white/10 bg-black/20">
+            <CompareWrap>
+              <CompareStage>
                 <GalleryArt
                   accent={featuredItem.accent}
                   label={t(`gallery.items.${featuredItem.id}.title`)}
                   mode="before"
                 />
-                <div
-                  className="absolute inset-y-0 left-0 overflow-hidden"
-                  style={{ width: `${compareValue}%` }}
-                >
+                <CompareAfterWrap $width={compareValue}>
                   <GalleryArt
                     accent="from-[#ffffff] via-[#ffe4bd] to-[#6EC6FF]"
                     label={t(`gallery.items.${featuredItem.id}.tag`)}
                     mode="after"
                   />
-                </div>
-                <div
-                  className="absolute inset-y-0"
-                  style={{ left: `calc(${compareValue}% - 1px)` }}
-                >
-                  <div className="h-full w-0.5 bg-white" />
-                  <div className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/15 text-xs font-semibold backdrop-blur">
-                    ⇄
-                  </div>
-                </div>
-              </div>
-              <input
+                </CompareAfterWrap>
+                <CompareHandle $left={compareValue}>
+                  <CompareLine />
+                  <CompareKnob>&#8646;</CompareKnob>
+                </CompareHandle>
+              </CompareStage>
+              <CompareRange
                 type="range"
                 min={15}
                 max={85}
                 value={compareValue}
                 onChange={(event) => setCompareValue(Number(event.target.value))}
-                className="mt-6 w-full accent-gold"
                 aria-label={t('gallery.dragLabel')}
               />
-            </div>
-          </div>
+            </CompareWrap>
+          </FeaturedCard>
 
-          <div className="grid gap-5 md:grid-cols-6">
+          <ThumbsGrid>
             {filteredItems.map((item, index) => (
-              <button
+              <ThumbButton
                 key={item.id}
                 type="button"
-                data-reveal={index % 2 === 0 ? 'fade-up' : 'scale-in'}
                 onClick={() => setLightboxId(item.id)}
-                className={`${item.grid} group overflow-hidden rounded-[2rem] border border-black/8 bg-white/75 p-4 text-left shadow-[0_18px_45px_rgba(17,17,17,0.05)] backdrop-blur`}
+                $grid={item.grid}
+                $reveal={index % 2 === 0 ? 'fade-up' : 'scale-in'}
               >
-                <div className="relative h-56 overflow-hidden rounded-[1.6rem]">
-                  <GalleryArt accent={item.accent} label={t(`gallery.items.${item.id}.title`)} mode="before" />
-                  <div className="absolute inset-y-0 right-0 w-1/2 overflow-hidden">
-                    <GalleryArt accent="from-[#ffffff] via-[#D4AF37] to-[#FF6B6B]" label={t(`gallery.items.${item.id}.tag`)} mode="after" />
-                  </div>
-                </div>
+                <ThumbVisual>
+                  <GalleryArt
+                    accent={item.accent}
+                    label={t(`gallery.items.${item.id}.title`)}
+                    mode="before"
+                  />
+                  <ThumbAfterWrap>
+                    <GalleryArt
+                      accent="from-[#ffffff] via-[#D4AF37] to-[#FF6B6B]"
+                      label={t(`gallery.items.${item.id}.tag`)}
+                      mode="after"
+                    />
+                  </ThumbAfterWrap>
+                </ThumbVisual>
 
-                <div className="mt-5 flex items-center justify-between gap-4">
+                <ThumbHeader>
                   <div>
-                    <p className="text-xs uppercase tracking-[0.22em] text-black/45">
-                      {t(`gallery.items.${item.id}.treatment`)}
-                    </p>
-                    <h3 className="mt-2 font-display text-3xl text-ink">{t(`gallery.items.${item.id}.title`)}</h3>
+                    <ThumbEyebrow>{t(`gallery.items.${item.id}.treatment`)}</ThumbEyebrow>
+                    <ThumbTitle>{t(`gallery.items.${item.id}.title`)}</ThumbTitle>
                   </div>
-                  <span className="rounded-full bg-black/[0.04] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-black/55">
-                    {t(`gallery.items.${item.id}.tag`)}
-                  </span>
-                </div>
+                  <ThumbTag>{t(`gallery.items.${item.id}.tag`)}</ThumbTag>
+                </ThumbHeader>
 
-                <div className="mt-4 flex items-center justify-between text-sm text-black/55">
+                <ThumbMeta>
                   <span>{t(`gallery.items.${item.id}.duration`)}</span>
                   <span>{t(`gallery.items.${item.id}.price`)}</span>
-                </div>
-              </button>
+                </ThumbMeta>
+              </ThumbButton>
             ))}
-          </div>
-        </div>
-      </div>
+          </ThumbsGrid>
+        </MainGrid>
+      </Container>
 
       <Lightbox
         open={Boolean(activeLightbox)}
@@ -174,41 +323,39 @@ const BeforeAfterSection = () => {
         closeLabel={t('common.close')}
       >
         {activeLightbox ? (
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="relative h-[28rem] overflow-hidden rounded-[2rem] bg-[#111111]">
-              <GalleryArt accent={activeLightbox.accent} label={t(`gallery.items.${activeLightbox.id}.title`)} mode="before" />
-              <div className="absolute inset-y-0 right-0 w-1/2 overflow-hidden">
-                <GalleryArt accent="from-[#ffffff] via-[#D4AF37] to-[#FF6B6B]" label={t(`gallery.items.${activeLightbox.id}.tag`)} mode="after" />
-              </div>
-            </div>
+          <LightboxGrid>
+            <LightboxVisual>
+              <GalleryArt
+                accent={activeLightbox.accent}
+                label={t(`gallery.items.${activeLightbox.id}.title`)}
+                mode="before"
+              />
+              <LightboxAfterWrap>
+                <GalleryArt
+                  accent="from-[#ffffff] via-[#D4AF37] to-[#FF6B6B]"
+                  label={t(`gallery.items.${activeLightbox.id}.tag`)}
+                  mode="after"
+                />
+              </LightboxAfterWrap>
+            </LightboxVisual>
             <div>
-              <span className="rounded-full border border-black/10 bg-black/[0.03] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black/55">
-                {t(`gallery.items.${activeLightbox.id}.tag`)}
-              </span>
-              <p className="mt-6 text-lg leading-8 text-black/65">
-                {t(`gallery.items.${activeLightbox.id}.note`)}
-              </p>
-              <div className="mt-8 grid gap-4 md:grid-cols-2">
-                <div className="rounded-[1.4rem] border border-black/8 bg-black/[0.02] p-5">
-                  <p className="text-xs uppercase tracking-[0.22em] text-black/45">
-                    {t(`gallery.items.${activeLightbox.id}.treatment`)}
-                  </p>
-                  <p className="mt-3 text-xl font-semibold text-black">
-                    {t(`gallery.items.${activeLightbox.id}.duration`)}
-                  </p>
-                </div>
-                <div className="rounded-[1.4rem] border border-black/8 bg-black/[0.02] p-5">
-                  <p className="text-xs uppercase tracking-[0.22em] text-black/45">Price</p>
-                  <p className="mt-3 text-xl font-semibold text-black">
-                    {t(`gallery.items.${activeLightbox.id}.price`)}
-                  </p>
-                </div>
-              </div>
+              <LightboxTag>{t(`gallery.items.${activeLightbox.id}.tag`)}</LightboxTag>
+              <LightboxNote>{t(`gallery.items.${activeLightbox.id}.note`)}</LightboxNote>
+              <LightboxMetaGrid>
+                <LightboxMetaCard>
+                  <LightboxMetaLabel>{t(`gallery.items.${activeLightbox.id}.treatment`)}</LightboxMetaLabel>
+                  <LightboxMetaValue>{t(`gallery.items.${activeLightbox.id}.duration`)}</LightboxMetaValue>
+                </LightboxMetaCard>
+                <LightboxMetaCard>
+                  <LightboxMetaLabel>Price</LightboxMetaLabel>
+                  <LightboxMetaValue>{t(`gallery.items.${activeLightbox.id}.price`)}</LightboxMetaValue>
+                </LightboxMetaCard>
+              </LightboxMetaGrid>
             </div>
-          </div>
+          </LightboxGrid>
         ) : null}
       </Lightbox>
-    </section>
+    </Section>
   );
 };
 

@@ -1,8 +1,132 @@
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import { SectionHeading } from '../components/SectionHeading';
 import { teamIds } from '../data/site';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+
+const Section = styled.section.attrs({
+  className: 'section-shell px-4 py-24 md:px-8 md:py-32',
+})``;
+
+const MainGrid = styled.div.attrs({
+  className: 'mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.92fr_1.08fr]',
+})``;
+
+const StoryCard = styled.div.attrs({
+  className:
+    'mt-10 rounded-[2.2rem] border border-black/8 bg-white/78 p-6 shadow-[0_18px_45px_rgba(17,17,17,0.05)] backdrop-blur',
+  'data-reveal': 'blur',
+})``;
+
+const StoryTitle = styled.p.attrs({
+  className: 'text-xs uppercase tracking-[0.24em] text-black/45',
+})``;
+
+const StoryBody = styled.p.attrs({
+  className: 'mt-4 text-base leading-8 text-black/68',
+})``;
+
+const PointsGrid = styled.div.attrs({
+  className: 'mt-8 grid gap-4',
+})``;
+
+const PointCard = styled.div.attrs<{ $reveal: string }>(({ $reveal }) => ({
+  className: 'rounded-[1.8rem] border border-black/8 bg-white/72 p-5 shadow-[0_14px_35px_rgba(17,17,17,0.04)]',
+  'data-reveal': $reveal,
+}))``;
+
+const PointTitle = styled.h3.attrs({
+  className: 'font-display text-3xl text-ink',
+})``;
+
+const PointBody = styled.p.attrs({
+  className: 'mt-3 text-sm leading-7 text-black/63',
+})``;
+
+const VisualStage = styled.div.attrs({
+  className: 'relative min-h-[34rem]',
+})``;
+
+const DarkCard = styled.div.attrs({
+  className:
+    'absolute left-0 top-0 h-[22rem] w-[72%] rounded-[2.4rem] bg-[linear-gradient(160deg,#111111,#2c3546_52%,#D4AF37)] p-5 shadow-[0_28px_70px_rgba(17,17,17,0.18)]',
+  'data-parallax': 'slow',
+})``;
+
+const DarkInner = styled.div.attrs({
+  className:
+    'flex h-full flex-col rounded-[1.9rem] border border-white/12 bg-[linear-gradient(145deg,rgba(255,255,255,0.18),rgba(255,255,255,0.04))] p-5 text-white',
+})``;
+
+const LightCard = styled.div.attrs({
+  className:
+    'absolute bottom-0 right-0 h-[18rem] w-[64%] rounded-[2.4rem] bg-[linear-gradient(145deg,#fff1d7,#ffffff_35%,#ddecff)] p-5 shadow-[0_24px_60px_rgba(17,17,17,0.1)]',
+  'data-parallax': 'medium',
+})``;
+
+const LightInner = styled.div.attrs({
+  className:
+    'h-full rounded-[1.9rem] border border-black/8 bg-[linear-gradient(145deg,rgba(255,255,255,0.8),rgba(255,255,255,0.45))] p-5',
+})``;
+
+const VisualLabelDark = styled.p.attrs({
+  className: 'text-xs uppercase tracking-[0.28em] text-white/55',
+})``;
+
+const VisualQuote = styled.p.attrs({
+  className: 'mt-auto max-w-[12ch] font-display text-5xl leading-none',
+})``;
+
+const VisualLabelLight = styled.p.attrs({
+  className: 'text-xs uppercase tracking-[0.28em] text-black/45',
+})``;
+
+const NotesGrid = styled.div.attrs({
+  className: 'mt-6 grid gap-3 text-sm leading-7 text-black/68',
+})``;
+
+const TeamWrap = styled.div.attrs({
+  className: 'mx-auto mt-16 max-w-7xl',
+})``;
+
+const TeamIntro = styled.div.attrs({
+  className: 'mb-8',
+})``;
+
+const TeamLabel = styled.p.attrs({
+  className: 'text-xs font-semibold uppercase tracking-[0.26em] text-black/45',
+})``;
+
+const TeamDescription = styled.p.attrs({
+  className: 'mt-3 text-sm text-black/60',
+})``;
+
+const TeamGrid = styled.div.attrs({
+  className: 'grid gap-5 md:grid-cols-3',
+})``;
+
+const TeamCard = styled.article.attrs<{ $reveal: string }>(({ $reveal }) => ({
+  className:
+    'rounded-[2rem] border border-black/8 bg-white/78 p-6 shadow-[0_18px_45px_rgba(17,17,17,0.05)] backdrop-blur',
+  'data-reveal': $reveal,
+}))``;
+
+const TeamVisual = styled.div.attrs({
+  className: 'h-40 rounded-[1.6rem] bg-[linear-gradient(145deg,#111111,#2F80ED_45%,#D4AF37)]',
+})``;
+
+const TeamName = styled.h3.attrs({
+  className: 'mt-5 font-display text-3xl text-ink',
+})``;
+
+const TeamRole = styled.p.attrs({
+  className: 'mt-2 text-sm font-semibold uppercase tracking-[0.18em] text-black/45',
+})``;
+
+const TeamBio = styled.p.attrs({
+  className: 'mt-4 text-sm leading-7 text-black/65',
+})``;
 
 export const AboutSection = () => {
   const { t } = useTranslation();
@@ -10,8 +134,8 @@ export const AboutSection = () => {
   useScrollReveal(sectionRef);
 
   return (
-    <section id="about" ref={sectionRef} className="section-shell px-4 py-24 md:px-8 md:py-32">
-      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.92fr_1.08fr]">
+    <Section id="about" ref={sectionRef}>
+      <MainGrid>
         <div>
           <SectionHeading
             eyebrow={t('about.eyebrow')}
@@ -19,70 +143,65 @@ export const AboutSection = () => {
             description={t('about.description')}
           />
 
-          <div
-            data-reveal="blur"
-            className="mt-10 rounded-[2.2rem] border border-black/8 bg-white/78 p-6 shadow-[0_18px_45px_rgba(17,17,17,0.05)] backdrop-blur"
-          >
-            <p className="text-xs uppercase tracking-[0.24em] text-black/45">{t('about.storyTitle')}</p>
-            <p className="mt-4 text-base leading-8 text-black/68">{t('about.storyBody')}</p>
-          </div>
+          <StoryCard>
+            <StoryTitle>{t('about.storyTitle')}</StoryTitle>
+            <StoryBody>{t('about.storyBody')}</StoryBody>
+          </StoryCard>
 
-          <div className="mt-8 grid gap-4">
+          <PointsGrid>
             {(['quality', 'aesthetics', 'care'] as const).map((pointId, index) => (
-              <div
+              <PointCard
                 key={pointId}
-                data-reveal={index % 2 === 0 ? 'fade-left' : 'fade-right'}
-                className="rounded-[1.8rem] border border-black/8 bg-white/72 p-5 shadow-[0_14px_35px_rgba(17,17,17,0.04)]"
+                $reveal={index % 2 === 0 ? 'fade-left' : 'fade-right'}
               >
-                <h3 className="font-display text-3xl text-ink">{t(`about.points.${pointId}.title`)}</h3>
-                <p className="mt-3 text-sm leading-7 text-black/63">{t(`about.points.${pointId}.body`)}</p>
-              </div>
+                <PointTitle>{t(`about.points.${pointId}.title`)}</PointTitle>
+                <PointBody>{t(`about.points.${pointId}.body`)}</PointBody>
+              </PointCard>
             ))}
-          </div>
+          </PointsGrid>
         </div>
 
-        <div className="relative min-h-[34rem]">
-          <div data-parallax="slow" className="absolute left-0 top-0 h-[22rem] w-[72%] rounded-[2.4rem] bg-[linear-gradient(160deg,#111111,#2c3546_52%,#D4AF37)] p-5 shadow-[0_28px_70px_rgba(17,17,17,0.18)]">
-            <div className="h-full rounded-[1.9rem] border border-white/12 bg-[linear-gradient(145deg,rgba(255,255,255,0.18),rgba(255,255,255,0.04))] p-5 text-white">
-              <p className="text-xs uppercase tracking-[0.28em] text-white/55">Studio interior</p>
-              <p className="mt-auto max-w-[12ch] font-display text-5xl leading-none">Quiet light, clean texture, premium calm.</p>
-            </div>
-          </div>
-          <div data-parallax="medium" className="absolute bottom-0 right-0 h-[18rem] w-[64%] rounded-[2.4rem] bg-[linear-gradient(145deg,#fff1d7,#ffffff_35%,#ddecff)] p-5 shadow-[0_24px_60px_rgba(17,17,17,0.1)]">
-            <div className="h-full rounded-[1.9rem] border border-black/8 bg-[linear-gradient(145deg,rgba(255,255,255,0.8),rgba(255,255,255,0.45))] p-5">
-              <p className="text-xs uppercase tracking-[0.28em] text-black/45">Studio notes</p>
-              <div className="mt-6 grid gap-3 text-sm leading-7 text-black/68">
+        <VisualStage>
+          <DarkCard>
+            <DarkInner>
+              <VisualLabelDark>Studio interior</VisualLabelDark>
+              <VisualQuote>Quiet light, clean texture, premium calm.</VisualQuote>
+            </DarkInner>
+          </DarkCard>
+
+          <LightCard>
+            <LightInner>
+              <VisualLabelLight>Studio notes</VisualLabelLight>
+              <NotesGrid>
                 <p>{t('about.studioNotes.ambience')}</p>
                 <p>{t('about.studioNotes.technology')}</p>
                 <p>{t('about.studioNotes.care')}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              </NotesGrid>
+            </LightInner>
+          </LightCard>
+        </VisualStage>
+      </MainGrid>
 
-      <div className="mx-auto mt-16 max-w-7xl">
-        <div className="mb-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.26em] text-black/45">{t('about.team.title')}</p>
-          <p className="mt-3 text-sm text-black/60">{t('about.team.description')}</p>
-        </div>
-        <div className="grid gap-5 md:grid-cols-3">
+      <TeamWrap>
+        <TeamIntro>
+          <TeamLabel>{t('about.team.title')}</TeamLabel>
+          <TeamDescription>{t('about.team.description')}</TeamDescription>
+        </TeamIntro>
+
+        <TeamGrid>
           {teamIds.map((teamId, index) => (
-            <article
+            <TeamCard
               key={teamId}
-              data-reveal={index % 2 === 0 ? 'fade-up' : 'blur'}
-              className="rounded-[2rem] border border-black/8 bg-white/78 p-6 shadow-[0_18px_45px_rgba(17,17,17,0.05)] backdrop-blur"
+              $reveal={index % 2 === 0 ? 'fade-up' : 'blur'}
             >
-              <div className="h-40 rounded-[1.6rem] bg-[linear-gradient(145deg,#111111,#2F80ED_45%,#D4AF37)]" />
-              <h3 className="mt-5 font-display text-3xl text-ink">{t(`about.team.${teamId}.name`)}</h3>
-              <p className="mt-2 text-sm font-semibold uppercase tracking-[0.18em] text-black/45">
-                {t(`about.team.${teamId}.role`)}
-              </p>
-              <p className="mt-4 text-sm leading-7 text-black/65">{t(`about.team.${teamId}.bio`)}</p>
-            </article>
+              <TeamVisual />
+              <TeamName>{t(`about.team.${teamId}.name`)}</TeamName>
+              <TeamRole>{t(`about.team.${teamId}.role`)}</TeamRole>
+              <TeamBio>{t(`about.team.${teamId}.bio`)}</TeamBio>
+            </TeamCard>
           ))}
-        </div>
-      </div>
-    </section>
+        </TeamGrid>
+      </TeamWrap>
+    </Section>
   );
 };

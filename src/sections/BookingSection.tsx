@@ -15,7 +15,9 @@ import { de, enUS, tr as trLocale, uk } from 'date-fns/locale';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import { z } from 'zod';
+import { SectionHeading } from '../components/SectionHeading';
 import {
   bookingServices,
   getAvailabilityForDate,
@@ -25,7 +27,6 @@ import {
   type SpecialistId,
 } from '../data/booking';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { SectionHeading } from '../components/SectionHeading';
 
 const localeMap = {
   de,
@@ -33,6 +34,211 @@ const localeMap = {
   uk,
   tr: trLocale,
 } as const;
+
+const Section = styled.section.attrs({
+  className: 'section-shell px-4 py-24 md:px-8 md:py-32',
+})``;
+
+const Container = styled.div.attrs({
+  className: 'mx-auto max-w-7xl',
+})``;
+
+const MainGrid = styled.div.attrs({
+  className: 'mt-12 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]',
+})``;
+
+const CalendarCard = styled.div.attrs({
+  className:
+    'rounded-[2.6rem] border border-black/8 bg-white/80 p-6 shadow-[0_30px_80px_rgba(17,17,17,0.06)] backdrop-blur md:p-8',
+  'data-reveal': 'blur',
+})``;
+
+const FormCard = styled.div.attrs({
+  className:
+    'rounded-[2.6rem] border border-black/8 bg-white/82 p-6 shadow-[0_30px_80px_rgba(17,17,17,0.06)] backdrop-blur md:p-8',
+  'data-reveal': 'fade-left',
+})``;
+
+const RowBetween = styled.div.attrs({
+  className: 'flex flex-wrap items-center justify-between gap-4',
+})``;
+
+const SectionLabel = styled.p.attrs({
+  className: 'text-xs uppercase tracking-[0.24em] text-black/45',
+})``;
+
+const MonthTitle = styled.h3.attrs({
+  className: 'mt-2 font-display text-4xl text-ink',
+})``;
+
+const NavButtons = styled.div.attrs({
+  className: 'flex gap-3',
+})``;
+
+const GhostButton = styled.button.attrs({
+  className: 'rounded-full border border-black/10 px-4 py-3 text-sm font-semibold text-black/70',
+})``;
+
+const CalendarShell = styled.div.attrs({
+  className: 'mt-8 overflow-hidden rounded-[2rem] border border-black/8 bg-black/[0.02] p-4',
+})``;
+
+const DaysHeader = styled.div.attrs({
+  className: 'grid grid-cols-7 gap-2 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-black/40',
+})``;
+
+const DaysGrid = styled.div.attrs({
+  className: 'mt-4 grid grid-cols-7 gap-2',
+})``;
+
+const DayButton = styled.button.attrs<{ $active: boolean; $inMonth: boolean }>(
+  ({ $active, $inMonth }) => ({
+    className: `aspect-square rounded-2xl text-sm font-semibold transition ${
+      $active
+        ? 'bg-ink text-white'
+        : $inMonth
+          ? 'bg-white text-black/70 hover:bg-black/5'
+          : 'bg-black/[0.03] text-black/25'
+    }`,
+  }),
+)``;
+
+const DayContent = styled.span.attrs({
+  className: 'flex h-full flex-col items-center justify-center gap-1',
+})``;
+
+const TodayDot = styled.span.attrs({
+  className: 'h-1.5 w-1.5 rounded-full bg-gold',
+})``;
+
+const WeekWrap = styled.div.attrs({
+  className: 'mt-8',
+})``;
+
+const WeekGrid = styled.div.attrs({
+  className: 'mt-4 grid gap-3 md:grid-cols-6',
+})``;
+
+const WeekButton = styled.button.attrs<{ $active: boolean }>(({ $active }) => ({
+  className: `rounded-[1.4rem] border p-4 text-left transition ${
+    $active ? 'border-black bg-ink text-white' : 'border-black/8 bg-white/75 text-black/70'
+  }`,
+}))``;
+
+const WeekDay = styled.p.attrs({
+  className: 'text-xs uppercase tracking-[0.18em] opacity-60',
+})``;
+
+const WeekDate = styled.p.attrs({
+  className: 'mt-2 text-lg font-semibold',
+})``;
+
+const SlotsWrap = styled.div.attrs({
+  className: 'mt-8',
+})``;
+
+const OccupiedNote = styled.span.attrs({
+  className: 'text-xs font-medium text-black/45',
+})``;
+
+const SlotsGrid = styled.div.attrs({
+  className: 'mt-4 grid gap-3 md:grid-cols-4',
+})``;
+
+const SlotButton = styled.button.attrs<{ $state: 'selected' | 'available' | 'disabled' }>(
+  ({ $state }) => ({
+    className: `rounded-[1.2rem] border px-4 py-4 text-sm font-semibold transition ${
+      $state === 'selected'
+        ? 'border-black bg-ink text-white'
+        : $state === 'available'
+          ? 'border-black/10 bg-white text-black/70 hover:-translate-y-0.5'
+          : 'cursor-not-allowed border-black/6 bg-black/[0.04] text-black/25'
+    }`,
+  }),
+)``;
+
+const Form = styled.form.attrs({
+  className: 'grid gap-5',
+})``;
+
+const SummaryCard = styled.div.attrs({
+  className: 'rounded-[2rem] border border-gold/20 bg-gold/10 p-5',
+})``;
+
+const SummaryGrid = styled.div.attrs({
+  className: 'mt-4 grid gap-3 text-sm text-black/68',
+})``;
+
+const SummaryRow = styled.div.attrs({
+  className: 'flex justify-between gap-4',
+})``;
+
+const SummaryValue = styled.span.attrs({
+  className: 'font-semibold text-black',
+})``;
+
+const TwoColGrid = styled.div.attrs({
+  className: 'grid gap-4 md:grid-cols-2',
+})``;
+
+const FieldWrap = styled.div.attrs({})``;
+
+const Label = styled.label.attrs({
+  className: 'mb-2 block text-sm font-semibold text-black/65',
+})``;
+
+const Input = styled.input.attrs({
+  className: 'w-full rounded-[1.2rem] border border-black/10 bg-white px-4 py-4 outline-none',
+})``;
+
+const Select = styled.select.attrs({
+  className: 'w-full rounded-[1.2rem] border border-black/10 bg-white px-4 py-4 outline-none',
+})``;
+
+const Textarea = styled.textarea.attrs({
+  className: 'w-full rounded-[1.2rem] border border-black/10 bg-white px-4 py-4 outline-none',
+})``;
+
+const ErrorText = styled.p.attrs({
+  className: 'mt-2 text-sm text-ruby',
+})``;
+
+const InlineError = styled.p.attrs({
+  className: 'text-sm text-ruby',
+})``;
+
+const ConsentLabel = styled.label.attrs({
+  className:
+    'flex items-start gap-3 rounded-[1.2rem] border border-black/8 bg-black/[0.02] px-4 py-4 text-sm text-black/65',
+})``;
+
+const ConsentCheckbox = styled.input.attrs({
+  className: 'mt-1',
+})``;
+
+const Actions = styled.div.attrs({
+  className: 'flex flex-wrap gap-3',
+})``;
+
+const SubmitButton = styled.button.attrs({
+  className: 'rounded-full bg-ink px-6 py-4 text-sm font-semibold text-white',
+})``;
+
+const ResetButton = styled.button.attrs({
+  className: 'rounded-full border border-black/10 px-6 py-4 text-sm font-semibold text-black/70',
+})``;
+
+const SuccessCard = styled.div.attrs({
+  className: 'mt-6 rounded-[2rem] border border-gold/25 bg-gold/10 p-5',
+})``;
+
+const SuccessTitle = styled.p.attrs({
+  className: 'font-display text-3xl text-ink',
+})``;
+
+const SuccessBody = styled.p.attrs({
+  className: 'mt-3 text-sm leading-7 text-black/65',
+})``;
 
 export const BookingSection = () => {
   const { t, i18n } = useTranslation();
@@ -66,9 +272,11 @@ export const BookingSection = () => {
     const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 1 });
     const end = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 1 });
     const days: Date[] = [];
+
     for (let date = start; date <= end; date = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)) {
       days.push(new Date(date));
     }
+
     return days;
   }, [currentMonth]);
 
@@ -126,270 +334,245 @@ export const BookingSection = () => {
   };
 
   return (
-    <section id="booking" ref={sectionRef} className="section-shell px-4 py-24 md:px-8 md:py-32">
-      <div className="mx-auto max-w-7xl">
+    <Section id="booking" ref={sectionRef}>
+      <Container>
         <SectionHeading
           eyebrow={t('booking.eyebrow')}
           title={t('booking.title')}
           description={t('booking.description')}
         />
 
-        <div className="mt-12 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-          <div data-reveal="blur" className="rounded-[2.6rem] border border-black/8 bg-white/80 p-6 shadow-[0_30px_80px_rgba(17,17,17,0.06)] backdrop-blur md:p-8">
-            <div className="flex flex-wrap items-center justify-between gap-4">
+        <MainGrid>
+          <CalendarCard>
+            <RowBetween>
               <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-black/45">{t('booking.calendar')}</p>
-                <h3 className="mt-2 font-display text-4xl text-ink">{format(currentMonth, 'LLLL yyyy', { locale })}</h3>
+                <SectionLabel>{t('booking.calendar')}</SectionLabel>
+                <MonthTitle>{format(currentMonth, 'LLLL yyyy', { locale })}</MonthTitle>
               </div>
-              <div className="flex gap-3">
-                <button
+              <NavButtons>
+                <GhostButton
                   type="button"
                   onClick={() => setCurrentMonth((current) => subMonths(current, 1))}
-                  className="rounded-full border border-black/10 px-4 py-3 text-sm font-semibold text-black/70"
                 >
                   {t('booking.prevMonth')}
-                </button>
-                <button
+                </GhostButton>
+                <GhostButton
                   type="button"
                   onClick={() => setCurrentMonth((current) => addMonths(current, 1))}
-                  className="rounded-full border border-black/10 px-4 py-3 text-sm font-semibold text-black/70"
                 >
                   {t('booking.nextMonth')}
-                </button>
-              </div>
-            </div>
+                </GhostButton>
+              </NavButtons>
+            </RowBetween>
 
-            <div className="mt-8 overflow-hidden rounded-[2rem] border border-black/8 bg-black/[0.02] p-4">
-              <div className="grid grid-cols-7 gap-2 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-black/40">
+            <CalendarShell>
+              <DaysHeader>
                 {Array.from({ length: 7 }, (_, dayIndex) => (
                   <span key={dayIndex}>{format(new Date(2026, 2, 16 + dayIndex), 'EEEEE', { locale })}</span>
                 ))}
-              </div>
-              <div className="mt-4 grid grid-cols-7 gap-2">
+              </DaysHeader>
+              <DaysGrid>
                 {calendarDays.map((day) => {
                   const inCurrentMonth = isSameMonth(day, currentMonth);
                   const active = isSameDay(day, selectedDate);
+
                   return (
-                    <button
+                    <DayButton
                       key={day.toISOString()}
                       type="button"
                       onClick={() => {
                         setSelectedDate(day);
                         setSelectedSlot('');
                       }}
-                      className={`aspect-square rounded-2xl text-sm font-semibold transition ${
-                        active
-                          ? 'bg-ink text-white'
-                          : inCurrentMonth
-                            ? 'bg-white text-black/70 hover:bg-black/5'
-                            : 'bg-black/[0.03] text-black/25'
-                      }`}
+                      $active={active}
+                      $inMonth={inCurrentMonth}
                     >
-                      <span className="flex h-full flex-col items-center justify-center gap-1">
+                      <DayContent>
                         <span>{format(day, 'd')}</span>
-                        {isToday(day) ? <span className="h-1.5 w-1.5 rounded-full bg-gold" /> : null}
-                      </span>
-                    </button>
+                        {isToday(day) ? <TodayDot /> : null}
+                      </DayContent>
+                    </DayButton>
                   );
                 })}
-              </div>
-            </div>
+              </DaysGrid>
+            </CalendarShell>
 
-            <div className="mt-8">
-              <p className="text-xs uppercase tracking-[0.24em] text-black/45">{t('booking.week')}</p>
-              <div className="mt-4 grid gap-3 md:grid-cols-6">
+            <WeekWrap>
+              <SectionLabel>{t('booking.week')}</SectionLabel>
+              <WeekGrid>
                 {weekDays.map((day) => (
-                  <button
+                  <WeekButton
                     key={day.toISOString()}
                     type="button"
                     onClick={() => {
                       setSelectedDate(day);
                       setSelectedSlot('');
                     }}
-                    className={`rounded-[1.4rem] border p-4 text-left transition ${
-                      isSameDay(day, selectedDate)
-                        ? 'border-black bg-ink text-white'
-                        : 'border-black/8 bg-white/75 text-black/70'
-                    }`}
+                    $active={isSameDay(day, selectedDate)}
                   >
-                    <p className="text-xs uppercase tracking-[0.18em] opacity-60">
-                      {format(day, 'EEE', { locale })}
-                    </p>
-                    <p className="mt-2 text-lg font-semibold">{format(day, 'd LLL', { locale })}</p>
-                  </button>
+                    <WeekDay>{format(day, 'EEE', { locale })}</WeekDay>
+                    <WeekDate>{format(day, 'd LLL', { locale })}</WeekDate>
+                  </WeekButton>
                 ))}
-              </div>
-            </div>
+              </WeekGrid>
+            </WeekWrap>
 
-            <div className="mt-8">
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-xs uppercase tracking-[0.24em] text-black/45">{t('booking.day')}</p>
-                <span className="text-xs font-medium text-black/45">{t('booking.occupiedNote')}</span>
-              </div>
-              <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <SlotsWrap>
+              <RowBetween>
+                <SectionLabel>{t('booking.day')}</SectionLabel>
+                <OccupiedNote>{t('booking.occupiedNote')}</OccupiedNote>
+              </RowBetween>
+              <SlotsGrid>
                 {availability.map((slot) => (
-                  <button
+                  <SlotButton
                     key={slot.time}
                     type="button"
                     disabled={!slot.available}
                     onClick={() => setSelectedSlot(slot.time)}
-                    className={`rounded-[1.2rem] border px-4 py-4 text-sm font-semibold transition ${
+                    $state={
                       selectedSlot === slot.time
-                        ? 'border-black bg-ink text-white'
+                        ? 'selected'
                         : slot.available
-                          ? 'border-black/10 bg-white text-black/70 hover:-translate-y-0.5'
-                          : 'cursor-not-allowed border-black/6 bg-black/[0.04] text-black/25'
-                    }`}
+                          ? 'available'
+                          : 'disabled'
+                    }
                   >
                     {slot.time}
-                  </button>
+                  </SlotButton>
                 ))}
-              </div>
-            </div>
-          </div>
+              </SlotsGrid>
+            </SlotsWrap>
+          </CalendarCard>
 
-          <div data-reveal="fade-left" className="rounded-[2.6rem] border border-black/8 bg-white/82 p-6 shadow-[0_30px_80px_rgba(17,17,17,0.06)] backdrop-blur md:p-8">
-            <form className="grid gap-5" onSubmit={handleSubmit(onSubmit)}>
-              <div className="rounded-[2rem] border border-gold/20 bg-gold/10 p-5">
-                <p className="text-xs uppercase tracking-[0.24em] text-black/45">{t('booking.summary')}</p>
-                <div className="mt-4 grid gap-3 text-sm text-black/68">
-                  <div className="flex justify-between gap-4">
+          <FormCard>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <SummaryCard>
+                <SectionLabel>{t('booking.summary')}</SectionLabel>
+                <SummaryGrid>
+                  <SummaryRow>
                     <span>{t('booking.service')}</span>
-                    <span className="font-semibold text-black">{t(`services.items.${selectedService}.title`)}</span>
-                  </div>
-                  <div className="flex justify-between gap-4">
+                    <SummaryValue>{t(`services.items.${selectedService}.title`)}</SummaryValue>
+                  </SummaryRow>
+                  <SummaryRow>
                     <span>{t('booking.selectedDate')}</span>
-                    <span className="font-semibold text-black">{format(selectedDate, 'dd.MM.yyyy')}</span>
-                  </div>
-                  <div className="flex justify-between gap-4">
+                    <SummaryValue>{format(selectedDate, 'dd.MM.yyyy')}</SummaryValue>
+                  </SummaryRow>
+                  <SummaryRow>
                     <span>{t('booking.selectedTime')}</span>
-                    <span className="font-semibold text-black">{selectedSlot || '—'}</span>
-                  </div>
-                  <div className="flex justify-between gap-4">
+                    <SummaryValue>{selectedSlot || '-'}</SummaryValue>
+                  </SummaryRow>
+                  <SummaryRow>
                     <span>{t('booking.selectedSpecialist')}</span>
-                    <span className="font-semibold text-black">
-                      {t(`booking.specialists.${selectedSpecialist}`)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between gap-4">
+                    <SummaryValue>{t(`booking.specialists.${selectedSpecialist}`)}</SummaryValue>
+                  </SummaryRow>
+                  <SummaryRow>
                     <span>{t('booking.selectedPrice')}</span>
-                    <span className="font-semibold text-black">{serviceMeta.priceRange}</span>
-                  </div>
-                </div>
-              </div>
+                    <SummaryValue>{serviceMeta.priceRange}</SummaryValue>
+                  </SummaryRow>
+                </SummaryGrid>
+              </SummaryCard>
 
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-black/65">{t('booking.fields.fullName')}</label>
-                  <input
+              <TwoColGrid>
+                <FieldWrap>
+                  <Label htmlFor="booking-fullName">{t('booking.fields.fullName')}</Label>
+                  <Input
+                    id="booking-fullName"
                     {...register('fullName')}
-                    className="w-full rounded-[1.2rem] border border-black/10 bg-white px-4 py-4 outline-none"
                     placeholder={t('booking.fields.placeholderName')}
                   />
-                  {errors.fullName ? <p className="mt-2 text-sm text-ruby">{errors.fullName.message}</p> : null}
-                </div>
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-black/65">{t('booking.fields.phone')}</label>
-                  <input
+                  {errors.fullName ? <ErrorText>{errors.fullName.message}</ErrorText> : null}
+                </FieldWrap>
+                <FieldWrap>
+                  <Label htmlFor="booking-phone">{t('booking.fields.phone')}</Label>
+                  <Input
+                    id="booking-phone"
                     {...register('phone')}
-                    className="w-full rounded-[1.2rem] border border-black/10 bg-white px-4 py-4 outline-none"
                     placeholder={t('booking.fields.placeholderPhone')}
                   />
-                  {errors.phone ? <p className="mt-2 text-sm text-ruby">{errors.phone.message}</p> : null}
-                </div>
-              </div>
+                  {errors.phone ? <ErrorText>{errors.phone.message}</ErrorText> : null}
+                </FieldWrap>
+              </TwoColGrid>
 
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-black/65">{t('booking.fields.email')}</label>
-                <input
+              <FieldWrap>
+                <Label htmlFor="booking-email">{t('booking.fields.email')}</Label>
+                <Input
+                  id="booking-email"
                   {...register('email')}
-                  className="w-full rounded-[1.2rem] border border-black/10 bg-white px-4 py-4 outline-none"
                   placeholder={t('booking.fields.placeholderEmail')}
                 />
-                {errors.email ? <p className="mt-2 text-sm text-ruby">{errors.email.message}</p> : null}
-              </div>
+                {errors.email ? <ErrorText>{errors.email.message}</ErrorText> : null}
+              </FieldWrap>
 
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-black/65">{t('booking.service')}</label>
-                  <select
-                    {...register('service')}
-                    className="w-full rounded-[1.2rem] border border-black/10 bg-white px-4 py-4 outline-none"
-                  >
+              <TwoColGrid>
+                <FieldWrap>
+                  <Label htmlFor="booking-service">{t('booking.service')}</Label>
+                  <Select id="booking-service" {...register('service')}>
                     {bookingServices.map((service) => (
                       <option key={service.id} value={service.id}>
                         {t(`services.items.${service.id}.title`)}
                       </option>
                     ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-black/65">{t('booking.specialist')}</label>
-                  <select
-                    {...register('specialist')}
-                    className="w-full rounded-[1.2rem] border border-black/10 bg-white px-4 py-4 outline-none"
-                  >
+                  </Select>
+                </FieldWrap>
+                <FieldWrap>
+                  <Label htmlFor="booking-specialist">{t('booking.specialist')}</Label>
+                  <Select id="booking-specialist" {...register('specialist')}>
                     {specialists.map((specialist) => (
                       <option key={specialist} value={specialist}>
                         {t(`booking.specialists.${specialist}`)}
                       </option>
                     ))}
-                  </select>
-                </div>
-              </div>
+                  </Select>
+                </FieldWrap>
+              </TwoColGrid>
 
               <input type="hidden" {...register('date')} />
               <input type="hidden" {...register('time')} />
-              {errors.date ? <p className="text-sm text-ruby">{errors.date.message}</p> : null}
-              {errors.time ? <p className="text-sm text-ruby">{errors.time.message}</p> : null}
+              {errors.date ? <InlineError>{errors.date.message}</InlineError> : null}
+              {errors.time ? <InlineError>{errors.time.message}</InlineError> : null}
 
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-black/65">{t('booking.fields.note')}</label>
-                <textarea
+              <FieldWrap>
+                <Label htmlFor="booking-note">{t('booking.fields.note')}</Label>
+                <Textarea
+                  id="booking-note"
                   {...register('note')}
                   rows={4}
-                  className="w-full rounded-[1.2rem] border border-black/10 bg-white px-4 py-4 outline-none"
                   placeholder={t('booking.fields.placeholderNote')}
                 />
-              </div>
+              </FieldWrap>
 
-              <label className="flex items-start gap-3 rounded-[1.2rem] border border-black/8 bg-black/[0.02] px-4 py-4 text-sm text-black/65">
-                <input type="checkbox" {...register('consent')} className="mt-1" />
+              <ConsentLabel htmlFor="booking-consent">
+                <ConsentCheckbox id="booking-consent" type="checkbox" {...register('consent')} />
                 <span>{t('booking.fields.consent')}</span>
-              </label>
-              {errors.consent ? <p className="text-sm text-ruby">{errors.consent.message}</p> : null}
+              </ConsentLabel>
+              {errors.consent ? <InlineError>{errors.consent.message}</InlineError> : null}
 
-              <div className="flex flex-wrap gap-3">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="rounded-full bg-ink px-6 py-4 text-sm font-semibold text-white"
-                >
+              <Actions>
+                <SubmitButton type="submit" disabled={isSubmitting}>
                   {isSubmitting ? '...' : t('booking.buttons.submit')}
-                </button>
-                <button
+                </SubmitButton>
+                <ResetButton
                   type="button"
                   onClick={() => {
                     reset();
                     setSelectedSlot('');
                     setSuccess(false);
                   }}
-                  className="rounded-full border border-black/10 px-6 py-4 text-sm font-semibold text-black/70"
                 >
                   {t('booking.buttons.reset')}
-                </button>
-              </div>
-            </form>
+                </ResetButton>
+              </Actions>
+            </Form>
 
             {success ? (
-              <div className="mt-6 rounded-[2rem] border border-gold/25 bg-gold/10 p-5">
-                <p className="font-display text-3xl text-ink">{t('booking.success.title')}</p>
-                <p className="mt-3 text-sm leading-7 text-black/65">{t('booking.success.description')}</p>
-              </div>
+              <SuccessCard>
+                <SuccessTitle>{t('booking.success.title')}</SuccessTitle>
+                <SuccessBody>{t('booking.success.description')}</SuccessBody>
+              </SuccessCard>
             ) : null}
-          </div>
-        </div>
-      </div>
-    </section>
+          </FormCard>
+        </MainGrid>
+      </Container>
+    </Section>
   );
 };

@@ -1,4 +1,5 @@
 import { ReactNode, useEffect } from 'react';
+import styled from 'styled-components';
 
 type LightboxProps = {
   open: boolean;
@@ -7,6 +8,31 @@ type LightboxProps = {
   children: ReactNode;
   closeLabel: string;
 };
+
+const Overlay = styled.div.attrs({
+  className: 'fixed inset-0 z-[90] bg-black/65 px-4 py-8 backdrop-blur-lg',
+})``;
+
+const Panel = styled.div.attrs({
+  className: 'mx-auto flex h-full max-w-5xl flex-col rounded-[2rem] bg-white p-6 shadow-2xl md:p-8',
+})``;
+
+const Header = styled.div.attrs({
+  className: 'flex items-center justify-between gap-4 border-b border-black/10 pb-5',
+})``;
+
+const Title = styled.h3.attrs({
+  className: 'font-display text-3xl text-ink',
+})``;
+
+const CloseButton = styled.button.attrs({
+  className:
+    'rounded-full border border-black/10 px-4 py-2 text-sm font-semibold text-black/65 transition hover:border-black/20 hover:text-black',
+})``;
+
+const Body = styled.div.attrs({
+  className: 'mt-6 min-h-0 flex-1 overflow-auto',
+})``;
 
 export const Lightbox = ({ open, title, onClose, children, closeLabel }: LightboxProps) => {
   useEffect(() => {
@@ -29,20 +55,16 @@ export const Lightbox = ({ open, title, onClose, children, closeLabel }: Lightbo
   }
 
   return (
-    <div className="fixed inset-0 z-[90] bg-black/65 px-4 py-8 backdrop-blur-lg">
-      <div className="mx-auto flex h-full max-w-5xl flex-col rounded-[2rem] bg-white p-6 shadow-2xl md:p-8">
-        <div className="flex items-center justify-between gap-4 border-b border-black/10 pb-5">
-          <h3 className="font-display text-3xl text-ink">{title}</h3>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-full border border-black/10 px-4 py-2 text-sm font-semibold text-black/65 transition hover:border-black/20 hover:text-black"
-          >
+    <Overlay>
+      <Panel>
+        <Header>
+          <Title>{title}</Title>
+          <CloseButton type="button" onClick={onClose}>
             {closeLabel}
-          </button>
-        </div>
-        <div className="mt-6 min-h-0 flex-1 overflow-auto">{children}</div>
-      </div>
-    </div>
+          </CloseButton>
+        </Header>
+        <Body>{children}</Body>
+      </Panel>
+    </Overlay>
   );
 };

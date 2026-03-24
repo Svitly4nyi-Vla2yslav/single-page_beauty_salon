@@ -1,3 +1,8 @@
+import beforeAfterImage from '../assets/image/beforeafter.png';
+import transformationPortraitImage from '../assets/image/brows_lashes_transformation.png';
+import luxuryStudioImage from '../assets/image/luxury_treatmen_tstudio_atmosphere.png';
+import skinCareImage from '../assets/image/skin_treatment_calm_premium_care.png';
+
 export const languageOptions = [
   { code: 'de', label: 'DE' },
   { code: 'uk', label: 'UA' },
@@ -18,48 +23,88 @@ export const navigationItems = [
   { key: 'contact', href: '#contact' },
 ] as const;
 
+export type HeroSlideDefinition = {
+  id: 'luxury' | 'transformation' | 'booking' | 'trust';
+  labelKey: string;
+  primaryHref: string;
+  secondaryHref: string;
+  image: string;
+  mobileImage: string;
+  imagePosition: string;
+  mobileImagePosition: string;
+  ambientClass: string;
+  glowClass: string;
+  detailLabel: string;
+  detailValue: string;
+  mediaNote: string;
+};
+
 export const heroSlides = [
   {
     id: 'luxury',
     labelKey: 'hero.labels.luxury',
     primaryHref: '#services',
     secondaryHref: '#about',
-    align: 'left',
-    gradientClass:
-      'from-[#111111] via-[#1b1b1b] to-[#33270f]',
-    orbClass: 'from-[#D4AF37]/35 via-white/10 to-transparent',
+    image: luxuryStudioImage,
+    mobileImage: luxuryStudioImage,
+    imagePosition: 'object-[52%_center]',
+    mobileImagePosition: 'object-[48%_center]',
+    ambientClass:
+      'champagne-studio',
+    glowClass: 'gold-soft-blue',
+    detailLabel: 'Suite 01',
+    detailValue: 'Quiet luxury',
+    mediaNote: 'Studio atmosphere',
   },
   {
     id: 'transformation',
     labelKey: 'hero.labels.results',
     primaryHref: '#results',
     secondaryHref: '#prices',
-    align: 'right',
-    gradientClass:
-      'from-[#130f13] via-[#27121d] to-[#5c1320]',
-    orbClass: 'from-[#FF6B6B]/35 via-[#D7263D]/20 to-transparent',
+    image: beforeAfterImage,
+    mobileImage: beforeAfterImage,
+    imagePosition: 'object-[50%_center]',
+    mobileImagePosition: 'object-[50%_center]',
+    ambientClass:
+      'ivory-portrait',
+    glowClass: 'rose-champagne',
+    detailLabel: 'Refined finish',
+    detailValue: 'Before / After',
+    mediaNote: 'Balanced results',
   },
   {
     id: 'booking',
     labelKey: 'hero.labels.booking',
     primaryHref: '#booking',
     secondaryHref: '#prices',
-    align: 'left',
-    gradientClass:
-      'from-[#0c1220] via-[#112447] to-[#2F80ED]',
-    orbClass: 'from-[#6EC6FF]/35 via-[#2F80ED]/25 to-transparent',
+    image: transformationPortraitImage,
+    mobileImage: transformationPortraitImage,
+    imagePosition: 'object-[40%_center]',
+    mobileImagePosition: 'object-[42%_center]',
+    ambientClass:
+      'linen-editorial',
+    glowClass: 'blue-rose-air',
+    detailLabel: 'Atelier booking',
+    detailValue: 'Fast selection',
+    mediaNote: 'Clear flow',
   },
   {
     id: 'trust',
     labelKey: 'hero.labels.trust',
     primaryHref: '#reviews',
     secondaryHref: '#faq',
-    align: 'left',
-    gradientClass:
-      'from-[#111111] via-[#1a1a1a] to-[#122740]',
-    orbClass: 'from-[#D4AF37]/25 via-[#6EC6FF]/20 to-transparent',
+    image: skinCareImage,
+    mobileImage: skinCareImage,
+    imagePosition: 'object-[55%_center]',
+    mobileImagePosition: 'object-[60%_center]',
+    ambientClass:
+      'soft-care',
+    glowClass: 'champagne-ivory',
+    detailLabel: 'Calm protocols',
+    detailValue: 'Premium care',
+    mediaNote: 'Trusted execution',
   },
-] as const;
+] as const satisfies readonly HeroSlideDefinition[];
 
 export const serviceCards = [
   { id: 'lashes', reveal: 'fade-left', size: 'md:col-span-4 lg:col-span-4' },
