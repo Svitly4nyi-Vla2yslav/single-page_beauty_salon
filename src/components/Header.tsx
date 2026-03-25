@@ -267,7 +267,7 @@ export const Header = () => {
   return (
     <HeaderShell>
       <HeaderBar $solid={solidHeader}>
-        <Brand href="#hero" data-cursor="hover">
+        <Brand href="#hero" data-cursor="hover" data-cursor-label={t('nav.home')}>
           <BrandMark>
             <BrandInnerRing />
             <BrandLetters>LA</BrandLetters>
@@ -289,7 +289,7 @@ export const Header = () => {
 
           <DesktopActions $solid={solidHeader}>
             <LanguageSwitcher compact tone={solidHeader ? 'dark' : 'light'} />
-            <BookingLink href="#booking" $solid={solidHeader}>
+            <BookingLink href="#booking" $solid={solidHeader} data-cursor-label={t('common.bookNow')}>
               {t('common.bookNow') || 'Termin buchen'}
             </BookingLink>
           </DesktopActions>

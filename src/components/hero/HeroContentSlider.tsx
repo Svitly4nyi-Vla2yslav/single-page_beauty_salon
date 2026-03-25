@@ -82,7 +82,7 @@ const Title = styled.h1`
   line-height: 0.92;
   letter-spacing: -0.04em;
   color: #38271e;
-  text-wrap: balance;
+  /* text-wrap: balance; */
 
   @media (max-width: 767px) {
     max-width: 11.4ch;

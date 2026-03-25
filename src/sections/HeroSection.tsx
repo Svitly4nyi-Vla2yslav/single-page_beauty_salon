@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { HeroContentSlider } from '../components/hero/HeroContentSlider';
@@ -72,6 +72,14 @@ export const HeroSection = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
 
+  useEffect(() => {
+    if (import.meta.env.DEV && reducedMotion) {
+      console.info(
+        '[HeroSection] Motion effects are disabled. In dev this usually means you opened the page with ?motion=off.',
+      );
+    }
+  }, [reducedMotion]);
+
   const slides = useMemo<HeroSlide[]>(
     () =>
       heroSlides.map((slide) => ({
@@ -112,19 +120,20 @@ export const HeroSection = () => {
       <HeroMediaSlider
         slides={slides}
         activeSlide={activeSlide}
+        direction={direction}
         reducedMotion={reducedMotion}
         onActiveSlideChange={handleActiveSlideChange}
       />
 
       {/* <ContentLayer>
         <ContentColumn>
-        <HeroContentSlider
-          slides={slides}
-          activeSlide={activeSlide}
-          direction={direction}
-          reducedMotion={reducedMotion}
-        />
-      </ContentColumn>
+          <HeroContentSlider
+            slides={slides}
+            activeSlide={activeSlide}
+            direction={direction}
+            reducedMotion={reducedMotion}
+          />
+        </ContentColumn>
       </ContentLayer> */}
     </Section>
   );

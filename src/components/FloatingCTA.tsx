@@ -14,7 +14,7 @@ export const FloatingCTA = () => {
   const { t } = useTranslation();
 
   return (
-    <FloatingButton href="#booking">
+    <FloatingButton href="#booking" data-cursor-label={t('common.bookNow')}>
       <FloatingDot />
       {t('common.bookNow')}
     </FloatingButton>
