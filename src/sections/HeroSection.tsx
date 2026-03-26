@@ -73,9 +73,9 @@ export const HeroSection = () => {
   const [direction, setDirection] = useState<1 | -1>(1);
 
   useEffect(() => {
-    if (import.meta.env.DEV && reducedMotion) {
+    if (reducedMotion) {
       console.info(
-        '[HeroSection] Motion effects are disabled. In dev this usually means you opened the page with ?motion=off.',
+        '[HeroSection] Motion effects are disabled. Use ?motion=on to force-enable or ?motion=system to follow the OS/browser preference.',
       );
     }
   }, [reducedMotion]);

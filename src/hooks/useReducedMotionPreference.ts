@@ -1,31 +1,11 @@
 import { useEffect, useState } from 'react';
-
-const getReducedMotionOverride = () => {
-  if (!import.meta.env.DEV || typeof window === 'undefined') {
-    return null;
-  }
-
-  const motionParam = new URLSearchParams(window.location.search).get('motion');
-
-  if (motionParam === 'off') {
-    return true;
-  }
-
-  return false;
-};
+import {
+  shouldReduceMotion,
+  syncMotionPreferenceOverrideFromLocation,
+} from '../utils/motionPreference';
 
 const getReducedMotionValue = () => {
-  const override = getReducedMotionOverride();
-
-  if (override !== null) {
-    return override;
-  }
-
-  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
-    return false;
-  }
-
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return shouldReduceMotion(syncMotionPreferenceOverrideFromLocation());
 };
 
 export const useReducedMotionPreference = () => {
