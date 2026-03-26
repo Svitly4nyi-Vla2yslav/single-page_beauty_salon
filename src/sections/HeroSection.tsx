@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { HeroContentSlider } from '../components/hero/HeroContentSlider';
@@ -110,10 +110,13 @@ export const HeroSection = () => {
     [t],
   );
 
-  const handleActiveSlideChange = (nextIndex: number) => {
-    setDirection((current) => getDirection(activeSlide, nextIndex, slides.length) || current);
-    setActiveSlide(nextIndex);
-  };
+  const handleActiveSlideChange = useCallback(
+    (nextIndex: number) => {
+      setDirection((current) => getDirection(activeSlide, nextIndex, slides.length) || current);
+      setActiveSlide(nextIndex);
+    },
+    [activeSlide, slides.length],
+  );
 
   return (
     <Section id="hero">

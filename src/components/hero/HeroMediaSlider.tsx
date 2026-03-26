@@ -35,8 +35,8 @@ type TransitionProfile = {
 };
 
 const AUTOPLAY_DELAY = 6200;
-const SLIDE_DURATION = 1.2;
-const IMAGE_MOTION_DURATION = 3.2;
+const SLIDE_DURATION = 0.88;
+const IMAGE_MOTION_DURATION = 1.35;
 const VEIL_DURATION = 1900;
 
 const transitionProfiles: TransitionProfile[] = [
@@ -140,12 +140,16 @@ const MotionSlide = styled(motion.div)`
   inset: 0;
   pointer-events: none;
   will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 `;
 
 const MotionMediaFrame = styled(motion.div)`
   position: absolute;
-  inset: -3%;
-  will-change: transform, clip-path, opacity;
+  inset: 0;
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 `;
 
 const BaseMediaAsset = ({
@@ -377,18 +381,18 @@ export const HeroMediaSlider = ({
   return (
     <MediaStage>
       <SlideStack aria-hidden="true">
-        <AnimatePresence initial={false} mode="sync">
+        <AnimatePresence initial={false} mode="wait">
           <MotionSlide
             key={currentSlide.id}
             initial={
               reducedMotion
                 ? { opacity: 1 }
                 : {
-                  opacity: 1,
-                  x: transitionProfile.enterX,
-                  y: transitionProfile.enterY,
-                  rotate: transitionProfile.tilt,
-                  scale: 0.94,
+                  opacity: 0,
+                  x: direction > 0 ? '4.5%' : '-4.5%',
+                  y: direction > 0 ? '-1.5%' : '1.5%',
+                  rotate: transitionProfile.tilt * 0.4,
+                  scale: 1.035,
                 }
             }
             animate={
@@ -406,11 +410,11 @@ export const HeroMediaSlider = ({
               reducedMotion
                 ? { opacity: 0 }
                 : {
-                  opacity: 1,
-                  x: transitionProfile.exitX,
-                  y: transitionProfile.exitY,
-                  rotate: transitionProfile.tilt * -0.7,
-                  scale: 1.03,
+                  opacity: 0,
+                  x: direction > 0 ? '-3.5%' : '3.5%',
+                  y: direction > 0 ? '1.5%' : '-1.5%',
+                  rotate: transitionProfile.tilt * -0.28,
+                  scale: 1.02,
                 }
             }
             transition={{
@@ -423,9 +427,9 @@ export const HeroMediaSlider = ({
                 reducedMotion
                   ? { opacity: 1 }
                   : {
-                    opacity: 0.84,
-                    scale: 0.78,
-                    clipPath: 'circle(14% at 50% 50%)',
+                    opacity: 0.82,
+                    scale: 1.075,
+                    filter: 'blur(9px)',
                   }
               }
               animate={
@@ -434,20 +438,20 @@ export const HeroMediaSlider = ({
                   : {
                     opacity: 1,
                     scale: 1,
-                    clipPath: 'circle(150% at 50% 50%)',
+                    filter: 'blur(0px)',
                   }
               }
               exit={
                 reducedMotion
                   ? { opacity: 0 }
                   : {
-                    opacity: 0.9,
-                    scale: 1.08,
-                    clipPath: 'circle(58% at 50% 50%)',
+                    opacity: 0,
+                    scale: 1.035,
+                    filter: 'blur(8px)',
                   }
               }
               transition={{
-                duration: reducedMotion ? 0.18 : IMAGE_MOTION_DURATION * 0.34,
+                duration: reducedMotion ? 0.18 : IMAGE_MOTION_DURATION,
                 ease: [0.19, 1, 0.22, 1],
               }}
               style={{ transformOrigin: transitionProfile.origin }}
