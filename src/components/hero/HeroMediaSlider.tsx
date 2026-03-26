@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ImgHTMLAttributes } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import styled, { keyframes } from 'styled-components';
 import type { HeroSlide } from './types';
@@ -18,6 +18,7 @@ type MediaAssetProps = {
   $position: string;
   $isReady?: boolean;
   $isPreview?: boolean;
+  $fetchPriority?: 'high' | 'auto';
 };
 
 type GlowLayerProps = {
@@ -147,7 +148,23 @@ const MotionMediaFrame = styled(motion.div)`
   will-change: transform, clip-path, opacity;
 `;
 
-const MediaAsset = styled.img<MediaAssetProps>`
+const BaseMediaAsset = ({
+  $desktopOnly,
+  $mobileOnly,
+  $position,
+  $isReady,
+  $isPreview,
+  $fetchPriority,
+  ...props
+}: MediaAssetProps & ImgHTMLAttributes<HTMLImageElement>) => {
+  const priorityProps = $fetchPriority
+    ? ({ fetchpriority: $fetchPriority } as Record<string, 'high' | 'auto'>)
+    : undefined;
+
+  return <img {...props} {...priorityProps} />;
+};
+
+const MediaAsset = styled(BaseMediaAsset)<MediaAssetProps>`
   position: absolute;
   inset: 0;
   width: 100%;
@@ -455,7 +472,7 @@ export const HeroMediaSlider = ({
                 $isReady={isDesktopAssetReady}
                 loading="eager"
                 decoding="async"
-                fetchPriority={activeSlide === 0 ? 'high' : 'auto'}
+                $fetchPriority={activeSlide === 0 ? 'high' : 'auto'}
                 onLoad={() => markAssetAsLoaded(currentSlide.image)}
               />
 
@@ -479,7 +496,7 @@ export const HeroMediaSlider = ({
                 $isReady={isMobileAssetReady}
                 loading="eager"
                 decoding="async"
-                fetchPriority={activeSlide === 0 ? 'high' : 'auto'}
+                $fetchPriority={activeSlide === 0 ? 'high' : 'auto'}
                 onLoad={() => markAssetAsLoaded(currentSlide.mobileImage)}
               />
 

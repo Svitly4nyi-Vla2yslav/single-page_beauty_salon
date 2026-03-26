@@ -16,5 +16,22 @@ const resolvedGlobalCss = motionOverrideEnabled
   ? sanitizedGlobalCss.replace(reducedMotionMediaRule, '')
   : sanitizedGlobalCss;
 
-export const GlobalStyle = createGlobalStyle`${resolvedGlobalCss}`;
+export const GlobalStyle = createGlobalStyle`
+  ${resolvedGlobalCss}
+
+  html,
+  body,
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+`;
 
