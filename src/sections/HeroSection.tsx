@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { HeroContentSlider } from '../components/hero/HeroContentSlider';
 import { HeroMediaSlider } from '../components/hero/HeroMediaSlider';
 import type { HeroSlide, HeroStat } from '../components/hero/types';
 import { heroSlides } from '../data/site';
-import { useReducedMotionPreference } from '../hooks/useReducedMotionPreference';
 
 const Section = styled.section`
   position: relative;
@@ -68,17 +67,15 @@ const buildStat = (id: string, statText: string): HeroStat => {
 
 export const HeroSection = () => {
   const { t } = useTranslation();
-  const reducedMotion = useReducedMotionPreference();
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
-
-  useEffect(() => {
-    if (reducedMotion) {
-      console.info(
-        '[HeroSection] Motion effects are disabled. Use ?motion=on to force-enable motion for testing.',
-      );
+  const reducedMotion = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return false;
     }
-  }, [reducedMotion]);
+
+    return new URLSearchParams(window.location.search).get('motion') === 'off';
+  }, []);
 
   const slides = useMemo<HeroSlide[]>(
     () =>
