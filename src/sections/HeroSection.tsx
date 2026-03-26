@@ -75,7 +75,7 @@ export const HeroSection = () => {
   useEffect(() => {
     if (reducedMotion) {
       console.info(
-        '[HeroSection] Motion effects are disabled. Use ?motion=on to force-enable or ?motion=system to follow the OS/browser preference.',
+        '[HeroSection] Motion effects are disabled. Use ?motion=on to force-enable motion for testing.',
       );
     }
   }, [reducedMotion]);
