@@ -5,192 +5,648 @@ import { Lightbox } from '../components/Lightbox';
 import { SectionHeading } from '../components/SectionHeading';
 import { galleryFilters, galleryItems } from '../data/site';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import afterLashesImage from '../assets/image/AFTER.png';
+import beforeLashesImage from '../assets/image/BEFORE.png';
+import transformationPortraitImage from '../assets/image/brows_lashes_transformation.png';
+import luxuryStudioImage from '../assets/image/luxury_treatmen_tstudio_atmosphere.png';
+import skinCareImage from '../assets/image/skin_treatment_calm_premium_care.png';
 
-const ArtShell = styled.div.attrs<{ $accent: string }>(({ $accent }) => ({
-  className: `absolute inset-0 rounded-[1.6rem] bg-gradient-to-br ${$accent} p-5`,
-  'aria-hidden': 'true',
-}))``;
+type ImageSpec = {
+  src: string;
+  position?: string;
+};
 
-const ArtInner = styled.div.attrs({
-  className:
-    'flex h-full flex-col justify-between rounded-[1.3rem] border border-white/20 bg-[linear-gradient(140deg,rgba(255,255,255,0.2),rgba(255,255,255,0.03))] p-4 text-white',
-})``;
+type GalleryMediaConfig = {
+  mdSpan: number;
+  lgSpan: number;
+  card: ImageSpec;
+  before: ImageSpec;
+  after: ImageSpec;
+};
 
-const ArtMode = styled.span.attrs({
-  className: 'text-xs font-semibold uppercase tracking-[0.24em] text-white/75',
-})``;
+const galleryImageMap: Record<string, GalleryMediaConfig> = {
+  airLashes: {
+    mdSpan: 4,
+    lgSpan: 4,
+    card: { src: transformationPortraitImage, position: 'center 28%' },
+    before: { src: beforeLashesImage, position: 'center center' },
+    after: { src: afterLashesImage, position: 'center center' },
+  },
+  softBrows: {
+    mdSpan: 2,
+    lgSpan: 2,
+    card: { src: beforeLashesImage, position: 'center 38%' },
+    before: { src: beforeLashesImage, position: 'center 40%' },
+    after: { src: transformationPortraitImage, position: 'center 30%' },
+  },
+  glassSkin: {
+    mdSpan: 3,
+    lgSpan: 3,
+    card: { src: skinCareImage, position: 'center 42%' },
+    before: { src: luxuryStudioImage, position: 'center 45%' },
+    after: { src: skinCareImage, position: 'center 42%' },
+  },
+  lipBlush: {
+    mdSpan: 3,
+    lgSpan: 3,
+    card: { src: afterLashesImage, position: 'center 30%' },
+    before: { src: luxuryStudioImage, position: 'center 48%' },
+    after: { src: afterLashesImage, position: 'center 30%' },
+  },
+  bridalGlow: {
+    mdSpan: 4,
+    lgSpan: 4,
+    card: { src: luxuryStudioImage, position: 'center 42%' },
+    before: { src: luxuryStudioImage, position: 'center 46%' },
+    after: { src: afterLashesImage, position: 'center 34%' },
+  },
+  browLift: {
+    mdSpan: 2,
+    lgSpan: 2,
+    card: { src: transformationPortraitImage, position: 'center 40%' },
+    before: { src: beforeLashesImage, position: 'center 42%' },
+    after: { src: transformationPortraitImage, position: 'center 30%' },
+  },
+};
 
-const ArtLabel = styled.span.attrs({
-  className: 'max-w-[10ch] font-display text-3xl leading-none',
-})``;
+const Section = styled.section`
+  position: relative;
+  isolation: isolate;
+  padding: 6rem 1rem;
 
-const Section = styled.section.attrs({
-  className: 'section-shell px-4 py-24 md:px-8 md:py-32',
-})``;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: auto -15% -12rem;
+    height: 14rem;
+    background: radial-gradient(circle at center, rgba(231, 200, 161, 0.12), transparent 72%);
+    filter: blur(24px);
+    z-index: -1;
+  }
 
-const Container = styled.div.attrs({
-  className: 'mx-auto max-w-7xl',
-})``;
+  @media (min-width: 768px) {
+    padding: 8rem 2rem;
+  }
+`;
 
-const FilterRow = styled.div.attrs({
-  className: 'mt-10 flex flex-wrap gap-3',
-})``;
+const Container = styled.div`
+  margin: 0 auto;
+  max-width: 80rem;
+`;
 
-const FilterButton = styled.button.attrs<{ $active: boolean }>(({ $active }) => ({
-  className: `rounded-full px-5 py-3 text-sm font-semibold transition ${
-    $active ? 'bg-ink text-white' : 'border border-black/10 bg-white/75 text-black/65'
-  }`,
-}))``;
+const FilterRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+`;
 
-const MainGrid = styled.div.attrs({
-  className: 'mt-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]',
-})``;
+const FilterButton = styled.button<{ $active: boolean }>`
+  border: 1px solid ${({ $active }) => ($active ? 'rgba(17, 17, 17, 0.9)' : 'rgba(17, 17, 17, 0.1)')};
+  border-radius: 999px;
+  background: ${({ $active }) => ($active ? '#111111' : 'rgba(255, 255, 255, 0.74)')};
+  color: ${({ $active }) => ($active ? '#ffffff' : 'rgba(17, 17, 17, 0.68)')};
+  padding: 0.82rem 1.15rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    transform 260ms ease-out,
+    border-color 260ms ease-out,
+    background-color 260ms ease-out,
+    color 260ms ease-out,
+    box-shadow 260ms ease-out;
 
-const FeaturedCard = styled.div.attrs({
-  className:
-    'luxury-border relative overflow-hidden rounded-[2.6rem] bg-[#111111] p-5 text-white shadow-[0_35px_90px_rgba(17,17,17,0.18)] md:p-8',
-  'data-reveal': 'blur',
-})``;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(109, 82, 59, 0.08);
+  }
+`;
 
-const FeaturedHeader = styled.div.attrs({
-  className: 'flex flex-wrap items-center justify-between gap-4',
-})``;
+const MainGrid = styled.div`
+  display: grid;
+  gap: 2rem;
+  margin-top: 3rem;
 
-const FeaturedEyebrow = styled.p.attrs({
-  className: 'text-xs uppercase tracking-[0.24em] text-white/55',
-})``;
+  @media (min-width: 1024px) {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+`;
 
-const FeaturedTitle = styled.h3.attrs({
-  className: 'mt-2 font-display text-4xl',
-})``;
+const FeaturedCard = styled.div`
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(234, 223, 209, 0.6);
+  border-radius: 2.6rem;
+  background:
+    radial-gradient(circle at top right, rgba(241, 219, 192, 0.12), transparent 26%),
+    linear-gradient(180deg, #171312 0%, #111111 100%);
+  color: #fffaf3;
+  padding: 1.5rem;
+  box-shadow: 0 35px 90px rgba(17, 17, 17, 0.18);
 
-const FeaturedTag = styled.span.attrs({
-  className: 'rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white/70',
-})``;
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+`;
 
-const FeaturedDescription = styled.p.attrs({
-  className: 'mt-5 max-w-2xl text-sm leading-7 text-white/70',
-})``;
+const FeaturedHeader = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+`;
 
-const CompareWrap = styled.div.attrs({
-  className: 'mt-8',
-})``;
+const FeaturedEyebrow = styled.p`
+  color: rgba(255, 246, 232, 0.56);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+`;
 
-const CompareStage = styled.div.attrs({
-  className: 'relative h-[24rem] overflow-hidden rounded-[2rem] border border-white/10 bg-black/20',
-})``;
+const FeaturedTitle = styled.h3`
+  margin-top: 0.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 3vw, 3.2rem);
+  line-height: 0.96;
+`;
 
-const CompareAfterWrap = styled.div.attrs<{ $width: number }>(({ $width }) => ({
-  className: 'absolute inset-y-0 left-0 overflow-hidden',
-  style: { width: `${$width}%` },
-}))``;
+const FeaturedTag = styled.span`
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.7rem 0.95rem;
+  color: rgba(255, 247, 236, 0.72);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  backdrop-filter: blur(14px);
+`;
 
-const CompareHandle = styled.div.attrs<{ $left: number }>(({ $left }) => ({
-  className: 'absolute inset-y-0',
-  style: { left: `calc(${$left}% - 1px)` },
-}))``;
+const FeaturedDescription = styled.p`
+  max-width: 42rem;
+  margin-top: 1.25rem;
+  color: rgba(255, 244, 232, 0.68);
+  font-size: 0.92rem;
+  line-height: 1.8;
+`;
 
-const CompareLine = styled.div.attrs({
-  className: 'h-full w-0.5 bg-white',
-})``;
+const CompareWrap = styled.div`
+  margin-top: 2rem;
+`;
 
-const CompareKnob = styled.div.attrs({
-  className:
-    'absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/15 text-xs font-semibold backdrop-blur',
-})``;
+const CompareStage = styled.div`
+  position: relative;
+  overflow: hidden;
+  height: 24rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
-const CompareRange = styled.input.attrs({
-  className: 'mt-6 w-full accent-gold',
-})``;
+  @media (max-width: 767px) {
+    height: 19rem;
+  }
+`;
 
-const ThumbsGrid = styled.div.attrs({
-  className: 'grid gap-5 md:grid-cols-6',
-})``;
+const CompareSurface = styled.div`
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
 
-const ThumbButton = styled.button.attrs<{ $grid: string; $reveal: string }>(({ $grid, $reveal }) => ({
-  className: `${$grid} group overflow-hidden rounded-[2rem] border border-black/8 bg-white/75 p-4 text-left shadow-[0_18px_45px_rgba(17,17,17,0.05)] backdrop-blur`,
-  'data-reveal': $reveal,
-}))``;
+  ${CompareStage}:hover img {
+    transform: scale(1.035);
+  }
+`;
 
-const ThumbVisual = styled.div.attrs({
-  className: 'relative h-56 overflow-hidden rounded-[1.6rem]',
-})``;
+const ComparePanel = styled.div`
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+`;
 
-const ThumbAfterWrap = styled.div.attrs({
-  className: 'absolute inset-y-0 right-0 w-1/2 overflow-hidden',
-})``;
+const CompareAfterWrap = styled.div<{ $width: number }>`
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: ${({ $width }) => `${$width}%`};
+  overflow: hidden;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+`;
 
-const ThumbHeader = styled.div.attrs({
-  className: 'mt-5 flex items-center justify-between gap-4',
-})``;
+const CompareImage = styled.img<{ $position?: string }>`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: ${({ $position }) => $position ?? 'center'};
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+`;
 
-const ThumbEyebrow = styled.p.attrs({
-  className: 'text-xs uppercase tracking-[0.22em] text-black/45',
-})``;
+const CompareTopShade = styled.div`
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 7, 8, 0.62) 0%, rgba(8, 7, 8, 0.18) 24%, transparent 46%),
+    linear-gradient(0deg, rgba(8, 7, 8, 0.48) 0%, rgba(8, 7, 8, 0.16) 26%, transparent 48%);
+`;
 
-const ThumbTitle = styled.h3.attrs({
-  className: 'mt-2 font-display text-3xl text-ink',
-})``;
+const CompareTint = styled.div`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(232, 196, 155, 0.12), transparent 42%, rgba(255, 255, 255, 0.08) 100%);
+`;
 
-const ThumbTag = styled.span.attrs({
-  className: 'rounded-full bg-black/[0.04] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-black/55',
-})``;
+const CompareLabel = styled.span<{ $align: 'left' | 'right' }>`
+  position: absolute;
+  top: 1rem;
+  ${({ $align }) => ($align === 'left' ? 'left: 1rem;' : 'right: 1rem;')}
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(8, 7, 8, 0.32);
+  padding: 0.45rem 0.72rem;
+  color: rgba(255, 250, 243, 0.86);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+`;
 
-const ThumbMeta = styled.div.attrs({
-  className: 'mt-4 flex items-center justify-between text-sm text-black/55',
-})``;
+const CompareTextOverlay = styled.div<{ $align: 'left' | 'right' }>`
+  position: absolute;
+  right: ${({ $align }) => ($align === 'right' ? '1.2rem' : 'auto')};
+  bottom: 1.2rem;
+  left: ${({ $align }) => ($align === 'left' ? '1.2rem' : 'auto')};
+  z-index: 2;
+  max-width: 12rem;
+  color: #fff8ef;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  line-height: 0.95;
+  text-shadow: 0 10px 22px rgba(0, 0, 0, 0.38);
+`;
 
-const LightboxGrid = styled.div.attrs({
-  className: 'grid gap-8 lg:grid-cols-[1.1fr_0.9fr]',
-})``;
+const CompareHandle = styled.div<{ $left: number }>`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(${({ $left }) => `${$left}%`} - 1px);
+  width: 2px;
+  pointer-events: none;
+`;
 
-const LightboxVisual = styled.div.attrs({
-  className: 'relative h-[28rem] overflow-hidden rounded-[2rem] bg-[#111111]',
-})``;
+const CompareLine = styled.div`
+  width: 2px;
+  height: 100%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 248, 232, 0.92) 46%, rgba(255, 255, 255, 0.7) 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 16px rgba(255, 249, 240, 0.18);
+`;
 
-const LightboxAfterWrap = styled.div.attrs({
-  className: 'absolute inset-y-0 right-0 w-1/2 overflow-hidden',
-})``;
+const CompareKnob = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 249, 240, 0.96);
+  font-size: 0.9rem;
+  font-weight: 700;
+  backdrop-filter: blur(14px);
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 0 10px rgba(255, 244, 230, 0.06),
+    0 0 32px rgba(255, 228, 196, 0.16);
+`;
 
-const LightboxTag = styled.span.attrs({
-  className: 'rounded-full border border-black/10 bg-black/[0.03] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black/55',
-})``;
+const CompareRange = styled.input<{ $value: number }>`
+  width: 100%;
+  margin-top: 1.2rem;
+  appearance: none;
+  height: 0.28rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(224, 188, 111, 1) 0%,
+    rgba(224, 188, 111, 1) ${({ $value }) => `${$value}%`},
+    rgba(255, 255, 255, 0.22) ${({ $value }) => `${$value}%`},
+    rgba(255, 255, 255, 0.22) 100%
+  );
+  outline: none;
 
-const LightboxNote = styled.p.attrs({
-  className: 'mt-6 text-lg leading-8 text-black/65',
-})``;
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 0.85rem;
+    height: 0.85rem;
+    border: none;
+    border-radius: 999px;
+    background: #e0bc6f;
+    box-shadow: 0 0 0 6px rgba(224, 188, 111, 0.12);
+    cursor: ew-resize;
+  }
 
-const LightboxMetaGrid = styled.div.attrs({
-  className: 'mt-8 grid gap-4 md:grid-cols-2',
-})``;
+  &::-moz-range-thumb {
+    width: 0.85rem;
+    height: 0.85rem;
+    border: none;
+    border-radius: 999px;
+    background: #e0bc6f;
+    box-shadow: 0 0 0 6px rgba(224, 188, 111, 0.12);
+    cursor: ew-resize;
+  }
+`;
 
-const LightboxMetaCard = styled.div.attrs({
-  className: 'rounded-[1.4rem] border border-black/8 bg-black/[0.02] p-5',
-})``;
+const ThumbsGrid = styled.div`
+  display: grid;
+  gap: 1.25rem;
 
-const LightboxMetaLabel = styled.p.attrs({
-  className: 'text-xs uppercase tracking-[0.22em] text-black/45',
-})``;
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+`;
 
-const LightboxMetaValue = styled.p.attrs({
-  className: 'mt-3 text-xl font-semibold text-black',
-})``;
+const ThumbButton = styled.button<{ $mdSpan: number; $lgSpan: number }>`
+  position: relative;
+  overflow: hidden;
+  min-height: 15.5rem;
+  border: 1px solid rgba(229, 217, 205, 0.78);
+  border-radius: 2rem;
+  background: linear-gradient(180deg, rgba(255, 250, 245, 0.88), rgba(252, 244, 236, 0.74));
+  box-shadow:
+    0 22px 44px rgba(118, 92, 65, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.32);
+  text-align: left;
+  transition:
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 360ms ease;
 
-const GalleryArt = ({
-  accent,
-  label,
-  mode,
-}: {
-  accent: string;
-  label: string;
-  mode: 'before' | 'after';
-}) => (
-  <ArtShell $accent={accent}>
-    <ArtInner>
-      <ArtMode>{mode}</ArtMode>
-      <ArtLabel>{label}</ArtLabel>
-    </ArtInner>
-  </ArtShell>
+  &:hover {
+    transform: translateY(-5px);
+    border-color: rgba(236, 217, 193, 0.96);
+    box-shadow:
+      0 28px 58px rgba(118, 92, 65, 0.13),
+      0 0 0 1px rgba(255, 248, 238, 0.58),
+      0 0 32px rgba(241, 219, 192, 0.16);
+  }
+
+  @media (min-width: 768px) {
+    grid-column: span ${({ $mdSpan }) => $mdSpan};
+  }
+
+  @media (min-width: 1024px) {
+    grid-column: span ${({ $lgSpan }) => $lgSpan};
+  }
+`;
+
+const ThumbMedia = styled.div<{ $image: string; $position?: string }>`
+  position: absolute;
+  inset: 0;
+  background-image: url(${({ $image }) => $image});
+  background-repeat: no-repeat;
+  background-position: ${({ $position }) => $position ?? 'center'};
+  background-size: cover;
+  transform: scale(1);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  ${ThumbButton}:hover & {
+    transform: scale(1.05);
+  }
+`;
+
+const ThumbOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(11, 10, 9, 0.22) 0%, rgba(11, 10, 9, 0.12) 22%, rgba(11, 10, 9, 0.56) 100%),
+    linear-gradient(135deg, rgba(243, 218, 192, 0.11) 0%, rgba(243, 218, 192, 0) 44%, rgba(255, 255, 255, 0.06) 100%);
+  transition: background 360ms ease;
+
+  ${ThumbButton}:hover & {
+    background:
+      linear-gradient(180deg, rgba(11, 10, 9, 0.28) 0%, rgba(11, 10, 9, 0.16) 24%, rgba(11, 10, 9, 0.62) 100%),
+      linear-gradient(135deg, rgba(243, 218, 192, 0.15) 0%, rgba(243, 218, 192, 0) 44%, rgba(255, 255, 255, 0.08) 100%);
+  }
+`;
+
+const ThumbBottomShade = styled.div`
+  position: absolute;
+  inset: auto 0 0;
+  height: 62%;
+  background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 10, 0.14) 28%, rgba(10, 10, 10, 0.78) 100%);
+`;
+
+const ThumbTint = styled.div`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(228, 194, 162, 0.08) 0%, rgba(255, 255, 255, 0) 42%, rgba(243, 215, 189, 0.08) 100%);
+`;
+
+const ThumbContent = styled.div`
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 15.5rem;
+  padding: 1.15rem;
+`;
+
+const ThumbTopRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+`;
+
+const ThumbEyebrow = styled.p`
+  color: rgba(255, 248, 239, 0.66);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+`;
+
+const ThumbTag = styled.span`
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  padding: 0.46rem 0.72rem;
+  color: rgba(255, 251, 246, 0.9);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+`;
+
+const ThumbBottom = styled.div`
+  transform: translateY(0);
+  transition: transform 320ms ease-out;
+
+  ${ThumbButton}:hover & {
+    transform: translateY(-3px);
+  }
+`;
+
+const ThumbTitle = styled.h3`
+  max-width: 11ch;
+  color: #fff8ef;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 2.5vw, 2.45rem);
+  line-height: 0.95;
+  text-shadow: 0 12px 22px rgba(0, 0, 0, 0.3);
+  transition: color 320ms ease-out;
+
+  ${ThumbButton}:hover & {
+    color: #ffffff;
+  }
+`;
+
+const ThumbMeta = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.95rem;
+  color: rgba(255, 245, 234, 0.84);
+  font-size: 0.83rem;
+`;
+
+const LightboxGrid = styled.div`
+  display: grid;
+  gap: 2rem;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+`;
+
+const LightboxVisual = styled.div`
+  position: relative;
+`;
+
+const LightboxTag = styled.span`
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.03);
+  padding: 0.7rem 0.95rem;
+  color: rgba(17, 17, 17, 0.56);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+`;
+
+const LightboxNote = styled.p`
+  margin-top: 1.5rem;
+  color: rgba(17, 17, 17, 0.66);
+  font-size: 1.1rem;
+  line-height: 1.8;
+`;
+
+const LightboxMetaGrid = styled.div`
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+`;
+
+const LightboxMetaCard = styled.div`
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 1.4rem;
+  background: rgba(17, 17, 17, 0.02);
+  padding: 1.25rem;
+`;
+
+const LightboxMetaLabel = styled.p`
+  color: rgba(17, 17, 17, 0.45);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+`;
+
+const LightboxMetaValue = styled.p`
+  margin-top: 0.75rem;
+  color: #111111;
+  font-size: 1.2rem;
+  font-weight: 600;
+`;
+
+type ComparisonPreviewProps = {
+  beforeSrc: string;
+  afterSrc: string;
+  beforePosition?: string;
+  afterPosition?: string;
+  beforeText: string;
+  afterText: string;
+  compareValue: number;
+  onCompareChange: (value: number) => void;
+  rangeLabel: string;
+};
+
+const ComparisonPreview = ({
+  beforeSrc,
+  afterSrc,
+  beforePosition,
+  afterPosition,
+  beforeText,
+  afterText,
+  compareValue,
+  onCompareChange,
+  rangeLabel,
+}: ComparisonPreviewProps) => (
+  <CompareWrap>
+    <CompareStage>
+      <CompareSurface>
+        <ComparePanel>
+          <CompareImage src={beforeSrc} alt={beforeText} $position={beforePosition} loading="eager" />
+          <CompareTopShade />
+          <CompareTint />
+          <CompareLabel $align="left">Before</CompareLabel>
+          <CompareTextOverlay $align="left">{beforeText}</CompareTextOverlay>
+        </ComparePanel>
+
+        <CompareAfterWrap $width={compareValue}>
+          <ComparePanel>
+            <CompareImage src={afterSrc} alt={afterText} $position={afterPosition} loading="eager" />
+            <CompareTopShade />
+            <CompareTint />
+            <CompareLabel $align="right">After</CompareLabel>
+            <CompareTextOverlay $align="right">{afterText}</CompareTextOverlay>
+          </ComparePanel>
+        </CompareAfterWrap>
+
+        <CompareHandle $left={compareValue}>
+          <CompareLine />
+          <CompareKnob>&#8646;</CompareKnob>
+        </CompareHandle>
+      </CompareSurface>
+    </CompareStage>
+
+    <CompareRange
+      type="range"
+      min={15}
+      max={85}
+      value={compareValue}
+      onChange={(event) => onCompareChange(Number(event.target.value))}
+      aria-label={rangeLabel}
+      $value={compareValue}
+    />
+  </CompareWrap>
 );
 
 const BeforeAfterSection = () => {
@@ -209,6 +665,10 @@ const BeforeAfterSection = () => {
 
   const featuredItem = filteredItems[0] ?? galleryItems[0];
   const activeLightbox = galleryItems.find((item) => item.id === lightboxId) ?? null;
+
+  const featuredMedia = galleryImageMap[featuredItem.id] ?? galleryImageMap.airLashes;
+  const featuredBefore = featuredMedia.before.src;
+  const featuredAfter = featuredMedia.after.src;
 
   return (
     <Section id="results" ref={sectionRef}>
@@ -233,7 +693,7 @@ const BeforeAfterSection = () => {
         </FilterRow>
 
         <MainGrid>
-          <FeaturedCard>
+          <FeaturedCard data-reveal="blur">
             <FeaturedHeader>
               <div>
                 <FeaturedEyebrow>{t('gallery.comparisonTitle')}</FeaturedEyebrow>
@@ -244,74 +704,55 @@ const BeforeAfterSection = () => {
 
             <FeaturedDescription>{t('gallery.comparisonDescription')}</FeaturedDescription>
 
-            <CompareWrap>
-              <CompareStage>
-                <GalleryArt
-                  accent={featuredItem.accent}
-                  label={t(`gallery.items.${featuredItem.id}.title`)}
-                  mode="before"
-                />
-                <CompareAfterWrap $width={compareValue}>
-                  <GalleryArt
-                    accent="from-[#ffffff] via-[#ffe4bd] to-[#6EC6FF]"
-                    label={t(`gallery.items.${featuredItem.id}.tag`)}
-                    mode="after"
-                  />
-                </CompareAfterWrap>
-                <CompareHandle $left={compareValue}>
-                  <CompareLine />
-                  <CompareKnob>&#8646;</CompareKnob>
-                </CompareHandle>
-              </CompareStage>
-              <CompareRange
-                type="range"
-                min={15}
-                max={85}
-                value={compareValue}
-                onChange={(event) => setCompareValue(Number(event.target.value))}
-                aria-label={t('gallery.dragLabel')}
-              />
-            </CompareWrap>
+            <ComparisonPreview
+              beforeSrc={featuredBefore}
+              afterSrc={featuredAfter}
+              beforePosition={featuredMedia.before.position}
+              afterPosition={featuredMedia.after.position}
+              beforeText="Before"
+              afterText="After"
+              compareValue={compareValue}
+              onCompareChange={setCompareValue}
+              rangeLabel={t('gallery.dragLabel')}
+            />
           </FeaturedCard>
 
           <ThumbsGrid>
-            {filteredItems.map((item, index) => (
-              <ThumbButton
-                key={item.id}
-                type="button"
-                onClick={() => setLightboxId(item.id)}
-                $grid={item.grid}
-                $reveal={index % 2 === 0 ? 'fade-up' : 'scale-in'}
-              >
-                <ThumbVisual>
-                  <GalleryArt
-                    accent={item.accent}
-                    label={t(`gallery.items.${item.id}.title`)}
-                    mode="before"
-                  />
-                  <ThumbAfterWrap>
-                    <GalleryArt
-                      accent="from-[#ffffff] via-[#D4AF37] to-[#FF6B6B]"
-                      label={t(`gallery.items.${item.id}.tag`)}
-                      mode="after"
-                    />
-                  </ThumbAfterWrap>
-                </ThumbVisual>
+            {filteredItems.map((item, index) => {
+              const media = galleryImageMap[item.id] ?? galleryImageMap.airLashes;
+              const cardImage = media.card.src;
 
-                <ThumbHeader>
-                  <div>
-                    <ThumbEyebrow>{t(`gallery.items.${item.id}.treatment`)}</ThumbEyebrow>
-                    <ThumbTitle>{t(`gallery.items.${item.id}.title`)}</ThumbTitle>
-                  </div>
-                  <ThumbTag>{t(`gallery.items.${item.id}.tag`)}</ThumbTag>
-                </ThumbHeader>
+              return (
+                <ThumbButton
+                  key={item.id}
+                  type="button"
+                  onClick={() => setLightboxId(item.id)}
+                  $mdSpan={media.mdSpan}
+                  $lgSpan={media.lgSpan}
+                  data-reveal={index % 2 === 0 ? 'fade-up' : 'scale-in'}
+                >
+                  <ThumbMedia $image={cardImage} $position={media.card.position} />
+                  <ThumbOverlay />
+                  <ThumbBottomShade />
+                  <ThumbTint />
 
-                <ThumbMeta>
-                  <span>{t(`gallery.items.${item.id}.duration`)}</span>
-                  <span>{t(`gallery.items.${item.id}.price`)}</span>
-                </ThumbMeta>
-              </ThumbButton>
-            ))}
+                  <ThumbContent>
+                    <ThumbTopRow>
+                      <ThumbEyebrow>{t(`gallery.items.${item.id}.treatment`)}</ThumbEyebrow>
+                      <ThumbTag>{t(`gallery.items.${item.id}.tag`)}</ThumbTag>
+                    </ThumbTopRow>
+
+                    <ThumbBottom>
+                      <ThumbTitle>{t(`gallery.items.${item.id}.title`)}</ThumbTitle>
+                      <ThumbMeta>
+                        <span>{t(`gallery.items.${item.id}.duration`)}</span>
+                        <span>{t(`gallery.items.${item.id}.price`)}</span>
+                      </ThumbMeta>
+                    </ThumbBottom>
+                  </ThumbContent>
+                </ThumbButton>
+              );
+            })}
           </ThumbsGrid>
         </MainGrid>
       </Container>
@@ -325,22 +766,23 @@ const BeforeAfterSection = () => {
         {activeLightbox ? (
           <LightboxGrid>
             <LightboxVisual>
-              <GalleryArt
-                accent={activeLightbox.accent}
-                label={t(`gallery.items.${activeLightbox.id}.title`)}
-                mode="before"
+              <ComparisonPreview
+                beforeSrc={(galleryImageMap[activeLightbox.id] ?? galleryImageMap.airLashes).before.src}
+                afterSrc={(galleryImageMap[activeLightbox.id] ?? galleryImageMap.airLashes).after.src}
+                beforePosition={(galleryImageMap[activeLightbox.id] ?? galleryImageMap.airLashes).before.position}
+                afterPosition={(galleryImageMap[activeLightbox.id] ?? galleryImageMap.airLashes).after.position}
+                beforeText="Before"
+                afterText="After"
+                compareValue={compareValue}
+                onCompareChange={setCompareValue}
+                rangeLabel={t('gallery.dragLabel')}
               />
-              <LightboxAfterWrap>
-                <GalleryArt
-                  accent="from-[#ffffff] via-[#D4AF37] to-[#FF6B6B]"
-                  label={t(`gallery.items.${activeLightbox.id}.tag`)}
-                  mode="after"
-                />
-              </LightboxAfterWrap>
             </LightboxVisual>
+
             <div>
               <LightboxTag>{t(`gallery.items.${activeLightbox.id}.tag`)}</LightboxTag>
               <LightboxNote>{t(`gallery.items.${activeLightbox.id}.note`)}</LightboxNote>
+
               <LightboxMetaGrid>
                 <LightboxMetaCard>
                   <LightboxMetaLabel>{t(`gallery.items.${activeLightbox.id}.treatment`)}</LightboxMetaLabel>
