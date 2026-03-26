@@ -38,6 +38,7 @@ const AUTOPLAY_DELAY = 6200;
 const SLIDE_DURATION = 0.88;
 const IMAGE_MOTION_DURATION = 1.35;
 const VEIL_DURATION = 1900;
+const TRANSITION_BLUR_DURATION = 760;
 
 const transitionProfiles: TransitionProfile[] = [
   {
@@ -127,12 +128,29 @@ const MediaStage = styled.div`
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #f8f2ec;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(250, 241, 232, 0.74), transparent 26%),
+    radial-gradient(circle at 82% 26%, rgba(205, 217, 233, 0.18), transparent 28%),
+    linear-gradient(180deg, #f4ece5 0%, #e5dbd3 100%);
 `;
 
 const SlideStack = styled.div`
   position: absolute;
   inset: 0;
+`;
+
+const TransitionBlur = styled.div<{ $active: boolean }>`
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: ${({ $active }) => ($active ? 1 : 0)};
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 247, 240, 0.18) 0%, rgba(255, 247, 240, 0.1) 22%, transparent 56%),
+    linear-gradient(135deg, rgba(255, 244, 236, 0.2) 0%, rgba(224, 214, 205, 0.12) 48%, rgba(255, 251, 247, 0.18) 100%);
+  backdrop-filter: blur(28px) saturate(1.08);
+  -webkit-backdrop-filter: blur(28px) saturate(1.08);
+  transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1);
 `;
 
 const MotionSlide = styled(motion.div)`
@@ -281,7 +299,9 @@ export const HeroMediaSlider = ({
   onActiveSlideChange,
 }: HeroMediaSliderProps) => {
   const timeoutRef = useRef<number | null>(null);
+  const transitionBlurTimeoutRef = useRef<number | null>(null);
   const [loadedAssets, setLoadedAssets] = useState<Record<string, boolean>>({});
+  const [isTransitionBlurVisible, setIsTransitionBlurVisible] = useState(false);
   const currentSlide = slides[activeSlide] ?? slides[0];
   const baseProfile = transitionProfiles[activeSlide % transitionProfiles.length];
   const transitionProfile =
@@ -321,6 +341,31 @@ export const HeroMediaSlider = ({
       }
     };
   }, [activeSlide, slides.length, onActiveSlideChange]);
+
+  useEffect(() => {
+    if (transitionBlurTimeoutRef.current !== null) {
+      window.clearTimeout(transitionBlurTimeoutRef.current);
+      transitionBlurTimeoutRef.current = null;
+    }
+
+    if (reducedMotion || slides.length <= 1) {
+      setIsTransitionBlurVisible(false);
+      return;
+    }
+
+    setIsTransitionBlurVisible(true);
+    transitionBlurTimeoutRef.current = window.setTimeout(() => {
+      setIsTransitionBlurVisible(false);
+      transitionBlurTimeoutRef.current = null;
+    }, TRANSITION_BLUR_DURATION);
+
+    return () => {
+      if (transitionBlurTimeoutRef.current !== null) {
+        window.clearTimeout(transitionBlurTimeoutRef.current);
+        transitionBlurTimeoutRef.current = null;
+      }
+    };
+  }, [activeSlide, reducedMotion, slides.length]);
 
   useEffect(() => {
     if (slides.length === 0 || typeof window === 'undefined') {
@@ -381,7 +426,7 @@ export const HeroMediaSlider = ({
   return (
     <MediaStage>
       <SlideStack aria-hidden="true">
-        <AnimatePresence initial={false} mode="wait">
+        <AnimatePresence initial={false} mode="sync">
           <MotionSlide
             key={currentSlide.id}
             initial={
@@ -513,6 +558,8 @@ export const HeroMediaSlider = ({
             ) : null}
           </MotionSlide>
         </AnimatePresence>
+
+        {!reducedMotion ? <TransitionBlur $active={isTransitionBlurVisible} /> : null}
       </SlideStack>
 
       <BottomShade />
