@@ -4,6 +4,24 @@ import styled from 'styled-components';
 import { SectionHeading } from '../components/SectionHeading';
 import { teamIds } from '../data/site';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import aminaImage from '../assets/team/Amina Kaya.png';
+import laraImage from '../assets/team/Lara Muller.png';
+import sofiaImage from '../assets/team/Sofia Hnatiuk.png';
+
+const teamImages = {
+  lara: {
+    src: laraImage,
+    position: 'center 24%',
+  },
+  amina: {
+    src: aminaImage,
+    position: 'center 20%',
+  },
+  sofia: {
+    src: sofiaImage,
+    position: 'center 18%',
+  },
+} as const;
 
 const Section = styled.section.attrs({
   className: 'section-shell px-4 py-24 md:px-8 md:py-32',
@@ -112,9 +130,30 @@ const TeamCard = styled.article.attrs<{ $reveal: string }>(({ $reveal }) => ({
   'data-reveal': $reveal,
 }))``;
 
-const TeamVisual = styled.div.attrs({
-  className: 'h-40 rounded-[1.6rem] bg-[linear-gradient(145deg,#111111,#2F80ED_45%,#D4AF37)]',
-})``;
+const TeamVisual = styled.div<{ $image: string; $position: string }>`
+  position: relative;
+  height: 10rem;
+  overflow: hidden;
+  border-radius: 1.6rem;
+  background-image:
+    linear-gradient(180deg, rgba(10, 10, 10, 0.08) 0%, rgba(10, 10, 10, 0.02) 42%, rgba(10, 10, 10, 0.18) 100%),
+    url(${({ $image }) => $image});
+  background-position: ${({ $position }) => $position};
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    0 16px 32px rgba(17, 17, 17, 0.08);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255, 244, 228, 0.14), transparent 44%, rgba(255, 255, 255, 0.08) 100%);
+    pointer-events: none;
+  }
+`;
 
 const TeamName = styled.h3.attrs({
   className: 'mt-5 font-display text-3xl text-ink',
@@ -189,17 +228,21 @@ export const AboutSection = () => {
         </TeamIntro>
 
         <TeamGrid>
-          {teamIds.map((teamId, index) => (
+          {teamIds.map((teamId, index) => {
+            const teamImage = teamImages[teamId];
+
+            return (
             <TeamCard
               key={teamId}
               $reveal={index % 2 === 0 ? 'fade-up' : 'blur'}
             >
-              <TeamVisual />
+              <TeamVisual $image={teamImage.src} $position={teamImage.position} />
               <TeamName>{t(`about.team.${teamId}.name`)}</TeamName>
               <TeamRole>{t(`about.team.${teamId}.role`)}</TeamRole>
               <TeamBio>{t(`about.team.${teamId}.bio`)}</TeamBio>
             </TeamCard>
-          ))}
+            );
+          })}
         </TeamGrid>
       </TeamWrap>
     </Section>
