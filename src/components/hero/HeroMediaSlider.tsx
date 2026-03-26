@@ -164,10 +164,10 @@ const MediaAsset = styled.img<MediaAssetProps>`
 
   @media (min-width: 1024px) {
     display: ${({ $mobileOnly, $desktopOnly }) => {
-      if ($mobileOnly) return 'none';
-      if ($desktopOnly) return 'block';
-      return 'block';
-    }};
+    if ($mobileOnly) return 'none';
+    if ($desktopOnly) return 'block';
+    return 'block';
+  }};
   }
 
 `;
@@ -235,13 +235,13 @@ export const HeroMediaSlider = ({
     direction > 0
       ? baseProfile
       : {
-          ...baseProfile,
-          enterX: baseProfile.exitX,
-          enterY: baseProfile.exitY,
-          exitX: baseProfile.enterX,
-          exitY: baseProfile.enterY,
-          tilt: baseProfile.tilt * -1,
-        };
+        ...baseProfile,
+        enterX: baseProfile.exitX,
+        enterY: baseProfile.exitY,
+        exitX: baseProfile.enterX,
+        exitY: baseProfile.enterY,
+        tilt: baseProfile.tilt * -1,
+      };
 
   useEffect(() => {
     if (timeoutRef.current !== null) {
@@ -277,34 +277,34 @@ export const HeroMediaSlider = ({
               reducedMotion
                 ? { opacity: 1 }
                 : {
-                    opacity: 1,
-                    x: transitionProfile.enterX,
-                    y: transitionProfile.enterY,
-                    rotate: transitionProfile.tilt,
-                    scale: 0.94,
-                  }
+                  opacity: 1,
+                  x: transitionProfile.enterX,
+                  y: transitionProfile.enterY,
+                  rotate: transitionProfile.tilt,
+                  scale: 0.94,
+                }
             }
             animate={
               reducedMotion
                 ? { opacity: 1 }
                 : {
-                    opacity: 1,
-                    x: '0%',
-                    y: '0%',
-                    rotate: 0,
-                    scale: 1,
-                  }
+                  opacity: 1,
+                  x: '0%',
+                  y: '0%',
+                  rotate: 0,
+                  scale: 1,
+                }
             }
             exit={
               reducedMotion
                 ? { opacity: 0 }
                 : {
-                    opacity: 1,
-                    x: transitionProfile.exitX,
-                    y: transitionProfile.exitY,
-                    rotate: transitionProfile.tilt * -0.7,
-                    scale: 1.03,
-                  }
+                  opacity: 1,
+                  x: transitionProfile.exitX,
+                  y: transitionProfile.exitY,
+                  rotate: transitionProfile.tilt * -0.7,
+                  scale: 1.03,
+                }
             }
             transition={{
               duration: reducedMotion ? 0.18 : SLIDE_DURATION,
@@ -316,28 +316,28 @@ export const HeroMediaSlider = ({
                 reducedMotion
                   ? { opacity: 1 }
                   : {
-                      opacity: 0.84,
-                      scale: 0.78,
-                      clipPath: 'circle(14% at 50% 50%)',
-                    }
+                    opacity: 0.84,
+                    scale: 0.78,
+                    clipPath: 'circle(14% at 50% 50%)',
+                  }
               }
               animate={
                 reducedMotion
                   ? { opacity: 1 }
                   : {
-                      opacity: 1,
-                      scale: 1,
-                      clipPath: 'circle(150% at 50% 50%)',
-                    }
+                    opacity: 1,
+                    scale: 1,
+                    clipPath: 'circle(150% at 50% 50%)',
+                  }
               }
               exit={
                 reducedMotion
                   ? { opacity: 0 }
                   : {
-                      opacity: 0.9,
-                      scale: 1.08,
-                      clipPath: 'circle(58% at 50% 50%)',
-                    }
+                    opacity: 0.9,
+                    scale: 1.08,
+                    clipPath: 'circle(58% at 50% 50%)',
+                  }
               }
               transition={{
                 duration: reducedMotion ? 0.18 : IMAGE_MOTION_DURATION * 0.34,
