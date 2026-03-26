@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 type ConsentState = {
   necessary: true;
@@ -10,71 +10,214 @@ type ConsentState = {
 
 const storageKey = 'lumina-cookie-consent';
 
-const ManageButton = styled.button.attrs({
-  className:
-    'fixed bottom-5 left-5 z-40 rounded-full border border-black/10 bg-white/90 px-4 py-3 text-xs font-semibold text-black/70 shadow-lg backdrop-blur',
-})``;
+const sharedButtonStyles = css`
+  appearance: none;
+  border-radius: 999px;
+  padding: 0.88rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease;
 
-const Banner = styled.div.attrs({
-  className:
-    'fixed inset-x-4 bottom-4 z-50 mx-auto max-w-4xl rounded-[2rem] border border-black/10 bg-white/92 p-6 shadow-2xl shadow-black/10 backdrop-blur-xl',
-})``;
+  &:hover {
+    transform: translateY(-1px);
+  }
 
-const BannerLayout = styled.div.attrs({
-  className: 'flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between',
-})``;
+  &:focus-visible {
+    outline: 2px solid rgba(17, 17, 17, 0.35);
+    outline-offset: 3px;
+  }
+`;
 
-const BannerContent = styled.div.attrs({
-  className: 'max-w-2xl',
-})``;
+const ManageButton = styled.button`
+  ${sharedButtonStyles};
+  position: fixed;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  z-index: 40;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  color: rgba(17, 17, 17, 0.72);
+  padding: 0.9rem 1rem;
+  font-size: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+`;
 
-const BannerEyebrow = styled.p.attrs({
-  className: 'text-xs font-semibold uppercase tracking-[0.28em] text-black/45',
-})``;
+const Banner = styled.div`
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 50;
+  width: calc(100% - 2rem);
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 25px 50px -12px rgba(17, 17, 17, 0.18),
+    0 10px 30px rgba(17, 17, 17, 0.08);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 
-const BannerTitle = styled.h3.attrs({
-  className: 'mt-3 font-display text-3xl text-ink',
-})``;
+  @media (min-width: 768px) {
+    padding: 1.75rem;
+  }
+`;
 
-const BannerDescription = styled.p.attrs({
-  className: 'mt-3 text-sm leading-7 text-black/65',
-})``;
+const BannerBackdrop = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  /* background: rgba(255, 255, 255, 0.18); */
+  /* backdrop-filter: blur(12px); */
+  /* -webkit-backdrop-filter: blur(12px); */
+  /* mask-image: linear-gradient(to top, black 0%, black 42%, transparent 98%); */
+  /* -webkit-mask-image: linear-gradient(to top, black 0%, black 42%, transparent 98%); */
+`;
 
-const OptionsGrid = styled.div.attrs({
-  className: 'mt-5 grid gap-3 md:grid-cols-3',
-})``;
+const BannerLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 
-const OptionCard = styled.label.attrs({
-  className: 'rounded-3xl border border-black/8 bg-black/[0.02] p-4 text-sm text-black/70',
-})``;
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+`;
 
-const OptionHeader = styled.div.attrs({
-  className: 'flex items-center justify-between gap-4',
-})``;
+const BannerContent = styled.div`
+  max-width: 42rem;
+`;
 
-const OptionTitle = styled.span.attrs({
-  className: 'font-semibold text-black',
-})``;
+const BannerEyebrow = styled.p`
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, 0.45);
+`;
 
-const OptionBody = styled.p.attrs({
-  className: 'mt-3 text-xs leading-6 text-black/55',
-})``;
+const BannerTitle = styled.h3`
+  margin-top: 0.75rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.875rem;
+  line-height: 1.05;
+  color: #111111;
+`;
 
-const Actions = styled.div.attrs({
-  className: 'flex flex-col gap-3 md:flex-row',
-})``;
+const BannerDescription = styled.p`
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  color: rgba(17, 17, 17, 0.65);
+`;
 
-const PrimaryAction = styled.button.attrs({
-  className: 'rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white',
-})``;
+const OptionsGrid = styled.div`
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
 
-const SecondaryAction = styled.button.attrs({
-  className: 'rounded-full border border-black/12 px-5 py-3 text-sm font-semibold text-black/70',
-})``;
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+`;
 
-const AccentAction = styled.button.attrs({
-  className: 'rounded-full border border-gold/40 bg-gold/10 px-5 py-3 text-sm font-semibold text-black',
-})``;
+const OptionCard = styled.label`
+  display: block;
+  padding: 1rem;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 1.5rem;
+  background: rgba(0, 0, 0, 0.02);
+  color: rgba(17, 17, 17, 0.7);
+`;
+
+const OptionHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+`;
+
+const OptionTitle = styled.span`
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111111;
+`;
+
+const ConsentToggle = styled.input.attrs({ type: 'checkbox' })`
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: #111111;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+`;
+
+const OptionBody = styled.p`
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: rgba(17, 17, 17, 0.55);
+`;
+
+const Actions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`;
+
+const PrimaryAction = styled.button`
+  ${sharedButtonStyles};
+  border: 1px solid transparent;
+  background: #111111;
+  color: #ffffff;
+
+  &:hover {
+    background: #1f1f1f;
+  }
+`;
+
+const SecondaryAction = styled.button`
+  ${sharedButtonStyles};
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  background: transparent;
+  color: rgba(17, 17, 17, 0.72);
+
+  &:hover {
+    background: rgba(17, 17, 17, 0.05);
+    color: #111111;
+  }
+`;
+
+const AccentAction = styled.button`
+  ${sharedButtonStyles};
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.1);
+  color: #111111;
+
+  &:hover {
+    background: rgba(212, 175, 55, 0.18);
+  }
+`;
 
 export const CookieConsent = () => {
   const { t } = useTranslation();
@@ -112,62 +255,64 @@ export const CookieConsent = () => {
   }
 
   return (
-    <Banner>
-      <BannerLayout>
-        <BannerContent>
-          <BannerEyebrow>{t('cookies.title')}</BannerEyebrow>
-          <BannerTitle>{t('cookies.title')}</BannerTitle>
-          <BannerDescription>{t('cookies.description')}</BannerDescription>
+    <>
+      <BannerBackdrop aria-hidden="true" />
+      <Banner>
+        <BannerLayout>
+          <BannerContent>
+            <BannerEyebrow>{t('cookies.title')}</BannerEyebrow>
+            <BannerTitle>{t('cookies.title')}</BannerTitle>
+            <BannerDescription>{t('cookies.description')}</BannerDescription>
 
-          {customizing ? (
-            <OptionsGrid>
-              {(['necessary', 'analytics', 'marketing'] as const).map((key) => (
-                <OptionCard key={key}>
-                  <OptionHeader>
-                    <OptionTitle>{t(`cookies.${key}`)}</OptionTitle>
-                    <input
-                      type="checkbox"
-                      checked={consent[key]}
-                      disabled={key === 'necessary'}
-                      onChange={(event) =>
-                        setConsent((current) => ({
-                          ...current,
-                          [key]: event.target.checked,
-                        }))
-                      }
-                    />
-                  </OptionHeader>
-                  <OptionBody>{t(`cookies.${key}Desc`)}</OptionBody>
-                </OptionCard>
-              ))}
-            </OptionsGrid>
-          ) : null}
-        </BannerContent>
+            {customizing ? (
+              <OptionsGrid>
+                {(['necessary', 'analytics', 'marketing'] as const).map((key) => (
+                  <OptionCard key={key}>
+                    <OptionHeader>
+                      <OptionTitle>{t(`cookies.${key}`)}</OptionTitle>
+                      <ConsentToggle
+                        checked={consent[key]}
+                        disabled={key === 'necessary'}
+                        onChange={(event) =>
+                          setConsent((current) => ({
+                            ...current,
+                            [key]: event.target.checked,
+                          }))
+                        }
+                      />
+                    </OptionHeader>
+                    <OptionBody>{t(`cookies.${key}Desc`)}</OptionBody>
+                  </OptionCard>
+                ))}
+              </OptionsGrid>
+            ) : null}
+          </BannerContent>
 
-        <Actions>
-          <PrimaryAction
-            type="button"
-            onClick={() => saveConsent({ necessary: true, analytics: true, marketing: true })}
-          >
-            {t('cookies.acceptAll')}
-          </PrimaryAction>
-          <SecondaryAction
-            type="button"
-            onClick={() => saveConsent({ necessary: true, analytics: false, marketing: false })}
-          >
-            {t('cookies.reject')}
-          </SecondaryAction>
-          {customizing ? (
-            <AccentAction type="button" onClick={() => saveConsent(consent)}>
-              {t('cookies.save')}
-            </AccentAction>
-          ) : (
-            <SecondaryAction type="button" onClick={() => setCustomizing(true)}>
-              {t('cookies.customize')}
+          <Actions>
+            <PrimaryAction
+              type="button"
+              onClick={() => saveConsent({ necessary: true, analytics: true, marketing: true })}
+            >
+              {t('cookies.acceptAll')}
+            </PrimaryAction>
+            <SecondaryAction
+              type="button"
+              onClick={() => saveConsent({ necessary: true, analytics: false, marketing: false })}
+            >
+              {t('cookies.reject')}
             </SecondaryAction>
-          )}
-        </Actions>
-      </BannerLayout>
-    </Banner>
+            {customizing ? (
+              <AccentAction type="button" onClick={() => saveConsent(consent)}>
+                {t('cookies.save')}
+              </AccentAction>
+            ) : (
+              <SecondaryAction type="button" onClick={() => setCustomizing(true)}>
+                {t('cookies.customize')}
+              </SecondaryAction>
+            )}
+          </Actions>
+        </BannerLayout>
+      </Banner>
+    </>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import styled, { keyframes } from 'styled-components';
 import type { HeroSlide } from './types';
@@ -11,10 +11,13 @@ type HeroMediaSliderProps = {
   onActiveSlideChange: (index: number) => void;
 };
 
+
 type MediaAssetProps = {
   $desktopOnly?: boolean;
   $mobileOnly?: boolean;
   $position: string;
+  $isReady?: boolean;
+  $isPreview?: boolean;
 };
 
 type GlowLayerProps = {
@@ -154,7 +157,22 @@ const MediaAsset = styled.img<MediaAssetProps>`
   backface-visibility: hidden;
   transform-origin: center;
   will-change: transform, filter;
-  filter: brightness(1.01) saturate(1.03) contrast(1.01);
+  filter: ${({ $isPreview, $isReady }) =>
+    $isPreview
+      ? 'blur(26px) saturate(1.08) brightness(1.04)'
+      : $isReady
+        ? 'brightness(1.01) saturate(1.03) contrast(1.01)'
+        : 'blur(12px) saturate(1.02) brightness(1.02)'};
+  opacity: ${({ $isPreview, $isReady }) => {
+    if ($isPreview) return $isReady ? 0 : 1;
+    return $isReady ? 1 : 0;
+  }};
+  transform: ${({ $isPreview, $isReady }) =>
+    $isPreview && !$isReady ? 'scale(1.08)' : 'scale(1)'};
+  transition:
+    opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.62s cubic-bezier(0.22, 1, 0.36, 1);
 
   display: ${({ $mobileOnly, $desktopOnly }) => {
     if ($mobileOnly) return 'block';
@@ -170,6 +188,19 @@ const MediaAsset = styled.img<MediaAssetProps>`
   }};
   }
 
+`;
+
+const LoadingVeil = styled.div<{ $visible: boolean }>`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  background:
+    radial-gradient(circle at 22% 24%, rgba(255, 248, 241, 0.2), transparent 24%),
+    radial-gradient(circle at 78% 26%, rgba(189, 214, 255, 0.14), transparent 28%),
+    linear-gradient(180deg, rgba(248, 242, 236, 0.08) 0%, rgba(248, 242, 236, 0.38) 100%);
+  backdrop-filter: blur(8px);
 `;
 
 const GlowLayer = styled.div<GlowLayerProps>`
@@ -229,6 +260,7 @@ export const HeroMediaSlider = ({
   onActiveSlideChange,
 }: HeroMediaSliderProps) => {
   const timeoutRef = useRef<number | null>(null);
+  const [loadedAssets, setLoadedAssets] = useState<Record<string, boolean>>({});
   const currentSlide = slides[activeSlide] ?? slides[0];
   const baseProfile = transitionProfiles[activeSlide % transitionProfiles.length];
   const transitionProfile =
@@ -242,6 +274,12 @@ export const HeroMediaSlider = ({
         exitY: baseProfile.enterY,
         tilt: baseProfile.tilt * -1,
       };
+  const isDesktopAssetReady = currentSlide ? Boolean(loadedAssets[currentSlide.image]) : false;
+  const isMobileAssetReady = currentSlide ? Boolean(loadedAssets[currentSlide.mobileImage]) : false;
+
+  const markAssetAsLoaded = (src: string) => {
+    setLoadedAssets((current) => (current[src] ? current : { ...current, [src]: true }));
+  };
 
   useEffect(() => {
     if (timeoutRef.current !== null) {
@@ -262,6 +300,58 @@ export const HeroMediaSlider = ({
       }
     };
   }, [activeSlide, slides.length, onActiveSlideChange]);
+
+  useEffect(() => {
+    if (slides.length === 0 || typeof window === 'undefined') {
+      return;
+    }
+
+    const queueIndexes = [
+      activeSlide,
+      (activeSlide + 1) % slides.length,
+      (activeSlide + 2) % slides.length,
+      (activeSlide - 1 + slides.length) % slides.length,
+    ];
+
+    const uniqueSources = Array.from(
+      new Set(
+        queueIndexes.flatMap((index) => {
+          const slide = slides[index];
+          return slide ? [slide.image, slide.mobileImage] : [];
+        }),
+      ),
+    );
+
+    const preloaders: HTMLImageElement[] = [];
+    const startPreload = window.setTimeout(() => {
+      uniqueSources.forEach((src) => {
+        if (!src || loadedAssets[src]) {
+          return;
+        }
+
+        const image = new Image();
+        image.decoding = 'async';
+
+        image.onload = () => markAssetAsLoaded(src);
+        image.onerror = () => undefined;
+        image.src = src;
+
+        if (image.complete) {
+          markAssetAsLoaded(src);
+        }
+
+        preloaders.push(image);
+      });
+    }, activeSlide === 0 ? 0 : 180);
+
+    return () => {
+      window.clearTimeout(startPreload);
+      preloaders.forEach((image) => {
+        image.onload = null;
+        image.onerror = null;
+      });
+    };
+  }, [activeSlide, loadedAssets, slides]);
 
   if (!currentSlide) {
     return null;
@@ -350,8 +440,23 @@ export const HeroMediaSlider = ({
                 alt=""
                 $position={currentSlide.imagePosition}
                 $desktopOnly
+                $isReady={isDesktopAssetReady}
+                $isPreview
                 loading="eager"
                 decoding="async"
+                aria-hidden="true"
+              />
+
+              <MediaAsset
+                src={currentSlide.image}
+                alt=""
+                $position={currentSlide.imagePosition}
+                $desktopOnly
+                $isReady={isDesktopAssetReady}
+                loading="eager"
+                decoding="async"
+                fetchPriority={activeSlide === 0 ? 'high' : 'auto'}
+                onLoad={() => markAssetAsLoaded(currentSlide.image)}
               />
 
               <MediaAsset
@@ -359,10 +464,26 @@ export const HeroMediaSlider = ({
                 alt=""
                 $position={currentSlide.mobileImagePosition}
                 $mobileOnly
+                $isReady={isMobileAssetReady}
+                $isPreview
                 loading="eager"
                 decoding="async"
+                aria-hidden="true"
               />
 
+              <MediaAsset
+                src={currentSlide.mobileImage}
+                alt=""
+                $position={currentSlide.mobileImagePosition}
+                $mobileOnly
+                $isReady={isMobileAssetReady}
+                loading="eager"
+                decoding="async"
+                fetchPriority={activeSlide === 0 ? 'high' : 'auto'}
+                onLoad={() => markAssetAsLoaded(currentSlide.mobileImage)}
+              />
+
+              <LoadingVeil $visible={!(isDesktopAssetReady || isMobileAssetReady)} />
               <GlowLayer $glow={currentSlide.glowClass} />
             </MotionMediaFrame>
 
