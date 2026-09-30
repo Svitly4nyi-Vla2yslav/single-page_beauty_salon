@@ -34,6 +34,17 @@ const Body = styled.div.attrs({
   className: 'mt-6 min-h-0 flex-1 overflow-auto',
 })``;
 
+/**
+ * Показує модальне вікно з довільним вмістом і закриває його кнопкою або клавішею Escape.
+ *
+ * @param open — визначає, чи потрібно відображати lightbox.
+ * @param title — заголовок модального вікна.
+ * @param onClose — callback закриття.
+ * @param children — вміст прокручуваної області.
+ * @param closeLabel — локалізований підпис кнопки закриття.
+ * @returns Розмітку lightbox або null, якщо вікно закрите.
+ * @sideEffects Тимчасово додає глобальний слухач keydown, поки lightbox відкритий.
+ */
 export const Lightbox = ({ open, title, onClose, children, closeLabel }: LightboxProps) => {
   useEffect(() => {
     if (!open) {
