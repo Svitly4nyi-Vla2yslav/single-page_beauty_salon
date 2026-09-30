@@ -21,6 +21,13 @@ const parallaxSpeeds: Record<string, number> = {
   fast: 22,
 };
 
+/**
+ * Підключає GSAP-анімації до елементів секції за атрибутами data-reveal, data-parallax і data-zoom.
+ *
+ * @param ref — посилання на кореневий DOM-елемент секції.
+ * @returns Нічого не повертає.
+ * @sideEffects Створює ScrollTrigger-анімації та скасовує їх під час очищення ефекту.
+ */
 export const useScrollReveal = (ref: RefObject<HTMLElement | null>) => {
   const reducedMotion = useReducedMotionPreference();
 
@@ -31,6 +38,7 @@ export const useScrollReveal = (ref: RefObject<HTMLElement | null>) => {
       return;
     }
 
+    // За налаштування reduced-motion прибираємо стилі анімації, щоб контент залишався видимим.
     if (reducedMotion) {
       gsap.set(element.querySelectorAll('[data-reveal], [data-parallax], [data-zoom]'), {
         clearProps: 'all',
