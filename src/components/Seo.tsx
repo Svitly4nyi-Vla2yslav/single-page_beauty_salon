@@ -3,6 +3,11 @@ import { Helmet } from 'react-helmet-async';
 
 const siteUrl = 'https://lumina-beauty-studio.de';
 
+/**
+ * Формує локалізовані SEO-теги та JSON-LD опис BeautySalon для активної мови.
+ * Компонент бере title/description із i18next, будує canonical і social image URL,
+ * після чого Helmet оновлює `<head>`; видимого інтерфейсу функція не створює.
+ */
 export const Seo = () => {
   const { t, i18n } = useTranslation();
   const title = t('seo.title');
@@ -10,6 +15,7 @@ export const Seo = () => {
   const canonical = `${siteUrl}/${i18n.language}`;
   const image = `${siteUrl}/social-preview.svg`;
 
+  // JSON-LD повторно використовує локалізований опис і ті самі canonical/image URL.
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'BeautySalon',
