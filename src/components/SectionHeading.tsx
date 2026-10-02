@@ -29,6 +29,11 @@ const Description = styled.p.attrs({
   className: 'mt-5 text-base leading-8 text-black/65 md:text-lg',
 })``;
 
+/**
+ * Рендерить узгоджений заголовок секції: eyebrow, title і description.
+ * `align` керує лівим або центральним вирівнюванням, а eyebrow один раз анімується
+ * при появі у viewport. Компонент не має стану й не створює побічних ефектів.
+ */
 export const SectionHeading = ({
   eyebrow,
   title,
