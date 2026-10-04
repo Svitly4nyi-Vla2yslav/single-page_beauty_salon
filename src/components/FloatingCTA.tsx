@@ -10,6 +10,8 @@ const FloatingDot = styled.span.attrs({
   className: 'h-2.5 w-2.5 rounded-full bg-gold',
 })``;
 
+// Компонент не приймає пропсів і повертає фіксоване посилання на секцію бронювання.
+// Видимий підпис і мітка власного курсора беруться з одного ключа поточної локалі.
 export const FloatingCTA = () => {
   const { t } = useTranslation();
 
