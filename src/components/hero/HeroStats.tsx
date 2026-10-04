@@ -62,6 +62,8 @@ const StatLabel = styled.p`
   overflow-wrap: anywhere;
 `;
 
+// Компонент приймає впорядкований масив показників і повертає адаптивну сітку карток.
+// Позиція в масиві формує двозначний номер, а стабільний stat.id використовується як React-ключ.
 export const HeroStats = ({ stats }: HeroStatsProps) => (
   <StatsGrid>
     {stats.map((stat, index) => (
