@@ -246,19 +246,23 @@ const MobileNavLink = styled.a`
   font-weight: 600;
 `;
 
+// Header формує адаптивну навігацію та перемикає її контрастний фон за прокруткою або відкритим мобільним меню.
 export const Header = () => {
   const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const solidHeader = scrolled || menuOpen;
 
+  // Ефект підписується на scroll, одразу визначає початковий стан і прибирає слухач під час демонтажу.
   useEffect(() => {
+    // onScroll переводить шапку у суцільний режим після перших 20 px прокрутки.
     const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Цей ефект синхронізує клас body з мобільним меню та гарантовано очищає його під час демонтажу.
   useEffect(() => {
     document.body.classList.toggle('menu-open', menuOpen);
     return () => document.body.classList.remove('menu-open');
