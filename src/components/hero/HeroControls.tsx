@@ -159,6 +159,10 @@ const PagerLabel = styled.span`
   color: #5a4535;
 `;
 
+/**
+ * Відображає кнопки перемикання, стан автопрогравання та індикатори слайдів.
+ * Колбеки передають керування батьківському hero, а progress очікується в діапазоні 0–1.
+ */
 export const HeroControls = ({
   slides,
   activeSlide,
@@ -187,12 +191,14 @@ export const HeroControls = ({
           <AutoplayPill $paused={isPaused}>{isPaused ? 'Paused' : 'Autoplay'}</AutoplayPill>
         </StatusMeta>
         <ProgressTrack aria-hidden="true">
+          {/* Обмеження захищає ширину смуги від від'ємних значень і переповнення понад 100%. */}
           <ProgressFill $width={Math.max(0, Math.min(progress * 100, 100))} />
         </ProgressTrack>
       </StatusCluster>
     </TopRow>
 
     <Pager>
+      {/* Індекс передається назовні, а id слайда дає React стабільний ключ при оновленні масиву. */}
       {slides.map((slide, index) => (
         <PagerButton
           key={slide.id}
