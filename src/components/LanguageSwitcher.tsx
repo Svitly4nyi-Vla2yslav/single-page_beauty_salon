@@ -72,12 +72,17 @@ const LanguageButton = styled.button<{ $active: boolean; $tone: 'dark' | 'light'
   }
 `;
 
+/**
+ * Показує доступні мови й передає вибір до i18next.
+ * compact змінює щільність елемента, а tone добирає контраст для світлого або темного тла.
+ */
 export const LanguageSwitcher = ({ compact = false, tone = 'dark' }: LanguageSwitcherProps) => {
   const { i18n } = useTranslation();
 
   return (
     <SwitcherShell $compact={compact} $tone={tone}>
       {languageOptions.map((language) => {
+        // Поточний код визначає активний стан; changeLanguage асинхронно оновлює весь інтерфейс.
         const active = i18n.language === language.code;
         return (
           <LanguageButton
