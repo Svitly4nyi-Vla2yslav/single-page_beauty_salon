@@ -158,6 +158,10 @@ const SecondaryButton = styled(BaseButton)`
   }
 `;
 
+/**
+ * Розбиває заголовок на короткі рядки: спочатку за комами, а без них —
+ * за словами з орієнтовною межею 17 символів. Повертає непорожні фрагменти.
+ */
 const splitHeadline = (title: string) => {
   const commaChunks = title
     .split(/,\s*/)
@@ -189,6 +193,10 @@ const splitHeadline = (title: string) => {
   return lines;
 };
 
+/**
+ * Відображає текст активного hero-слайда та анімує зміну відповідно до direction.
+ * reducedMotion прибирає просторові переміщення, а порожні CTA-підписи отримують fallback.
+ */
 export const HeroContentSlider = ({
   slides,
   activeSlide,
@@ -197,6 +205,7 @@ export const HeroContentSlider = ({
 }: HeroContentSliderProps) => {
   const slide = slides[activeSlide];
   const lines = splitHeadline(slide.title);
+  // Fallback-підписи не дають відобразити порожні кнопки після локалізації контенту.
   const primaryLabel = slide.primaryCtaLabel.trim() || 'Termin buchen';
   const secondaryLabel = slide.secondaryCtaLabel.trim() || 'Studio entdecken';
 
@@ -230,6 +239,7 @@ export const HeroContentSlider = ({
             </Subtitle>
 
             <Title>
+              {/* Ключ поєднує id слайда й текст рядка, тому анімації оновлюються разом зі слайдом. */}
               {lines.map((line, index) => (
                 <TitleLine
                   key={`${slide.id}-${line}`}
