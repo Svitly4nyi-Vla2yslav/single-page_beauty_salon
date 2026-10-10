@@ -291,6 +291,11 @@ const BottomShade = styled.div`
   pointer-events: none;
 `;
 
+/**
+ * Показує активне hero-медіа, автоматично перемикає слайди та повідомляє батьківський компонент
+ * через `onActiveSlideChange`. Напрям визначає профіль входу/виходу, а `reducedMotion`
+ * вимикає перехідний blur. Компонент також наперед завантажує сусідні desktop/mobile-зображення.
+ */
 export const HeroMediaSlider = ({
   slides,
   activeSlide,
@@ -318,10 +323,12 @@ export const HeroMediaSlider = ({
   const isDesktopAssetReady = currentSlide ? Boolean(loadedAssets[currentSlide.image]) : false;
   const isMobileAssetReady = currentSlide ? Boolean(loadedAssets[currentSlide.mobileImage]) : false;
 
+  /** Позначає ресурс готовим і не створює нового стану, якщо цей URL уже був завантажений. */
   const markAssetAsLoaded = (src: string) => {
     setLoadedAssets((current) => (current[src] ? current : { ...current, [src]: true }));
   };
 
+  // Перезапускає таймер автопереходу після зміни активного слайда та прибирає його під час cleanup.
   useEffect(() => {
     if (timeoutRef.current !== null) {
       window.clearTimeout(timeoutRef.current);
@@ -342,6 +349,7 @@ export const HeroMediaSlider = ({
     };
   }, [activeSlide, slides.length, onActiveSlideChange]);
 
+  // Короткочасно вмикає blur на переході; для reduced motion або одного слайда ефект вимкнений.
   useEffect(() => {
     if (transitionBlurTimeoutRef.current !== null) {
       window.clearTimeout(transitionBlurTimeoutRef.current);
@@ -367,6 +375,7 @@ export const HeroMediaSlider = ({
     };
   }, [activeSlide, reducedMotion, slides.length]);
 
+  // Із невеликою затримкою прогріває поточний, два наступні та попередній набори зображень.
   useEffect(() => {
     if (slides.length === 0 || typeof window === 'undefined') {
       return;
