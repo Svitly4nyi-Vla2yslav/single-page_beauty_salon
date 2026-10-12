@@ -66,6 +66,11 @@ const SocialLink = styled.a.attrs({
   className: 'hover:text-white',
 })``;
 
+/**
+ * Рендерить бренд, навігаційні й зовнішні social-посилання та перемикач мови.
+ * Локальний `activeLegal` визначає один видимий перекладений legal-текст; початково показується imprint,
+ * а перемикання кнопок не змінює URL і не записує вибір у сховище.
+ */
 export const Footer = () => {
   const { t } = useTranslation();
   const [activeLegal, setActiveLegal] = useState<(typeof legalKeys)[number]>('imprint');
