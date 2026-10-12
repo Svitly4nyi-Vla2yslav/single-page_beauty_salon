@@ -39,6 +39,11 @@ const Answer = styled.p.attrs({
   className: 'mt-5 max-w-3xl text-sm leading-8 text-black/65',
 })``;
 
+/**
+ * Рендерить локалізований FAQ-акордеон і підключає scroll-reveal до всієї секції.
+ * У стані завжди зберігається один faq id: початково відкрито `bookingChanges`,
+ * а повторний клік по іншому відкритому пункту повертає саме цей базовий елемент.
+ */
 export const FaqSection = () => {
   const { t } = useTranslation();
   const [openItem, setOpenItem] = useState<(typeof faqIds)[number]>('bookingChanges');
