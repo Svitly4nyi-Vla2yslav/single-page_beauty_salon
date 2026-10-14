@@ -167,7 +167,12 @@ const TeamBio = styled.p.attrs({
   className: 'mt-4 text-sm leading-7 text-black/65',
 })``;
 
-export const AboutSection = () => {
+export /**
+ * Формує секцію історії салону, ключових принципів і команди з локалізованих даних.
+ * Компонент не приймає аргументів; підключає scroll-reveal до кореневої секції,
+ * а фотографії співробітниць зіставляє за стабільними teamIds.
+ */
+const AboutSection = () => {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement | null>(null);
   useScrollReveal(sectionRef);
@@ -248,3 +253,4 @@ export const AboutSection = () => {
     </Section>
   );
 };
+
