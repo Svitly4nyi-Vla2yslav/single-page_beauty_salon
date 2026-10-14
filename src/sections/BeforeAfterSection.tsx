@@ -598,6 +598,10 @@ type ComparisonPreviewProps = {
   rangeLabel: string;
 };
 
+/**
+ * Накладає after-зображення на before-зображення відповідно до compareValue.
+ * onCompareChange отримує число 15–85 із range-контролу; функція не зберігає власного стану.
+ */
 const ComparisonPreview = ({
   beforeSrc,
   afterSrc,
@@ -649,6 +653,11 @@ const ComparisonPreview = ({
   </CompareWrap>
 );
 
+/**
+ * Керує фільтром галереї, позицією before/after-повзунка та вибраним lightbox.
+ * Відфільтровані картки обчислюються через useMemo, а невідомий media-id безпечно
+ * використовує airLashes як візуальний fallback. Секція підключає scroll-reveal.
+ */
 const BeforeAfterSection = () => {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -802,3 +811,4 @@ const BeforeAfterSection = () => {
 };
 
 export default BeforeAfterSection;
+
