@@ -73,6 +73,10 @@ const BookLink = styled.a.attrs({
     'rounded-full border border-black/12 px-4 py-3 text-sm font-semibold text-black/70 transition hover:bg-black hover:text-white',
 })``;
 
+/**
+ * Рендерить локалізований прайс із перемиканням груп послуг і посиланнями на секцію бронювання.
+ * Зберігає лише активну групу; список itemIds обчислюється з priceGroups і не змінює вихідні дані.
+ */
 export const PricesSection = () => {
   const { t } = useTranslation();
   const [activeGroup, setActiveGroup] = useState<(typeof priceGroups)[number]['id']>('signature');
@@ -80,6 +84,7 @@ export const PricesSection = () => {
 
   useScrollReveal(sectionRef);
 
+  // Повторно визначає перелік карток лише після зміни групи та використовує першу групу як страховочний fallback.
   const activeItems = useMemo(
     () => priceGroups.find((group) => group.id === activeGroup)?.itemIds ?? priceGroups[0].itemIds,
     [activeGroup],
@@ -142,3 +147,4 @@ export const PricesSection = () => {
     </Section>
   );
 };
+
