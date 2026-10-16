@@ -61,6 +61,7 @@ const Avatar = styled.div.attrs({
   className: 'h-12 w-12 rounded-full bg-gradient-to-br from-[#D4AF37] via-[#6EC6FF] to-[#FF6B6B]',
 })``;
 
+/** Повертає декоративний ряд із п'яти зірок; оцінку з даних компонент не обчислює. */
 const Stars = () => (
   <StarsRow>
     {Array.from({ length: 5 }, (_, index) => (
@@ -69,6 +70,10 @@ const Stars = () => (
   </StarsRow>
 );
 
+/**
+ * Формує локалізовані trust-badge та картки відгуків зі стабільних списків ідентифікаторів.
+ * Підключає scroll-reveal до кореневої секції; мережевих запитів і локального стану не створює.
+ */
 export const ReviewsSection = () => {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -117,3 +122,4 @@ export const ReviewsSection = () => {
     </Section>
   );
 };
+
