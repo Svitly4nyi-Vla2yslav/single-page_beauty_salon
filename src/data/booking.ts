@@ -67,6 +67,10 @@ const bookedOverrides: Record<string, string[]> = {
   '2026-04-23': ['11:30', '13:00', '16:30'],
 };
 
+/**
+ * Детерміновано генерує демонстраційно зайняті слоти з рядка дати.
+ * Однакова дата завжди повертає той самий набір без мережевих запитів або випадковості.
+ */
 const generateSeededBookedTimes = (dateKey: string) => {
   const seed = dateKey
     .split('-')
@@ -82,11 +86,18 @@ const generateSeededBookedTimes = (dateKey: string) => {
   return [...slots];
 };
 
+/**
+ * Перевіряє день тижня й повертає true лише для неділі, коли студія зачинена.
+ */
 export const isStudioClosed = (date: Date) => {
   const day = date.getDay();
   return day === 0;
 };
 
+/**
+ * Поєднує фіксовані та згенеровані демо-бронювання і повертає доступність кожного робочого слота.
+ * Для неділі всі слоти позначаються недоступними; зовнішні календарі функція не викликає.
+ */
 export const getAvailabilityForDate = (date: Date): TimeSlot[] => {
   if (isStudioClosed(date)) {
     return businessTimeSlots.map((time) => ({
@@ -104,8 +115,15 @@ export const getAvailabilityForDate = (date: Date): TimeSlot[] => {
   }));
 };
 
+/**
+ * Будує amount послідовних календарних дат від startDate та вилучає зачинені неділі.
+ * Тому результат може містити менше дат, ніж передане amount.
+ */
 export const getSuggestedBookingDays = (startDate: Date, amount: number) =>
   Array.from({ length: amount }, (_, index) => addDays(startDate, index)).filter((date) => !isStudioClosed(date));
 
+/**
+ * Знаходить ціну й тривалість послуги за id; для невідомого значення повертає перший запис каталогу.
+ */
 export const getServiceMeta = (serviceId: BookingServiceId) =>
   bookingServices.find((service) => service.id === serviceId) ?? bookingServices[0];
