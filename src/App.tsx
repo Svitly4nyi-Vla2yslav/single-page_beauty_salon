@@ -17,6 +17,7 @@ import { PricesSection } from './sections/PricesSection';
 import { ReviewsSection } from './sections/ReviewsSection';
 import { SignatureServicesSection } from './sections/SignatureServicesSection';
 
+// Важчу before/after галерею завантажуємо окремим чанком лише перед її першим рендером.
 const BeforeAfterSection = lazy(() => import('./sections/BeforeAfterSection'));
 
 const AppShell = styled.div.attrs({
@@ -48,6 +49,10 @@ const FallbackCard = styled.div.attrs({
   className: 'mx-auto max-w-7xl rounded-[2.5rem] border border-black/10 bg-white/80 px-8 py-16 text-center text-black/60 backdrop-blur-xl',
 })``;
 
+/**
+ * Збирає односторінковий сайт, глобальні SEO/consent-компоненти та послідовність маркетингових секцій.
+ * Локалізований fallback показується, доки lazy-завантажена before/after галерея ще не готова.
+ */
 function App() {
   const { t } = useTranslation();
 
