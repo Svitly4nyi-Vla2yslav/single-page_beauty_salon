@@ -5,6 +5,8 @@ import en from './translations/en.json';
 import uk from './translations/uk.json';
 import tr from './translations/tr.json';
 
+// Один ключ localStorage зберігає вибір між DE, EN, UK і TR між візитами;
+// за відсутності збереженого значення інтерфейс та fallback використовують німецьку.
 const languageStorageKey = 'lumina-language';
 const storedLanguage = typeof window !== 'undefined' ? window.localStorage.getItem(languageStorageKey) : null;
 
@@ -22,6 +24,8 @@ void i18n.use(initReactI18next).init({
   },
 });
 
+// Після кожної зміни синхронізує локаль зі сховищем і атрибутом lang документа;
+// це допомагає наступному запуску, скринридерам і пошуковим системам.
 i18n.on('languageChanged', (language) => {
   if (typeof window !== 'undefined') {
     window.localStorage.setItem(languageStorageKey, language);
