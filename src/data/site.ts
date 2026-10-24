@@ -3,6 +3,9 @@ import transformationPortraitImage from '../assets/image/brows_lashes_transforma
 import luxuryStudioImage from '../assets/image/luxury_treatmen_tstudio_atmosphere.png';
 import skinCareImage from '../assets/image/skin_treatment_calm_premium_care.png';
 
+// Модуль централізує типізовані дані презентаційного шару: локалі,
+// навігацію, hero-слайди, галерею та послуги. Експорти лише описують UI,
+// не читають зовнішні джерела й не виконують побічних ефектів.
 export const languageOptions = [
   { code: 'de', label: 'DE' },
   { code: 'uk', label: 'UA' },
