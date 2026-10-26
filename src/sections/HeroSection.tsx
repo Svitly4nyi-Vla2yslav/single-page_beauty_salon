@@ -40,6 +40,14 @@ const ContentColumn = styled.div`
   pointer-events: auto;
 `;
 
+/**
+ * Визначає напрям анімації між індексами, окремо враховуючи циклічний перехід через межу.
+ *
+ * @param previous — індекс поточного слайда.
+ * @param next — індекс наступного слайда.
+ * @param total — загальна кількість слайдів.
+ * @returns 1 для руху вперед або -1 для руху назад.
+ */
 const getDirection = (previous: number, next: number, total: number): 1 | -1 => {
   if (previous === next) {
     return 1;
@@ -56,6 +64,13 @@ const getDirection = (previous: number, next: number, total: number): 1 | -1 => 
   return next > previous ? 1 : -1;
 };
 
+/**
+ * Розділяє локалізований показник на перше слово-значення та решту тексту-мітку.
+ *
+ * @param id — стабільний ідентифікатор показника.
+ * @param statText — локалізований рядок показника.
+ * @returns Нормалізований HeroStat; нероздільний текст використовується і як значення, і як мітка.
+ */
 const buildStat = (id: string, statText: string): HeroStat => {
   const [value, ...rest] = statText.trim().split(/\s+/);
   return {
@@ -65,6 +80,12 @@ const buildStat = (id: string, statText: string): HeroStat => {
   };
 };
 
+/**
+ * Координує локалізовані дані, активний індекс і напрям hero-слайдера.
+ * Параметр motion=off вимикає складні анімації; зовнішніх запитів компонент не виконує.
+ *
+ * @returns Повноекранну hero-секцію з медіаслайдером.
+ */
 export const HeroSection = () => {
   const { t } = useTranslation();
   const [activeSlide, setActiveSlide] = useState(0);
@@ -107,6 +128,12 @@ export const HeroSection = () => {
     [t],
   );
 
+  /**
+   * Оновлює напрям анімації відносно попереднього індексу та активує вибраний слайд.
+   *
+   * @param nextIndex — індекс слайда, який потрібно показати.
+   * @returns Нічого не повертає.
+   */
   const handleActiveSlideChange = useCallback(
     (nextIndex: number) => {
       setDirection((current) => getDirection(activeSlide, nextIndex, slides.length) || current);
