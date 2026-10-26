@@ -74,6 +74,13 @@ const StepBody = styled.p.attrs({
   className: 'mt-4 max-w-2xl text-sm leading-7 text-black/65',
 })``;
 
+/**
+ * Формує локалізований таймлайн візиту зі сталої конфігурації experienceSteps.
+ * Компонент не приймає аргументів; підключає reveal-ефект до секції, а тексти отримує з i18next.
+ *
+ * @returns Секцію з інформаційною карткою та впорядкованими етапами досвіду.
+ * @sideEffects Реєструє спостереження за появою секції через useScrollReveal.
+ */
 export const ExperienceSection = () => {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement | null>(null);
