@@ -219,7 +219,11 @@ const AccentAction = styled.button`
   }
 `;
 
-// CookieConsent читає та зберігає вибір категорій у localStorage; компонент не вмикає аналітику чи маркетинг самостійно.
+/**
+ * Відновлює cookie-згоду з localStorage і повертає банер або кнопку повторного керування.
+ * Компонент не приймає параметрів і сам не вмикає аналітику чи маркетинг; його побічні
+ * ефекти обмежені читанням/записом ключа згоди та оновленням локального React-стану.
+ */
 export const CookieConsent = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -230,7 +234,7 @@ export const CookieConsent = () => {
     marketing: false,
   });
 
-  // Після монтування ефект відновлює попередній вибір або відкриває банер для нового відвідувача.
+  // Після монтування один раз відновлює попередній вибір або відкриває банер для нового відвідувача.
   useEffect(() => {
     const saved = window.localStorage.getItem(storageKey);
     if (saved) {
@@ -241,7 +245,10 @@ export const CookieConsent = () => {
     setIsOpen(true);
   }, []);
 
-  // saveConsent приймає повний стан згоди, синхронізує React і localStorage та закриває налаштування.
+  /**
+   * Приймає повний стан згоди, синхронізує його з React і localStorage, а потім закриває банер.
+   * Нічого не повертає; запис у браузерне сховище є основним побічним ефектом.
+   */
   const saveConsent = (nextState: ConsentState) => {
     setConsent(nextState);
     window.localStorage.setItem(storageKey, JSON.stringify(nextState));
