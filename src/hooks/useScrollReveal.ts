@@ -22,11 +22,11 @@ const parallaxSpeeds: Record<string, number> = {
 };
 
 /**
- * Підключає GSAP-анімації до елементів секції за атрибутами data-reveal, data-parallax і data-zoom.
- *
- * @param ref — посилання на кореневий DOM-елемент секції.
+ * Підключає GSAP-анімації до нащадків із data-reveal, data-parallax і data-zoom.
+ * @param ref — посилання на корінь секції; за відсутності DOM-вузла хук нічого не створює.
  * @returns Нічого не повертає.
- * @sideEffects Створює ScrollTrigger-анімації та скасовує їх під час очищення ефекту.
+ * @sideEffects Створює scoped GSAP context і ScrollTrigger; cleanup через context.revert скасовує їх.
+ * За reduced-motion натомість очищає анімаційні inline-стилі, щоб контент одразу був видимим.
  */
 export const useScrollReveal = (ref: RefObject<HTMLElement | null>) => {
   const reducedMotion = useReducedMotionPreference();
@@ -49,6 +49,7 @@ export const useScrollReveal = (ref: RefObject<HTMLElement | null>) => {
     const context = gsap.context(() => {
       const revealNodes = gsap.utils.toArray<HTMLElement>('[data-reveal]', element);
       revealNodes.forEach((node, index) => {
+        // Невідоме значення data-reveal безпечно використовує базовий варіант fade-up.
         const variantName = node.dataset.reveal ?? 'fade-up';
         const fromVars = revealVariants[variantName] ?? revealVariants['fade-up'];
         gsap.fromTo(
