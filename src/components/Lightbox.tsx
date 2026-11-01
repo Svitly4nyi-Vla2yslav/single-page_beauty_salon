@@ -43,7 +43,8 @@ const Body = styled.div.attrs({
  * @param children — вміст прокручуваної області.
  * @param closeLabel — локалізований підпис кнопки закриття.
  * @returns Розмітку lightbox або null, якщо вікно закрите.
- * @sideEffects Тимчасово додає глобальний слухач keydown, поки lightbox відкритий.
+ * @sideEffects Поки lightbox відкритий, додає глобальний keydown-слухач і прибирає його
+ * після закриття, зміни callback або демонтажу. Фокус і прокручування body не змінює.
  */
 export const Lightbox = ({ open, title, onClose, children, closeLabel }: LightboxProps) => {
   useEffect(() => {
@@ -51,6 +52,7 @@ export const Lightbox = ({ open, title, onClose, children, closeLabel }: Lightbo
       return;
     }
 
+    // Обробляє лише Escape; інші клавіші та події передаються без змін.
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
@@ -61,6 +63,7 @@ export const Lightbox = ({ open, title, onClose, children, closeLabel }: Lightbo
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose, open]);
 
+  // Закритий стан не залишає lightbox-розмітки в DOM.
   if (!open) {
     return null;
   }
