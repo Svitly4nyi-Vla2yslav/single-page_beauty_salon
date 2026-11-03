@@ -246,7 +246,11 @@ const MobileNavLink = styled.a`
   font-weight: 600;
 `;
 
-// Header формує адаптивну навігацію та перемикає її контрастний фон за прокруткою або відкритим мобільним меню.
+/**
+ * Формує фіксовану адаптивну навігацію, мовний перемикач і посилання на бронювання.
+ * Компонент не приймає аргументів: глобальний `scroll` визначає контраст шапки після 20 px,
+ * а мобільне меню тимчасово додає клас `menu-open` до `body`; обидва ефекти очищаються.
+ */
 export const Header = () => {
   const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
@@ -262,7 +266,7 @@ export const Header = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Цей ефект синхронізує клас body з мобільним меню та гарантовано очищає його під час демонтажу.
+  // Синхронізує клас `body` зі станом меню; натискання мобільного посилання закриває меню через локальний state.
   useEffect(() => {
     document.body.classList.toggle('menu-open', menuOpen);
     return () => document.body.classList.remove('menu-open');
