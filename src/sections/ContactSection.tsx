@@ -121,9 +121,17 @@ const Parking = styled.p.attrs({
   className: 'mt-3 text-sm font-medium text-white/85',
 })``;
 
+/**
+ * Рендерить локалізовані контакти, години роботи та декоративну карту салону.
+ *
+ * Компонент підключає reveal-анімації до всієї секції. Телефон, email і підписи
+ * читаються з i18n; WhatsApp та Instagram відкривають зовнішні сторінки.
+ * Запитів до картографічного API або визначення геолокації немає.
+ */
 export const ContactSection = () => {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement | null>(null);
+  // Спостерігач додає reveal-стан елементам data-reveal й очищається всередині хука.
   useScrollReveal(sectionRef);
 
   return (
