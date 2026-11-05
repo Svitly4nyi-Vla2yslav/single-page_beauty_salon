@@ -268,6 +268,10 @@ export const BookingSection = () => {
 
   const locale = localeMap[i18n.language as keyof typeof localeMap] ?? de;
   const availability = useMemo(() => getAvailabilityForDate(selectedDate), [selectedDate]);
+  /**
+   * Будує календарну сітку поточного місяця з порожніми клітинками до першого
+   * понеділка. Результат перераховується лише після зміни місяця.
+   */
   const calendarDays = useMemo(() => {
     const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 1 });
     const end = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 1 });
@@ -280,6 +284,7 @@ export const BookingSection = () => {
     return days;
   }, [currentMonth]);
 
+  /** Повертає шість послідовних дат, починаючи з вибраного дня. */
   const weekDays = useMemo(() => {
     const start = startOfWeek(selectedDate, { weekStartsOn: 1 });
     return Array.from({ length: 6 }, (_, index) => new Date(start.getFullYear(), start.getMonth(), start.getDate() + index));
