@@ -8,6 +8,7 @@ type ConsentState = {
   marketing: boolean;
 };
 
+// Єдиний ключ зберігає повний ConsentState; компонент не створює окремих cookie.
 const storageKey = 'lumina-cookie-consent';
 
 const sharedButtonStyles = css`
@@ -235,6 +236,7 @@ export const CookieConsent = () => {
   });
 
   // Після монтування один раз відновлює попередній вибір або відкриває банер для нового відвідувача.
+  // Поточна реалізація очікує валідний JSON: пошкоджений запис не очищається автоматично.
   useEffect(() => {
     const saved = window.localStorage.getItem(storageKey);
     if (saved) {
@@ -248,6 +250,7 @@ export const CookieConsent = () => {
   /**
    * Приймає повний стан згоди, синхронізує його з React і localStorage, а потім закриває банер.
    * Нічого не повертає; запис у браузерне сховище є основним побічним ефектом.
+   * necessary має залишатися true — це гарантує тип ConsentState і готові кнопкові сценарії.
    */
   const saveConsent = (nextState: ConsentState) => {
     setConsent(nextState);
